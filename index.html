@@ -118,6 +118,17 @@
                 radial-gradient(ellipse at 50% 50%, rgba(26, 10, 0, 1) 0%, rgba(13, 5, 3, 1) 100%);
         }
 
+        /* Interactive Antigravity Neon Canvas Background */
+        #antigravity-neon-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            pointer-events: none;
+        }
+
         /* Floating Golden Particles */
         .particles {
             position: fixed;
@@ -262,6 +273,140 @@
         .logo-emoji {
             font-size: 70px;
             line-height: 1;
+        }
+
+        /* ============================================ */
+        /*  ANIMATED SVG DONUT ICON                     */
+        /* ============================================ */
+        .animated-donut-icon {
+            display: inline-block;
+            position: relative;
+        }
+
+        .animated-donut-icon svg {
+            display: block;
+        }
+
+        /* Hero logo donut size */
+        .logo-ring .animated-donut-icon {
+            width: 110px;
+            height: 110px;
+        }
+
+        .logo-ring .animated-donut-icon svg {
+            width: 100%;
+            height: 100%;
+            filter: drop-shadow(0 4px 12px rgba(139, 69, 19, 0.5));
+        }
+
+        /* Loader donut size */
+        .loader-donut .animated-donut-icon {
+            width: 90px;
+            height: 90px;
+        }
+
+        .loader-donut .animated-donut-icon svg {
+            width: 100%;
+            height: 100%;
+        }
+
+        /* Donut body rotation */
+        .donut-body {
+            transform-origin: 50% 50%;
+            animation: donutFloat 4s ease-in-out infinite;
+        }
+
+        @keyframes donutFloat {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            25% { transform: translateY(-3px) rotate(5deg); }
+            50% { transform: translateY(-6px) rotate(0deg); }
+            75% { transform: translateY(-3px) rotate(-5deg); }
+        }
+
+        /* Loader donut special animation */
+        .loader-donut .donut-body {
+            animation: donutLoaderSpin 2s ease-in-out infinite;
+        }
+
+        @keyframes donutLoaderSpin {
+            0% { transform: rotate(0deg) scale(1); }
+            50% { transform: rotate(-180deg) scale(1.15); }
+            100% { transform: rotate(-360deg) scale(1); }
+        }
+
+        /* Glaze shimmer */
+        .donut-glaze {
+            animation: glazeShimmer 3s ease-in-out infinite;
+        }
+
+        @keyframes glazeShimmer {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.85; }
+        }
+
+        /* Chocolate drip animation */
+        .choco-drip {
+            animation: dripPulse 3s ease-in-out infinite;
+            transform-origin: top center;
+        }
+
+        .choco-drip:nth-child(1) { animation-delay: 0s; }
+        .choco-drip:nth-child(2) { animation-delay: 0.5s; }
+        .choco-drip:nth-child(3) { animation-delay: 1s; }
+
+        @keyframes dripPulse {
+            0%, 100% { transform: scaleY(1); }
+            50% { transform: scaleY(1.12); }
+        }
+
+        /* Sprinkle animations */
+        .sprinkle {
+            animation: sprinkleGlow 2s ease-in-out infinite;
+        }
+
+        .sprinkle:nth-child(odd) { animation-delay: 0.3s; }
+        .sprinkle:nth-child(even) { animation-delay: 0.8s; }
+
+        @keyframes sprinkleGlow {
+            0%, 100% { opacity: 0.9; filter: brightness(1); }
+            50% { opacity: 1; filter: brightness(1.4); }
+        }
+
+        /* Golden sparkle particles around donut */
+        .donut-sparkle {
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            background: var(--gold-bright);
+            border-radius: 50%;
+            animation: sparkleOrbit 3s ease-in-out infinite;
+            box-shadow: 0 0 6px var(--gold), 0 0 10px rgba(232, 197, 71, 0.5);
+        }
+
+        .donut-sparkle:nth-child(1) {
+            top: 5%;
+            left: 50%;
+            animation-delay: 0s;
+        }
+        .donut-sparkle:nth-child(2) {
+            top: 50%;
+            right: 2%;
+            animation-delay: 0.8s;
+        }
+        .donut-sparkle:nth-child(3) {
+            bottom: 8%;
+            left: 15%;
+            animation-delay: 1.6s;
+        }
+        .donut-sparkle:nth-child(4) {
+            top: 20%;
+            left: 5%;
+            animation-delay: 0.4s;
+        }
+
+        @keyframes sparkleOrbit {
+            0%, 100% { transform: scale(0.5); opacity: 0.2; }
+            50% { transform: scale(1.5); opacity: 1; }
         }
 
         .brand-title {
@@ -1007,14 +1152,18 @@
 
         .loader-donut {
             font-size: 4.5rem;
-            display: inline-block;
-            animation: loaderSpinLeft 1.5s ease-in-out infinite;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            animation: loaderSpin 2.2s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+            transform-origin: center center;
+            will-change: transform;
         }
 
-        @keyframes loaderSpinLeft {
+        @keyframes loaderSpin {
             0% { transform: rotate(0deg) scale(1); }
-            50% { transform: rotate(-180deg) scale(1.25); }
-            100% { transform: rotate(-360deg) scale(1); }
+            50% { transform: rotate(180deg) scale(1.18); }
+            100% { transform: rotate(360deg) scale(1); }
         }
 
         .loader-text {
@@ -1043,12 +1192,15 @@
     <div class="loader" id="loader">
         <div class="loader-content">
             <div class="loader-donut">🍩</div>
-            <div class="loader-text">...دوناتيلا</div>
+            <div class="loader-text">دوناتيلا...</div>
         </div>
     </div>
 
     <!-- Animated Background -->
     <div class="page-bg"></div>
+
+    <!-- Antigravity Interactive Neon Canvas -->
+    <canvas id="antigravity-neon-canvas"></canvas>
 
     <!-- Floating Golden Particles -->
     <div class="particles" id="particles"></div>
@@ -1062,7 +1214,82 @@
 
             <div class="logo-wrapper">
                 <div class="logo-ring">
-                    <span class="logo-emoji">🍩</span>
+                    <div class="animated-donut-icon">
+                        <span class="donut-sparkle"></span>
+                        <span class="donut-sparkle"></span>
+                        <span class="donut-sparkle"></span>
+                        <span class="donut-sparkle"></span>
+                        <svg viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg">
+                            <defs>
+                                <radialGradient id="donutBody" cx="50%" cy="42%" r="55%">
+                                    <stop offset="0%" stop-color="#f0c060"/>
+                                    <stop offset="30%" stop-color="#e8a94e"/>
+                                    <stop offset="70%" stop-color="#d4893a"/>
+                                    <stop offset="100%" stop-color="#b06a28"/>
+                                </radialGradient>
+                                <radialGradient id="donutHole" cx="50%" cy="42%" r="50%">
+                                    <stop offset="0%" stop-color="#6d4425"/>
+                                    <stop offset="100%" stop-color="#3d1c0c"/>
+                                </radialGradient>
+                                <linearGradient id="chocoGlaze" x1="0%" y1="0%" x2="100%" y2="100%">
+                                    <stop offset="0%" stop-color="#5c2e15">
+                                        <animate attributeName="stop-color" values="#5c2e15;#7a4220;#5c2e15" dur="3s" repeatCount="indefinite" />
+                                    </stop>
+                                    <stop offset="35%" stop-color="#8b5533">
+                                        <animate attributeName="stop-color" values="#8b5533;#a0612e;#8b5533" dur="3s" repeatCount="indefinite" />
+                                    </stop>
+                                    <stop offset="65%" stop-color="#4a2210" />
+                                    <stop offset="100%" stop-color="#3d1c0c" />
+                                </linearGradient>
+                                <filter id="donutGlow">
+                                    <feGaussianBlur stdDeviation="2" result="glow"/>
+                                    <feMerge>
+                                        <feMergeNode in="glow"/>
+                                        <feMergeNode in="SourceGraphic"/>
+                                    </feMerge>
+                                </filter>
+                            </defs>
+                            <g class="donut-body">
+                                <!-- Soft shadow -->
+                                <ellipse cx="60" cy="102" rx="30" ry="5" fill="rgba(0,0,0,0.15)">
+                                    <animate attributeName="rx" values="30;28;30" dur="4s" repeatCount="indefinite" />
+                                </ellipse>
+                                <!-- Donut body -->
+                                <circle cx="60" cy="60" r="38" fill="url(#donutBody)" />
+                                <!-- Body texture ring -->
+                                <circle cx="60" cy="60" r="36" fill="none" stroke="rgba(180,120,50,0.15)" stroke-width="1" />
+                                <!-- Donut hole -->
+                                <circle cx="60" cy="60" r="14" fill="url(#donutHole)" />
+                                <!-- Inner ring depth -->
+                                <circle cx="60" cy="60" r="15" fill="none" stroke="#8b5e34" stroke-width="1.5" opacity="0.3" />
+                                <!-- Chocolate glaze top -->
+                                <path class="donut-glaze" d="M26,50 C26,28 38,20 60,20 C82,20 94,28 94,50 C94,55 92,59 89,62 C87,60 86,56 86,52 C86,48 87,44 88,42 L88,50 C88,32 78,26 60,26 C42,26 32,32 32,50 L32,42 C33,44 34,48 34,52 C34,56 33,60 31,62 C28,59 26,55 26,50Z" fill="url(#chocoGlaze)" filter="url(#donutGlow)" />
+                                <!-- Glaze highlight -->
+                                <path d="M38,30 C44,24 52,22 60,22 C68,22 76,24 82,30" fill="none" stroke="rgba(255,255,255,0.25)" stroke-width="2.5" stroke-linecap="round">
+                                    <animate attributeName="opacity" values="0.25;0.5;0.25" dur="2s" repeatCount="indefinite" />
+                                </path>
+                                <!-- Chocolate drips -->
+                                <path class="choco-drip" d="M34,58 C34,58 32,66 33,72 C34,76 36,76 37,72 C38,66 36,58 36,58Z" fill="#4a2210" opacity="0.9" />
+                                <path class="choco-drip" d="M80,52 C80,52 82,62 82,68 C82,73 80,73 79,68 C78,62 78,52 78,52Z" fill="#4a2210" opacity="0.9" />
+                                <path class="choco-drip" d="M56,22 C56,22 55,30 55.5,34 C56,38 57.5,38 58,34 C58.5,30 58,22 58,22Z" fill="#4a2210" opacity="0.85" />
+                                <path class="choco-drip" d="M68,24 C68,24 69,29 69,32 C69,35 67.5,35 67,32 C66.5,29 66,24 66,24Z" fill="#3d1c0c" opacity="0.7" />
+                                <!-- Sprinkles -->
+                                <rect class="sprinkle" x="42" y="32" width="7" height="2.8" rx="1.4" fill="#ff6b9d" transform="rotate(-30 45 33)" />
+                                <rect class="sprinkle" x="66" y="28" width="7" height="2.8" rx="1.4" fill="#ffd54f" transform="rotate(25 69 29)" />
+                                <rect class="sprinkle" x="50" y="26" width="6" height="2.5" rx="1.2" fill="#4dd0e1" transform="rotate(-15 53 27)" />
+                                <rect class="sprinkle" x="76" y="36" width="6" height="2.5" rx="1.2" fill="#81c784" transform="rotate(45 79 37)" />
+                                <rect class="sprinkle" x="36" y="42" width="6" height="2.5" rx="1.2" fill="#ffab40" transform="rotate(-50 39 43)" />
+                                <rect class="sprinkle" x="58" y="24" width="5" height="2" rx="1" fill="#e57373" transform="rotate(10 60 25)" />
+                                <rect class="sprinkle" x="82" y="44" width="5" height="2.5" rx="1.2" fill="#ba68c8" transform="rotate(65 84 45)" />
+                                <rect class="sprinkle" x="44" y="48" width="5" height="2" rx="1" fill="#64b5f6" transform="rotate(-60 46 49)" />
+                                <rect class="sprinkle" x="72" y="46" width="5" height="2" rx="1" fill="#fff176" transform="rotate(35 74 47)" />
+                                <!-- Body highlight -->
+                                <ellipse cx="48" cy="74" rx="16" ry="7" fill="rgba(255,255,255,0.06)" transform="rotate(-20 48 74)" />
+                                <!-- Top light reflection -->
+                                <ellipse cx="52" cy="40" rx="8" ry="3" fill="rgba(255,255,255,0.06)" transform="rotate(-10 52 40)" />
+                            </g>
+                        </svg>
+                    </div>
                 </div>
             </div>
 
@@ -1308,6 +1535,290 @@
     </main>
 
     <script>
+        // ============================================
+        // ANTIGRAVITY INTERACTIVE NEON PHYSICS CANVAS
+        // ============================================
+        (function initAntigravityNeonCanvas() {
+            const canvas = document.getElementById('antigravity-neon-canvas');
+            if (!canvas) return;
+            const ctx = canvas.getContext('2d', { alpha: true });
+            if (!ctx) return;
+
+            // Performance tuning based on device
+            const isMobile = window.innerWidth <= 768;
+            const particleCount = isMobile ? 45 : 75;
+            const connectionDistance = isMobile ? 85 : 115;
+            const touchRadius = isMobile ? 220 : 300;
+
+            let width = 0;
+            let height = 0;
+            let dpr = Math.min(window.devicePixelRatio || 1, 2);
+
+            // Pointer tracking
+            const pointer = {
+                x: -1000,
+                y: -1000,
+                targetX: -1000,
+                targetY: -1000,
+                active: false,
+                decayTimer: null
+            };
+
+            const shockwaves = [];
+
+            // Neon Palette (Gold, Amber, Glow Yellow, Cream, Rose accents)
+            const neonColors = [
+                { r: 232, g: 197, b: 71 },  // Gold bright (#e8c547)
+                { r: 255, g: 213, b: 79 },  // Gold glow (#ffd54f)
+                { r: 255, g: 145, b: 0 },   // Neon Amber (#ff9100)
+                { r: 255, g: 248, b: 225 }, // Warm Cream (#fff8e1)
+                { r: 255, g: 110, b: 150 }  // Neon Rose (#ff6e96)
+            ];
+
+            function resize() {
+                dpr = Math.min(window.devicePixelRatio || 1, 2);
+                width = window.innerWidth;
+                height = window.innerHeight;
+                canvas.width = width * dpr;
+                canvas.height = height * dpr;
+                canvas.style.width = width + 'px';
+                canvas.style.height = height + 'px';
+                ctx.scale(dpr, dpr);
+            }
+            window.addEventListener('resize', resize, { passive: true });
+            resize();
+
+            class Particle {
+                constructor() {
+                    this.reset();
+                }
+
+                reset() {
+                    this.x = Math.random() * width;
+                    this.y = Math.random() * height;
+                    this.vx = (Math.random() - 0.5) * 0.5;
+                    this.vy = (Math.random() - 0.5) * 0.5;
+                    this.baseVx = this.vx;
+                    this.baseVy = this.vy;
+                    this.radius = 1.2 + Math.random() * 2.8;
+                    this.mass = 0.8 + Math.random() * 0.6;
+                    
+                    const color = neonColors[Math.floor(Math.random() * neonColors.length)];
+                    this.r = color.r;
+                    this.g = color.g;
+                    this.b = color.b;
+                    this.alpha = 0.35 + Math.random() * 0.55;
+                    this.glowBlur = 6 + Math.random() * 10;
+                    
+                    this.spinDir = Math.random() > 0.5 ? 1 : -1;
+                    this.orbitSpeed = (0.07 + Math.random() * 0.1) * this.spinDir;
+                }
+
+                update() {
+                    // Attraction + Swirl physics around touch / cursor
+                    if (pointer.active) {
+                        const dx = pointer.x - this.x;
+                        const dy = pointer.y - this.y;
+                        const distSq = dx * dx + dy * dy;
+                        const dist = Math.sqrt(distSq);
+
+                        if (dist < touchRadius && dist > 4) {
+                            const normX = dx / dist;
+                            const normY = dy / dist;
+
+                            // 1. Gentle Gravitational pull towards touch
+                            const pullFactor = (1 - dist / touchRadius);
+                            const attractForce = pullFactor * pullFactor * 0.12 * this.mass;
+
+                            // 2. Slow & Smooth tangential orbital swirl
+                            const swirlX = -normY * this.spinDir;
+                            const swirlY = normX * this.spinDir;
+                            const swirlForce = pullFactor * 0.15 * this.orbitSpeed;
+
+                            this.vx += normX * attractForce + swirlX * swirlForce;
+                            this.vy += normY * attractForce + swirlY * swirlForce;
+                        }
+                    }
+
+                    // Apply shockwave radial forces
+                    for (let i = 0; i < shockwaves.length; i++) {
+                        const sw = shockwaves[i];
+                        const dx = this.x - sw.x;
+                        const dy = this.y - sw.y;
+                        const dist = Math.sqrt(dx * dx + dy * dy);
+                        const waveDist = Math.abs(dist - sw.radius);
+                        if (waveDist < 40 && dist > 1) {
+                            const pushForce = (1 - waveDist / 40) * (sw.alpha * 4);
+                            this.vx += (dx / dist) * pushForce;
+                            this.vy += (dy / dist) * pushForce;
+                        }
+                    }
+
+                    // Friction damping for fluid orbits
+                    this.vx *= 0.965;
+                    this.vy *= 0.965;
+
+                    // Subtle natural drift
+                    this.vx += this.baseVx * 0.04;
+                    this.vy += this.baseVy * 0.04;
+
+                    // Position step
+                    this.x += this.vx;
+                    this.y += this.vy;
+
+                    // Boundaries wrap around smoothly
+                    if (this.x < -20) this.x = width + 20;
+                    if (this.x > width + 20) this.x = -20;
+                    if (this.y < -20) this.y = height + 20;
+                    if (this.y > height + 20) this.y = -20;
+                }
+
+                draw() {
+                    ctx.save();
+                    ctx.shadowBlur = this.glowBlur;
+                    ctx.shadowColor = `rgba(${this.r}, ${this.g}, ${this.b}, 0.8)`;
+                    ctx.fillStyle = `rgba(${this.r}, ${this.g}, ${this.b}, ${this.alpha})`;
+                    ctx.beginPath();
+                    ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
+                    ctx.fill();
+                    ctx.restore();
+                }
+            }
+
+            const particles = Array.from({ length: particleCount }, () => new Particle());
+
+            function activatePointer(x, y) {
+                pointer.targetX = x;
+                pointer.targetY = y;
+                pointer.active = true;
+
+                if (pointer.decayTimer) clearTimeout(pointer.decayTimer);
+                pointer.decayTimer = setTimeout(() => {
+                    pointer.active = false;
+                }, 3500);
+            }
+
+            function onPointerMove(e) {
+                const x = e.clientX || (e.touches && e.touches[0] ? e.touches[0].clientX : null);
+                const y = e.clientY || (e.touches && e.touches[0] ? e.touches[0].clientY : null);
+                if (x !== null && y !== null) {
+                    activatePointer(x, y);
+                }
+            }
+
+            function triggerShockwave(x, y) {
+                activatePointer(x, y);
+                shockwaves.push({
+                    x: x,
+                    y: y,
+                    radius: 5,
+                    maxRadius: isMobile ? 140 : 200,
+                    alpha: 1
+                });
+            }
+
+            window.addEventListener('mousemove', onPointerMove, { passive: true });
+            window.addEventListener('touchstart', onPointerMove, { passive: true });
+            window.addEventListener('touchmove', onPointerMove, { passive: true });
+
+            window.addEventListener('click', (e) => {
+                triggerShockwave(e.clientX, e.clientY);
+            });
+
+            function updatePointerSmooth() {
+                if (pointer.x === -1000) {
+                    pointer.x = pointer.targetX;
+                    pointer.y = pointer.targetY;
+                } else {
+                    pointer.x += (pointer.targetX - pointer.x) * 0.08;
+                    pointer.y += (pointer.targetY - pointer.y) * 0.08;
+                }
+            }
+
+            // Draw Constellation Lines between nearby orbiting particles
+            function drawConnections() {
+                if (!pointer.active) return;
+                for (let i = 0; i < particles.length; i++) {
+                    const p1 = particles[i];
+                    const dxP = pointer.x - p1.x;
+                    const dyP = pointer.y - p1.y;
+                    if (dxP * dxP + dyP * dyP > touchRadius * touchRadius) continue;
+
+                    for (let j = i + 1; j < particles.length; j++) {
+                        const p2 = particles[j];
+                        const dx = p1.x - p2.x;
+                        const dy = p1.y - p2.y;
+                        const distSq = dx * dx + dy * dy;
+
+                        if (distSq < connectionDistance * connectionDistance) {
+                            const dist = Math.sqrt(distSq);
+                            const alpha = (1 - dist / connectionDistance) * 0.3 * Math.min(p1.alpha, p2.alpha);
+                            ctx.save();
+                            ctx.strokeStyle = `rgba(${p1.r}, ${p1.g}, ${p1.b}, ${alpha})`;
+                            ctx.lineWidth = 0.8;
+                            ctx.shadowBlur = 4;
+                            ctx.shadowColor = `rgba(${p1.r}, ${p1.g}, ${p1.b}, 0.5)`;
+                            ctx.beginPath();
+                            ctx.moveTo(p1.x, p1.y);
+                            ctx.lineTo(p2.x, p2.y);
+                            ctx.stroke();
+                            ctx.restore();
+                        }
+                    }
+                }
+            }
+
+            function updateAndDrawShockwaves() {
+                for (let i = shockwaves.length - 1; i >= 0; i--) {
+                    const sw = shockwaves[i];
+                    sw.radius += 6;
+                    sw.alpha *= 0.94;
+
+                    if (sw.radius >= sw.maxRadius || sw.alpha <= 0.02) {
+                        shockwaves.splice(i, 1);
+                        continue;
+                    }
+
+                    ctx.save();
+                    ctx.beginPath();
+                    ctx.arc(sw.x, sw.y, sw.radius, 0, Math.PI * 2);
+                    ctx.strokeStyle = `rgba(232, 197, 71, ${sw.alpha * 0.7})`;
+                    ctx.lineWidth = 2;
+                    ctx.shadowBlur = 12;
+                    ctx.shadowColor = `rgba(255, 213, 79, ${sw.alpha})`;
+                    ctx.stroke();
+                    ctx.restore();
+                }
+            }
+
+            let animationFrameId;
+            function animate() {
+                ctx.clearRect(0, 0, width, height);
+
+                updatePointerSmooth();
+
+                for (let i = 0; i < particles.length; i++) {
+                    particles[i].update();
+                    particles[i].draw();
+                }
+
+                drawConnections();
+                updateAndDrawShockwaves();
+
+                animationFrameId = requestAnimationFrame(animate);
+            }
+
+            document.addEventListener('visibilitychange', () => {
+                if (document.hidden) {
+                    cancelAnimationFrame(animationFrameId);
+                } else {
+                    animationFrameId = requestAnimationFrame(animate);
+                }
+            });
+
+            animate();
+        })();
+
         // ============================================
         // FLOATING PARTICLES (reduced count for perf)
         // ============================================

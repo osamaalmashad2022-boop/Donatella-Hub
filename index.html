@@ -6,9 +6,13 @@
     <title>دوناتيلا — Donatella | حلويات ومنتجات صحية</title>
     <meta name="description" content="دوناتيلا للحلويات والمنتجات الصحية — تفتيش كفر سعد، محافظة دمياط. اطلب الآن!">
     <meta name="theme-color" content="#1a0a00">
+    <link rel="canonical" href="https://donatella-hub.vercel.app/">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🍩</text></svg>">
     <meta property="og:title" content="دوناتيلا — Donatella">
     <meta property="og:description" content="حلويات ومنتجات صحية — تتاكل اكل">
     <meta property="og:type" content="website">
+    <meta property="og:url" content="https://donatella-hub.vercel.app/">
+    <meta property="og:image" content="https://donatella-hub.vercel.app/product-1.jpeg">
 
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -49,9 +53,9 @@
             --phone-blue: #007AFF;
             --shadow-gold: 0 4px 30px rgba(201, 162, 39, 0.15);
             --shadow-dark: 0 8px 32px rgba(0, 0, 0, 0.4);
-            --glass-bg: rgba(42, 18, 5, 0.45);
+            --glass-bg: rgba(42, 18, 5, 0.55);
             --glass-border: rgba(201, 162, 39, 0.2);
-            --glass-blur: blur(20px);
+            --glass-blur: blur(12px);
             --radius-sm: 12px;
             --radius-md: 20px;
             --radius-lg: 28px;
@@ -135,6 +139,7 @@
             opacity: 0;
             animation: floatParticle 8s infinite;
             box-shadow: 0 0 6px var(--gold), 0 0 12px rgba(201, 162, 39, 0.3);
+            will-change: transform, opacity;
         }
 
         @keyframes floatParticle {
@@ -228,13 +233,10 @@
                 0 0 30px rgba(201, 162, 39, 0.2),
                 0 0 60px rgba(201, 162, 39, 0.1),
                 inset 0 0 30px rgba(0, 0, 0, 0.3);
-            animation: ringRotate 10s linear infinite;
         }
 
-        @keyframes ringRotate {
-            0% { border-image-source: linear-gradient(0deg, var(--gold), var(--choco-warm), var(--gold-bright)); }
-            100% { border-image-source: linear-gradient(360deg, var(--gold), var(--choco-warm), var(--gold-bright)); }
-        }
+        /* ringRotate removed — border-image-source is not animatable.
+           The spinning border effect comes from ::before borderSpin. */
 
         .logo-ring::before {
             content: '';
@@ -360,7 +362,7 @@
             animation: iconPulseShake 0.6s ease-in-out infinite;
         }
 
-        .social-link[id*="call"]:hover .card-icon {
+        .social-link.phone-link:hover .card-icon {
             animation: phoneRinging 0.4s ease-in-out infinite;
         }
 
@@ -615,14 +617,14 @@
             gap: 16px;
             padding: 16px 20px;
             background: var(--glass-bg);
-            backdrop-filter: var(--glass-blur);
-            -webkit-backdrop-filter: var(--glass-blur);
             border: 1px solid var(--glass-border);
             border-radius: var(--radius-md);
             transition: var(--transition-smooth);
             position: relative;
             overflow: hidden;
             cursor: pointer;
+            will-change: transform;
+            contain: layout style;
         }
 
         .social-link::before {
@@ -698,6 +700,10 @@
             font-weight: 400;
         }
 
+        .social-info .desc[dir="ltr"] {
+            text-align: right;
+        }
+
         .social-arrow {
             font-size: 1.2rem;
             opacity: 0.3;
@@ -737,8 +743,6 @@
 
         .location-card {
             background: var(--glass-bg);
-            backdrop-filter: var(--glass-blur);
-            -webkit-backdrop-filter: var(--glass-blur);
             border: 1px solid var(--glass-border);
             border-radius: var(--radius-lg);
             padding: 28px 24px;
@@ -808,8 +812,6 @@
 
         .qr-card {
             background: var(--glass-bg);
-            backdrop-filter: var(--glass-blur);
-            -webkit-backdrop-filter: var(--glass-blur);
             border: 1px solid var(--glass-border);
             border-radius: var(--radius-lg);
             padding: 32px 24px;
@@ -899,7 +901,8 @@
         .reveal {
             opacity: 0;
             transform: translateY(30px);
-            transition: opacity 0.7s ease, transform 0.7s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            transition: opacity 0.6s ease-out, transform 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            will-change: opacity, transform;
         }
 
         .reveal.visible {
@@ -907,27 +910,41 @@
             transform: translateY(0);
         }
 
+        /* Once animation completes, remove will-change to free GPU memory */
+        .reveal.revealed {
+            will-change: auto;
+        }
+
         /* Stagger children */
         .reveal-stagger > * {
             opacity: 0;
             transform: translateY(20px);
-            transition: opacity 0.5s ease, transform 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            transition: opacity 0.45s ease-out, transform 0.45s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            will-change: opacity, transform;
         }
 
-        .reveal-stagger.visible > *:nth-child(1) { transition-delay: 0.05s; }
-        .reveal-stagger.visible > *:nth-child(2) { transition-delay: 0.1s; }
-        .reveal-stagger.visible > *:nth-child(3) { transition-delay: 0.15s; }
-        .reveal-stagger.visible > *:nth-child(4) { transition-delay: 0.2s; }
-        .reveal-stagger.visible > *:nth-child(5) { transition-delay: 0.25s; }
-        .reveal-stagger.visible > *:nth-child(6) { transition-delay: 0.3s; }
-        .reveal-stagger.visible > *:nth-child(7) { transition-delay: 0.35s; }
-        .reveal-stagger.visible > *:nth-child(8) { transition-delay: 0.4s; }
-        .reveal-stagger.visible > *:nth-child(9) { transition-delay: 0.45s; }
-        .reveal-stagger.visible > *:nth-child(10) { transition-delay: 0.5s; }
+        .reveal-stagger.visible > *:nth-child(1) { transition-delay: 0.04s; }
+        .reveal-stagger.visible > *:nth-child(2) { transition-delay: 0.08s; }
+        .reveal-stagger.visible > *:nth-child(3) { transition-delay: 0.12s; }
+        .reveal-stagger.visible > *:nth-child(4) { transition-delay: 0.16s; }
+        .reveal-stagger.visible > *:nth-child(5) { transition-delay: 0.2s; }
+        .reveal-stagger.visible > *:nth-child(6) { transition-delay: 0.24s; }
+        .reveal-stagger.visible > *:nth-child(7) { transition-delay: 0.28s; }
+        .reveal-stagger.visible > *:nth-child(8) { transition-delay: 0.32s; }
+        .reveal-stagger.visible > *:nth-child(9) { transition-delay: 0.36s; }
+        .reveal-stagger.visible > *:nth-child(10) { transition-delay: 0.4s; }
+        .reveal-stagger.visible > *:nth-child(11) { transition-delay: 0.44s; }
+        .reveal-stagger.visible > *:nth-child(12) { transition-delay: 0.48s; }
+        .reveal-stagger.visible > *:nth-child(13) { transition-delay: 0.52s; }
 
         .reveal-stagger.visible > * {
             opacity: 1;
             transform: translateY(0);
+        }
+
+        /* Once animation completes, remove will-change to free GPU memory */
+        .reveal-stagger.revealed > * {
+            will-change: auto;
         }
 
         /* ============================================ */
@@ -1142,7 +1159,7 @@
                     </div>
                     <div class="social-info">
                         <div class="name">واتساب — أسامة</div>
-                        <div class="desc" dir="ltr" style="text-align: right;">01011868045</div>
+                        <div class="desc" dir="ltr">01011868045</div>
                     </div>
                     <span class="social-arrow">←</span>
                 </a>
@@ -1154,7 +1171,7 @@
                     </div>
                     <div class="social-info">
                         <div class="name">واتساب — عمرو</div>
-                        <div class="desc" dir="ltr" style="text-align: right;">01115602194</div>
+                        <div class="desc" dir="ltr">01115602194</div>
                     </div>
                     <span class="social-arrow">←</span>
                 </a>
@@ -1166,7 +1183,7 @@
                     </div>
                     <div class="social-info">
                         <div class="name">واتساب — الجروب</div>
-                        <div class="desc" dir="ltr" style="text-align: right;">01010018484</div>
+                        <div class="desc" dir="ltr">01010018484</div>
                     </div>
                     <span class="social-arrow">←</span>
                 </a>
@@ -1174,25 +1191,25 @@
                 <div class="section-divider"></div>
 
                 <!-- Phone Osama -->
-                <a href="tel:+201011868045" class="social-link" id="link-call-osama">
+                <a href="tel:+201011868045" class="social-link phone-link" id="link-call-osama">
                     <div class="social-icon phone">
                         <i class="fa-solid fa-phone-volume card-icon"></i>
                     </div>
                     <div class="social-info">
                         <div class="name">اتصل — أسامة</div>
-                        <div class="desc" dir="ltr" style="text-align: right;">01011868045</div>
+                        <div class="desc" dir="ltr">01011868045</div>
                     </div>
                     <span class="social-arrow">←</span>
                 </a>
 
                 <!-- Phone Amr -->
-                <a href="tel:+201115602194" class="social-link" id="link-call-amr">
+                <a href="tel:+201115602194" class="social-link phone-link" id="link-call-amr">
                     <div class="social-icon phone">
                         <i class="fa-solid fa-phone card-icon"></i>
                     </div>
                     <div class="social-info">
                         <div class="name">اتصل — عمرو</div>
-                        <div class="desc" dir="ltr" style="text-align: right;">01115602194</div>
+                        <div class="desc" dir="ltr">01115602194</div>
                     </div>
                     <span class="social-arrow">←</span>
                 </a>
@@ -1230,13 +1247,13 @@
             </div>
             <div class="gallery-scroll">
                 <div class="gallery-card">
-                    <img src="product-1.jpeg" alt="تشكيلة حلويات دوناتيلا" loading="lazy">
+                    <img src="product-1.jpeg" alt="تشكيلة حلويات دوناتيلا" loading="lazy" width="260" height="260">
                 </div>
                 <div class="gallery-card">
-                    <img src="product-2.png" alt="دونات لوتس وشوكولاتة" loading="lazy">
+                    <img src="product-2-compressed.jpg" alt="دونات لوتس وشوكولاتة" loading="lazy" width="260" height="260">
                 </div>
                 <div class="gallery-card">
-                    <img src="product-3.jpeg" alt="كارت دوناتيلا" loading="lazy">
+                    <img src="product-3.jpeg" alt="كارت دوناتيلا" loading="lazy" width="260" height="260">
                 </div>
             </div>
         </section>
@@ -1292,17 +1309,18 @@
 
     <script>
         // ============================================
-        // FLOATING PARTICLES
+        // FLOATING PARTICLES (reduced count for perf)
         // ============================================
         (function createParticles() {
             const container = document.getElementById('particles');
-            const count = 25;
+            const count = 15;
             for (let i = 0; i < count; i++) {
                 const p = document.createElement('div');
                 p.classList.add('particle');
                 p.style.left = Math.random() * 100 + '%';
-                p.style.width = (2 + Math.random() * 4) + 'px';
-                p.style.height = p.style.width;
+                const size = (2 + Math.random() * 4) + 'px';
+                p.style.width = size;
+                p.style.height = size;
                 p.style.animationDuration = (6 + Math.random() * 8) + 's';
                 p.style.animationDelay = (Math.random() * 10) + 's';
                 p.style.opacity = 0;
@@ -1311,17 +1329,24 @@
         })();
 
         // ============================================
-        // SCROLL REVEAL
+        // SCROLL REVEAL — animate once, stay visible
         // ============================================
         (function initReveal() {
             const revealEls = document.querySelectorAll('.reveal, .reveal-stagger');
-            const observer = new IntersectionObserver((entries) => {
+            const observer = new IntersectionObserver((entries, obs) => {
                 entries.forEach(entry => {
                     if (entry.isIntersecting) {
                         entry.target.classList.add('visible');
+                        // Stop observing — element stays visible permanently
+                        obs.unobserve(entry.target);
+                        // After transition ends, remove will-change to free GPU
+                        const duration = entry.target.classList.contains('reveal-stagger') ? 900 : 700;
+                        setTimeout(() => {
+                            entry.target.classList.add('revealed');
+                        }, duration);
                     }
                 });
-            }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+            }, { threshold: 0.08, rootMargin: '0px 0px -30px 0px' });
 
             revealEls.forEach(el => observer.observe(el));
         })();
@@ -1349,8 +1374,9 @@
         // ============================================
         function copyPageLink() {
             const btn = document.getElementById('copyBtn');
-            navigator.clipboard.writeText(window.location.href).then(() => {
-                const origContent = btn.innerHTML;
+            const origContent = btn.innerHTML;
+
+            function showSuccess() {
                 btn.innerHTML = `<i class="fa-solid fa-check btn-icon"></i> <span>تم النسخ بنجاح!</span>`;
                 btn.style.background = 'linear-gradient(135deg, #25D366, #128C7E)';
                 btn.style.color = '#fff';
@@ -1359,9 +1385,39 @@
                     btn.style.background = '';
                     btn.style.color = '';
                 }, 2500);
-            }).catch(err => {
-                console.error('Copy failed', err);
-            });
+            }
+
+            function showError() {
+                btn.innerHTML = `<i class="fa-solid fa-xmark btn-icon"></i> <span>فشل النسخ — انسخ الرابط يدوياً</span>`;
+                btn.style.background = 'linear-gradient(135deg, #c0392b, #e74c3c)';
+                btn.style.color = '#fff';
+                setTimeout(() => {
+                    btn.innerHTML = origContent;
+                    btn.style.background = '';
+                    btn.style.color = '';
+                }, 3000);
+            }
+
+            if (navigator.clipboard && window.isSecureContext) {
+                navigator.clipboard.writeText(window.location.href)
+                    .then(showSuccess)
+                    .catch(showError);
+            } else {
+                // Fallback for HTTP / older browsers
+                const textarea = document.createElement('textarea');
+                textarea.value = window.location.href;
+                textarea.style.position = 'fixed';
+                textarea.style.opacity = '0';
+                document.body.appendChild(textarea);
+                textarea.select();
+                try {
+                    document.execCommand('copy');
+                    showSuccess();
+                } catch (e) {
+                    showError();
+                }
+                document.body.removeChild(textarea);
+            }
         }
 
         // ============================================

@@ -1,0 +1,12 @@
+# Exclude large video file (embedded from YouTube instead)
+*.mp4
+
+# Exclude Photoshop files
+*.psd
+
+# Exclude system files
+.DS_Store
+Thumbs.db
+
+# Exclude assets folder (hero-bg not used in final design)
+assets/

@@ -6,6 +6,7 @@
     <title>دوناتيلا — Donatella | حلويات ومنتجات صحية</title>
     <meta name="description" content="دوناتيلا للحلويات والمنتجات الصحية — تفتيش كفر سعد، محافظة دمياط. اطلب الآن!">
     <meta name="theme-color" content="#1a0a00">
+    <meta name="robots" content="index, follow">
     <link rel="canonical" href="https://donatella-hub.vercel.app/">
     <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🍩</text></svg>">
     <meta property="og:title" content="دوناتيلا — Donatella">
@@ -20,10 +21,10 @@
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;800;900&family=Playfair+Display:wght@400;600;700;800&display=swap" rel="stylesheet">
 
     <!-- Font Awesome 6 Free Icons -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer">
 
-    <!-- QR Code Library -->
-    <script src="https://cdn.jsdelivr.net/npm/qrcodejs@1.0.0/qrcode.min.js"></script>
+    <!-- QR Code Library (Deferred for Performance) -->
+    <script src="https://cdn.jsdelivr.net/npm/qrcodejs@1.0.0/qrcode.min.js" defer></script>
 
     <style>
         /* ============================================ */
@@ -321,17 +322,6 @@
             25% { transform: translateY(-3px) rotate(5deg); }
             50% { transform: translateY(-6px) rotate(0deg); }
             75% { transform: translateY(-3px) rotate(-5deg); }
-        }
-
-        /* Loader donut special animation */
-        .loader-donut .donut-body {
-            animation: donutLoaderSpin 2s ease-in-out infinite;
-        }
-
-        @keyframes donutLoaderSpin {
-            0% { transform: rotate(0deg) scale(1); }
-            50% { transform: rotate(-180deg) scale(1.15); }
-            100% { transform: rotate(-360deg) scale(1); }
         }
 
         /* Glaze shimmer */
@@ -713,9 +703,11 @@
             box-shadow: var(--shadow-dark);
             transition: var(--transition-smooth);
             position: relative;
+            cursor: pointer;
+            outline: none;
         }
 
-        .gallery-card:hover {
+        .gallery-card:hover, .gallery-card:focus-visible {
             transform: scale(1.03);
             box-shadow: var(--shadow-dark), var(--shadow-gold);
             border-color: var(--gold);
@@ -728,7 +720,7 @@
             transition: var(--transition-smooth);
         }
 
-        .gallery-card:hover img {
+        .gallery-card:hover img, .gallery-card:focus-visible img {
             transform: scale(1.08);
         }
 
@@ -741,6 +733,253 @@
             height: 60%;
             background: linear-gradient(to top, rgba(13, 5, 3, 0.6), transparent);
             pointer-events: none;
+        }
+
+        .gallery-zoom-badge {
+            position: absolute;
+            top: 12px;
+            left: 12px;
+            width: 38px;
+            height: 38px;
+            border-radius: 50%;
+            background: var(--glass-bg);
+            backdrop-filter: var(--glass-blur);
+            -webkit-backdrop-filter: var(--glass-blur);
+            border: 1px solid var(--glass-border);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--gold-bright);
+            font-size: 0.9rem;
+            opacity: 0.85;
+            transition: var(--transition-smooth);
+            z-index: 2;
+            pointer-events: none;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+        }
+
+        .gallery-card:hover .gallery-zoom-badge, .gallery-card:focus-visible .gallery-zoom-badge {
+            transform: scale(1.15) rotate(15deg);
+            background: var(--gold);
+            color: var(--choco-darkest);
+            border-color: var(--gold-bright);
+            opacity: 1;
+            box-shadow: 0 0 15px rgba(201, 162, 39, 0.5);
+        }
+
+        /* Gallery Dots Indicator */
+        .gallery-dots {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 8px;
+            margin-top: 14px;
+        }
+
+        .gallery-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: rgba(201, 162, 39, 0.25);
+            border: 1px solid rgba(201, 162, 39, 0.4);
+            transition: var(--transition-smooth);
+            cursor: pointer;
+            outline: none;
+            padding: 0;
+        }
+
+        .gallery-dot:hover {
+            background: var(--gold);
+            transform: scale(1.25);
+        }
+
+        .gallery-dot.active {
+            width: 24px;
+            border-radius: 12px;
+            background: linear-gradient(90deg, var(--gold), var(--gold-bright));
+            border-color: var(--gold-glow);
+            box-shadow: 0 0 10px rgba(201, 162, 39, 0.5);
+        }
+
+        /* ============================================ */
+        /*  LIGHTBOX / IMAGE MODAL                      */
+        /* ============================================ */
+        .lightbox-modal {
+            position: fixed;
+            inset: 0;
+            z-index: 10000;
+            background: rgba(13, 5, 3, 0.88);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 16px;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.35s ease, visibility 0.35s ease;
+        }
+
+        .lightbox-modal.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .lightbox-dialog {
+            position: relative;
+            max-width: 520px;
+            width: 100%;
+            background: var(--choco-deep);
+            border: 1px solid var(--glass-border);
+            border-radius: var(--radius-lg);
+            overflow: hidden;
+            box-shadow: 0 16px 50px rgba(0, 0, 0, 0.8), 0 0 35px rgba(201, 162, 39, 0.2);
+            transform: scale(0.92) translateY(20px);
+            transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+            display: flex;
+            flex-direction: column;
+        }
+
+        .lightbox-modal.active .lightbox-dialog {
+            transform: scale(1) translateY(0);
+        }
+
+        .lightbox-header {
+            position: absolute;
+            top: 14px;
+            left: 14px;
+            right: 14px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 10;
+            pointer-events: none;
+        }
+
+        .lightbox-counter {
+            padding: 6px 14px;
+            background: rgba(13, 5, 3, 0.75);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            border: 1px solid var(--glass-border);
+            border-radius: 50px;
+            color: var(--gold-bright);
+            font-size: 0.85rem;
+            font-weight: 700;
+            direction: ltr;
+        }
+
+        .lightbox-close-btn {
+            pointer-events: auto;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: rgba(13, 5, 3, 0.75);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            border: 1px solid var(--glass-border);
+            color: var(--cream);
+            font-size: 1.15rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: var(--transition-smooth);
+        }
+
+        .lightbox-close-btn:hover {
+            transform: rotate(90deg) scale(1.1);
+            background: var(--gold);
+            color: var(--choco-darkest);
+            border-color: var(--gold-bright);
+            box-shadow: 0 0 15px rgba(201, 162, 39, 0.5);
+        }
+
+        .lightbox-img-wrapper {
+            position: relative;
+            width: 100%;
+            background: rgba(0, 0, 0, 0.4);
+            min-height: 260px;
+            max-height: 60vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+
+        .lightbox-img {
+            width: 100%;
+            height: auto;
+            max-height: 60vh;
+            object-fit: contain;
+            display: block;
+            transition: opacity 0.25s ease, transform 0.25s ease;
+        }
+
+        .lightbox-img.loading {
+            opacity: 0.3;
+            transform: scale(0.98);
+        }
+
+        .lightbox-nav-btn {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            background: rgba(13, 5, 3, 0.7);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            border: 1px solid var(--glass-border);
+            color: var(--cream);
+            font-size: 1.1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: var(--transition-smooth);
+            z-index: 5;
+        }
+
+        .lightbox-nav-btn:hover {
+            transform: translateY(-50%) scale(1.12);
+            background: var(--gold);
+            color: var(--choco-darkest);
+            border-color: var(--gold-bright);
+            box-shadow: 0 0 15px rgba(201, 162, 39, 0.4);
+        }
+
+        .lightbox-nav-btn:active {
+            transform: translateY(-50%) scale(0.95);
+        }
+
+        .lightbox-nav-btn.prev {
+            right: 12px;
+        }
+
+        .lightbox-nav-btn.next {
+            left: 12px;
+        }
+
+        .lightbox-caption {
+            padding: 16px 20px;
+            background: var(--choco-deep);
+            border-top: 1px solid var(--glass-border);
+            text-align: center;
+        }
+
+        .lightbox-caption-text {
+            font-size: 1.05rem;
+            font-weight: 700;
+            color: var(--gold-bright);
+            margin-bottom: 3px;
+        }
+
+        .lightbox-caption-sub {
+            font-size: 0.85rem;
+            color: var(--cream);
+            opacity: 0.6;
         }
 
         /* ============================================ */
@@ -781,13 +1020,13 @@
         }
 
         .social-link:hover {
-            transform: translateX(-6px);
+            transform: translateY(-3px);
             border-color: var(--gold);
             box-shadow: var(--shadow-gold);
         }
 
         .social-link:active {
-            transform: translateX(-3px) scale(0.98);
+            transform: translateY(-1px) scale(0.99);
         }
 
         .social-icon {
@@ -1185,6 +1424,30 @@
             background: linear-gradient(to left, rgba(201, 162, 39, 0.03), transparent);
             pointer-events: none;
         }
+
+        /* ============================================ */
+        /*  ACCESSIBILITY & REDUCED MOTION             */
+        /* ============================================ */
+        @media (prefers-reduced-motion: reduce) {
+            *, *::before, *::after {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+                scroll-behavior: auto !important;
+            }
+            .particles,
+            #antigravity-neon-canvas {
+                display: none !important;
+            }
+            .logo-ring::before {
+                animation: none !important;
+            }
+            .reveal, .reveal-stagger > * {
+                opacity: 1 !important;
+                transform: none !important;
+                transition: none !important;
+            }
+        }
     </style>
 </head>
 <body>
@@ -1318,7 +1581,7 @@
 
             <div class="links-grid reveal-stagger" id="linksGrid">
                 <!-- Facebook Page -->
-                <a href="https://www.facebook.com/share/19K7qWkUta/" target="_blank" rel="noopener" class="social-link" id="link-fb-page">
+                <a href="https://www.facebook.com/share/19K7qWkUta/" target="_blank" rel="noopener noreferrer" class="social-link" id="link-fb-page">
                     <div class="social-icon facebook">
                         <i class="fa-brands fa-facebook-f card-icon"></i>
                     </div>
@@ -1330,7 +1593,7 @@
                 </a>
 
                 <!-- Facebook Group -->
-                <a href="https://www.facebook.com/share/g/18DMGHkRcK/" target="_blank" rel="noopener" class="social-link" id="link-fb-group">
+                <a href="https://www.facebook.com/share/g/18DMGHkRcK/" target="_blank" rel="noopener noreferrer" class="social-link" id="link-fb-group">
                     <div class="social-icon facebook">
                         <i class="fa-solid fa-users card-icon"></i>
                     </div>
@@ -1342,7 +1605,7 @@
                 </a>
 
                 <!-- Instagram -->
-                <a href="https://www.instagram.com/donat_ella68" target="_blank" rel="noopener" class="social-link" id="link-instagram">
+                <a href="https://www.instagram.com/donat_ella68" target="_blank" rel="noopener noreferrer" class="social-link" id="link-instagram">
                     <div class="social-icon instagram">
                         <i class="fa-brands fa-instagram card-icon"></i>
                     </div>
@@ -1354,7 +1617,7 @@
                 </a>
 
                 <!-- Donatella Personal -->
-                <a href="https://www.facebook.com/share/1Jf1TmcBjv/" target="_blank" rel="noopener" class="social-link" id="link-donatella-personal">
+                <a href="https://www.facebook.com/share/1Jf1TmcBjv/" target="_blank" rel="noopener noreferrer" class="social-link" id="link-donatella-personal">
                     <div class="social-icon facebook">
                         <i class="fa-brands fa-facebook card-icon"></i>
                     </div>
@@ -1366,7 +1629,7 @@
                 </a>
 
                 <!-- Osama Personal -->
-                <a href="https://www.facebook.com/share/18uWrkr9Lb/" target="_blank" rel="noopener" class="social-link" id="link-osama">
+                <a href="https://www.facebook.com/share/18uWrkr9Lb/" target="_blank" rel="noopener noreferrer" class="social-link" id="link-osama">
                     <div class="social-icon facebook">
                         <i class="fa-solid fa-user-tie card-icon"></i>
                     </div>
@@ -1380,7 +1643,7 @@
                 <div class="section-divider"></div>
 
                 <!-- WhatsApp Osama -->
-                <a href="https://wa.me/201011868045" target="_blank" rel="noopener" class="social-link whatsapp-link" id="link-wa-osama">
+                <a href="https://wa.me/201011868045" target="_blank" rel="noopener noreferrer" class="social-link whatsapp-link" id="link-wa-osama">
                     <div class="social-icon whatsapp">
                         <i class="fa-brands fa-whatsapp card-icon"></i>
                     </div>
@@ -1392,7 +1655,7 @@
                 </a>
 
                 <!-- WhatsApp Amr -->
-                <a href="https://wa.me/201115602194" target="_blank" rel="noopener" class="social-link whatsapp-link" id="link-wa-amr">
+                <a href="https://wa.me/201115602194" target="_blank" rel="noopener noreferrer" class="social-link whatsapp-link" id="link-wa-amr">
                     <div class="social-icon whatsapp">
                         <i class="fa-brands fa-whatsapp card-icon"></i>
                     </div>
@@ -1404,7 +1667,7 @@
                 </a>
 
                 <!-- WhatsApp Group -->
-                <a href="https://wa.me/201010018484" target="_blank" rel="noopener" class="social-link whatsapp-link" id="link-wa-group">
+                <a href="https://wa.me/201010018484" target="_blank" rel="noopener noreferrer" class="social-link whatsapp-link" id="link-wa-group">
                     <div class="social-icon whatsapp">
                         <i class="fa-solid fa-comments card-icon"></i>
                     </div>
@@ -1472,16 +1735,30 @@
                     <span>منتجاتنا</span>
                 </h2>
             </div>
-            <div class="gallery-scroll">
-                <div class="gallery-card">
+            <div class="gallery-scroll" id="galleryScroll">
+                <div class="gallery-card" onclick="openLightbox(0)" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' ')openLightbox(0)" aria-label="عرض صورة تشكيلة حلويات دوناتيلا" aria-haspopup="dialog">
                     <img src="product-1.jpeg" alt="تشكيلة حلويات دوناتيلا" loading="lazy" width="260" height="260">
+                    <div class="gallery-zoom-badge">
+                        <i class="fa-solid fa-magnifying-glass-plus"></i>
+                    </div>
                 </div>
-                <div class="gallery-card">
+                <div class="gallery-card" onclick="openLightbox(1)" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' ')openLightbox(1)" aria-label="عرض صورة دونات لوتس وشوكولاتة" aria-haspopup="dialog">
                     <img src="product-2-compressed.jpg" alt="دونات لوتس وشوكولاتة" loading="lazy" width="260" height="260">
+                    <div class="gallery-zoom-badge">
+                        <i class="fa-solid fa-magnifying-glass-plus"></i>
+                    </div>
                 </div>
-                <div class="gallery-card">
-                    <img src="product-3.jpeg" alt="كارت دوناتيلا" loading="lazy" width="260" height="260">
+                <div class="gallery-card" onclick="openLightbox(2)" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' ')openLightbox(2)" aria-label="عرض صورة كارت دوناتيلا" aria-haspopup="dialog">
+                    <img src="product-3-compressed.jpg" alt="كارت دوناتيلا" loading="lazy" width="260" height="260">
+                    <div class="gallery-zoom-badge">
+                        <i class="fa-solid fa-magnifying-glass-plus"></i>
+                    </div>
                 </div>
+            </div>
+            <div class="gallery-dots" id="galleryDots" role="tablist" aria-label="مؤشرات صور المعرض">
+                <button class="gallery-dot active" data-index="0" aria-label="الصورة 1"></button>
+                <button class="gallery-dot" data-index="1" aria-label="الصورة 2"></button>
+                <button class="gallery-dot" data-index="2" aria-label="الصورة 3"></button>
             </div>
         </section>
 
@@ -1533,6 +1810,31 @@
         </footer>
 
     </main>
+
+    <!-- Lightbox Modal -->
+    <div class="lightbox-modal" id="lightboxModal" role="dialog" aria-modal="true" aria-label="معاينة الصورة" onclick="handleLightboxBackdrop(event)">
+        <div class="lightbox-dialog" id="lightboxDialog">
+            <div class="lightbox-header">
+                <span class="lightbox-counter" id="lightboxCounter">1 / 3</span>
+                <button class="lightbox-close-btn" onclick="closeLightbox()" aria-label="إغلاق المعاينة">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+            <div class="lightbox-img-wrapper" id="lightboxImgWrapper">
+                <button class="lightbox-nav-btn prev" onclick="prevLightbox(event)" aria-label="الصورة السابقة">
+                    <i class="fa-solid fa-chevron-right"></i>
+                </button>
+                <img src="" alt="" class="lightbox-img" id="lightboxImg">
+                <button class="lightbox-nav-btn next" onclick="nextLightbox(event)" aria-label="الصورة التالية">
+                    <i class="fa-solid fa-chevron-left"></i>
+                </button>
+            </div>
+            <div class="lightbox-caption">
+                <div class="lightbox-caption-text" id="lightboxTitle"></div>
+                <div class="lightbox-caption-sub" id="lightboxSub">دوناتيلا — تتاكل اكل 🍩</div>
+            </div>
+        </div>
+    </div>
 
     <script>
         // ============================================
@@ -1863,20 +2165,31 @@
         })();
 
         // ============================================
-        // QR CODE GENERATION
+        // QR CODE GENERATION (Supports deferred script)
         // ============================================
-        (function generateQR() {
+        (function initQR() {
             const qrContainer = document.getElementById('qrcode');
+            if (!qrContainer) return;
+
+            function renderQR() {
+                if (typeof QRCode !== 'undefined' && !qrContainer.hasChildNodes()) {
+                    const url = window.location.href;
+                    new QRCode(qrContainer, {
+                        text: url,
+                        width: 200,
+                        height: 200,
+                        colorDark: '#1a0a00',
+                        colorLight: '#ffffff',
+                        correctLevel: QRCode.CorrectLevel.H
+                    });
+                }
+            }
+
             if (typeof QRCode !== 'undefined') {
-                const url = window.location.href;
-                new QRCode(qrContainer, {
-                    text: url,
-                    width: 200,
-                    height: 200,
-                    colorDark: '#1a0a00',
-                    colorLight: '#ffffff',
-                    correctLevel: QRCode.CorrectLevel.H
-                });
+                renderQR();
+            } else {
+                window.addEventListener('DOMContentLoaded', renderQR);
+                window.addEventListener('load', renderQR);
             }
         })();
 
@@ -1930,6 +2243,202 @@
                 document.body.removeChild(textarea);
             }
         }
+
+        // ============================================
+        // GALLERY DOTS & SCROLL SYNC
+        // ============================================
+        (function initGalleryDots() {
+            const scrollContainer = document.getElementById('galleryScroll');
+            const dots = document.querySelectorAll('.gallery-dot');
+            const cards = document.querySelectorAll('.gallery-card');
+            if (!scrollContainer || dots.length === 0 || cards.length === 0) return;
+
+            dots.forEach((dot) => {
+                dot.addEventListener('click', () => {
+                    const idx = parseInt(dot.getAttribute('data-index'), 10);
+                    if (cards[idx]) {
+                        cards[idx].scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' });
+                    }
+                });
+            });
+
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach((entry) => {
+                    if (entry.isIntersecting) {
+                        const index = Array.from(cards).indexOf(entry.target);
+                        if (index !== -1) {
+                            dots.forEach((d, i) => d.classList.toggle('active', i === index));
+                        }
+                    }
+                });
+            }, { root: scrollContainer, threshold: 0.6 });
+
+            cards.forEach(card => observer.observe(card));
+        })();
+
+        // ============================================
+        // LIGHTBOX / GALLERY MODAL (WCAG 2.2 Accessible)
+        // ============================================
+        const galleryItems = [
+            {
+                src: 'product-1.jpeg',
+                alt: 'تشكيلة حلويات دوناتيلا',
+                desc: 'أشهى تشكيلة من الدونات والحلويات الطازجة'
+            },
+            {
+                src: 'product-2-compressed.jpg',
+                alt: 'دونات لوتس وشوكولاتة',
+                desc: 'دونات فاخرة بنكهات اللوتس والشوكولاتة الغنية'
+            },
+            {
+                src: 'product-3-compressed.jpg',
+                alt: 'كارت دوناتيلا',
+                desc: 'كارت وبوكس هدايا دوناتيلا للحلويات والمنتجات الصحية'
+            }
+        ];
+
+        let currentLightboxIndex = 0;
+        let lastFocusedElement = null;
+        const lightboxModal = document.getElementById('lightboxModal');
+        const lightboxImg = document.getElementById('lightboxImg');
+        const lightboxTitle = document.getElementById('lightboxTitle');
+        const lightboxSub = document.getElementById('lightboxSub');
+        const lightboxCounter = document.getElementById('lightboxCounter');
+
+        function openLightbox(index) {
+            lastFocusedElement = document.activeElement;
+            currentLightboxIndex = index;
+            updateLightboxContent();
+            lightboxModal.classList.add('active');
+            document.body.style.overflow = 'hidden';
+
+            // Accessible focus placement
+            const closeBtn = lightboxModal.querySelector('.lightbox-close-btn');
+            if (closeBtn) {
+                setTimeout(() => closeBtn.focus(), 50);
+            }
+        }
+
+        function closeLightbox() {
+            if (!lightboxModal) return;
+            lightboxModal.classList.remove('active');
+            document.body.style.overflow = '';
+
+            // Restore focus to triggering element
+            if (lastFocusedElement && typeof lastFocusedElement.focus === 'function') {
+                lastFocusedElement.focus();
+            }
+        }
+
+        function updateLightboxContent() {
+            const item = galleryItems[currentLightboxIndex];
+            if (!item) return;
+
+            lightboxImg.classList.add('loading');
+            lightboxTitle.textContent = item.alt;
+            if (lightboxSub && item.desc) {
+                lightboxSub.textContent = item.desc;
+            }
+            lightboxCounter.textContent = `${currentLightboxIndex + 1} / ${galleryItems.length}`;
+
+            const newImg = new Image();
+            newImg.src = item.src;
+            newImg.onload = () => {
+                lightboxImg.src = item.src;
+                lightboxImg.alt = item.alt;
+                lightboxImg.classList.remove('loading');
+            };
+            newImg.onerror = () => {
+                lightboxImg.src = item.src;
+                lightboxImg.classList.remove('loading');
+            };
+        }
+
+        function nextLightbox(e) {
+            if (e) e.stopPropagation();
+            currentLightboxIndex = (currentLightboxIndex + 1) % galleryItems.length;
+            updateLightboxContent();
+        }
+
+        function prevLightbox(e) {
+            if (e) e.stopPropagation();
+            currentLightboxIndex = (currentLightboxIndex - 1 + galleryItems.length) % galleryItems.length;
+            updateLightboxContent();
+        }
+
+        function handleLightboxBackdrop(e) {
+            if (e.target === lightboxModal) {
+                closeLightbox();
+            }
+        }
+
+        // Keyboard navigation and Focus Trap for Lightbox
+        window.addEventListener('keydown', (e) => {
+            if (!lightboxModal || !lightboxModal.classList.contains('active')) return;
+
+            if (e.key === 'Escape') {
+                closeLightbox();
+            } else if (e.key === 'ArrowLeft') {
+                nextLightbox(); // In RTL Arabic layout, Left is Next
+            } else if (e.key === 'ArrowRight') {
+                prevLightbox(); // In RTL Arabic layout, Right is Prev
+            } else if (e.key === 'Tab') {
+                // Focus trap inside modal
+                const focusable = lightboxModal.querySelectorAll('button:not([disabled]), [tabindex="0"]');
+                if (focusable.length === 0) return;
+
+                const first = focusable[0];
+                const last = focusable[focusable.length - 1];
+
+                if (e.shiftKey) {
+                    if (document.activeElement === first) {
+                        e.preventDefault();
+                        last.focus();
+                    }
+                } else {
+                    if (document.activeElement === last) {
+                        e.preventDefault();
+                        first.focus();
+                    }
+                }
+            }
+        });
+
+        // Touch Swipe gestures for Lightbox
+        (function initLightboxSwipe() {
+            let touchStartX = 0;
+            let touchStartY = 0;
+            let touchEndX = 0;
+            let touchEndY = 0;
+
+            const modal = document.getElementById('lightboxModal');
+            if (!modal) return;
+
+            modal.addEventListener('touchstart', (e) => {
+                touchStartX = e.changedTouches[0].screenX;
+                touchStartY = e.changedTouches[0].screenY;
+            }, { passive: true });
+
+            modal.addEventListener('touchend', (e) => {
+                touchEndX = e.changedTouches[0].screenX;
+                touchEndY = e.changedTouches[0].screenY;
+                handleSwipe();
+            }, { passive: true });
+
+            function handleSwipe() {
+                const diffX = touchEndX - touchStartX;
+                const diffY = touchEndY - touchStartY;
+                if (Math.abs(diffX) > Math.abs(diffY) && Math.abs(diffX) > 45) {
+                    if (diffX < 0) {
+                        nextLightbox();
+                    } else {
+                        prevLightbox();
+                    }
+                } else if (diffY > 80 && Math.abs(diffY) > Math.abs(diffX)) {
+                    closeLightbox();
+                }
+            }
+        })();
 
         // ============================================
         // LOADING SCREEN

@@ -11,8 +11,10 @@ Thumbs.db
 # Exclude unreferenced WhatsApp images
 WhatsApp Image*
 
-# Exclude original uncompressed product-2 (replaced by product-2-compressed.jpg)
+# Exclude original uncompressed images (replaced by -compressed.jpg)
 product-2.png
+product-3.jpeg
 
 # Exclude assets folder (hero-bg not used in final design)
 assets/
+

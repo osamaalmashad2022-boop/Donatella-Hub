@@ -2,5 +2,9 @@
   "name": "donatella-hub",
   "version": "1.0.0",
   "description": "Donatella Social Media Hub — دوناتيلا للحلويات والمنتجات الصحية",
-  "private": true
+  "private": true,
+  "scripts": {
+    "start": "npx -y serve . -l 3000",
+    "dev": "npx -y serve . -l 3000"
+  }
 }

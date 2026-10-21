@@ -145,6 +145,36 @@
             pointer-events: none;
         }
 
+        /* Floating Golden Particles */
+        .particles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            pointer-events: none;
+            overflow: hidden;
+        }
+
+        .particle {
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            background: var(--gold-bright);
+            border-radius: 50%;
+            opacity: 0;
+            animation: floatParticle 8s infinite;
+            box-shadow: 0 0 6px var(--gold), 0 0 12px rgba(201, 162, 39, 0.3);
+            will-change: transform, opacity;
+        }
+
+        @keyframes floatParticle {
+            0% { opacity: 0; transform: translateY(100vh) scale(0); }
+            10% { opacity: 0.8; }
+            90% { opacity: 0.6; }
+            100% { opacity: 0; transform: translateY(-10vh) scale(1.2); }
+        }
 
         /* ============================================ */
         /*  CHOCOLATE DRIP ANIMATION                    */
@@ -1628,6 +1658,7 @@
                 transition-duration: 0.01ms !important;
                 scroll-behavior: auto !important;
             }
+            .particles,
             #antigravity-neon-canvas {
                 display: none !important;
             }
@@ -1660,6 +1691,9 @@
 
     <!-- Antigravity Interactive Neon Canvas -->
     <canvas id="antigravity-neon-canvas"></canvas>
+
+    <!-- Floating Golden Particles -->
+    <div class="particles" id="particles"></div>
 
     <!-- Main Content -->
     <main class="container">
@@ -2067,414 +2101,279 @@
     </div>
 
     <script>
-                // ============================================================================
-        // NATURAL LIQUID CHOCOLATE WAVES (Concept 1: Multi-Harmonic Viscous Fluid)
-        // High-end realistic melted chocolate with silky specular crest sheen,
-        // gyroscope liquid sloshing, interactive wave ripples & wave-riding gold flakes
-        // ============================================================================
-        (function initLiquidChocolateWaves() {
+        // ============================================
+        // ANTIGRAVITY INTERACTIVE NEON PHYSICS CANVAS
+        // ============================================
+        (function initAntigravityNeonCanvas() {
             const canvas = document.getElementById('antigravity-neon-canvas');
             if (!canvas) return;
             const ctx = canvas.getContext('2d', { alpha: true });
             if (!ctx) return;
 
-            const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-
+            // Performance tuning based on device
             const isMobile = window.innerWidth <= 768;
+            const particleCount = isMobile ? 45 : 75;
+            const connectionDistance = isMobile ? 85 : 115;
+            const touchRadius = isMobile ? 220 : 300;
+
             let width = 0;
             let height = 0;
-            let dpr = 1;
+            let dpr = Math.min(window.devicePixelRatio || 1, 2);
 
-            // Gyroscope tilt & sloshing inertia
-            const tilt = {
-                currentX: 0,
-                targetX: 0,
-                currentY: 0,
-                targetY: 0,
-                active: false
+            // Pointer tracking
+            const pointer = {
+                x: -1000,
+                y: -1000,
+                targetX: -1000,
+                targetY: -1000,
+                active: false,
+                decayTimer: null
             };
 
-            // Scroll momentum for fluid drag
-            let scrollVel = 0;
-            let lastScrollY = window.scrollY || window.pageYOffset || 0;
+            const shockwaves = [];
 
-            // Interactive wave disturbances (ripples that displace wave surface)
-            const disturbances = [];
+            // Neon Palette (Gold, Amber, Glow Yellow, Cream, Rose accents)
+            const neonColors = [
+                { r: 232, g: 197, b: 71 },  // Gold bright (#e8c547)
+                { r: 255, g: 213, b: 79 },  // Gold glow (#ffd54f)
+                { r: 255, g: 145, b: 0 },   // Neon Amber (#ff9100)
+                { r: 255, g: 248, b: 225 }, // Warm Cream (#fff8e1)
+                { r: 255, g: 110, b: 150 }  // Neon Rose (#ff6e96)
+            ];
 
-            // Suspended gold flakes riding the fluid surface
-            const flakeCount = isMobile ? 18 : 28;
-            const flakes = [];
-
-            // ================================================================
-            // RESIZE & HIGH-DPI CANVAS MANAGEMENT
-            // ================================================================
             function resize() {
                 dpr = Math.min(window.devicePixelRatio || 1, 2);
                 width = window.innerWidth;
                 height = window.innerHeight;
-                canvas.width = Math.round(width * dpr);
-                canvas.height = Math.round(height * dpr);
+                canvas.width = width * dpr;
+                canvas.height = height * dpr;
                 canvas.style.width = width + 'px';
                 canvas.style.height = height + 'px';
-                ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-
-                if (flakes.length === 0) {
-                    initFlakes();
-                }
+                ctx.scale(dpr, dpr);
             }
             window.addEventListener('resize', resize, { passive: true });
             resize();
 
-            // ================================================================
-            // SENSORS: GYROSCOPE SLOSHING (Mobile) & SCROLL DRAG
-            // ================================================================
-            function handleOrientation(e) {
-                if (e.gamma !== null && e.beta !== null) {
-                    tilt.active = true;
-                    // Clamp gamma (-30 to +30 deg)
-                    const rawX = Math.max(-30, Math.min(30, e.gamma)) / 30;
-                    const rawY = Math.max(-30, Math.min(30, e.beta - 45)) / 30;
-                    tilt.targetX = rawX * 1.4;
-                    tilt.targetY = rawY * 1.0;
-                }
-            }
-            if (window.DeviceOrientationEvent) {
-                window.addEventListener('deviceorientation', handleOrientation, { passive: true });
-            }
-
-            let scrollTimeout;
-            window.addEventListener('scroll', () => {
-                const currentY = window.scrollY || window.pageYOffset || 0;
-                const dy = currentY - lastScrollY;
-                scrollVel = Math.max(-20, Math.min(20, dy * 0.15));
-                lastScrollY = currentY;
-
-                clearTimeout(scrollTimeout);
-                scrollTimeout = setTimeout(() => {
-                    scrollVel = 0;
-                }, 150);
-            }, { passive: true });
-
-            // ================================================================
-            // TOUCH & MOUSE INTERACTIVE WAVE RIPPLE DISTURBANCE
-            // ================================================================
-            function triggerWaveDisturbance(clientX, clientY) {
-                if (clientX === null || clientY === null) return;
-                disturbances.push({
-                    x: clientX,
-                    y: clientY,
-                    radius: 0,
-                    maxRadius: isMobile ? 160 : 240,
-                    amp: 16,
-                    speed: isMobile ? 3.8 : 4.5,
-                    decay: 0.94
-                });
-            }
-
-            let lastDisturbTime = 0;
-            function handlePointerMove(e) {
-                const now = performance.now();
-                if (now - lastDisturbTime < 90) return; // throttle disturbances for natural fluid feel
-                const x = e.clientX || (e.touches && e.touches[0] ? e.touches[0].clientX : null);
-                const y = e.clientY || (e.touches && e.touches[0] ? e.touches[0].clientY : null);
-                if (x !== null && y !== null) {
-                    lastDisturbTime = now;
-                    triggerWaveDisturbance(x, y);
-                }
-            }
-
-            window.addEventListener('mousemove', handlePointerMove, { passive: true });
-            window.addEventListener('touchmove', handlePointerMove, { passive: true });
-            window.addEventListener('touchstart', handlePointerMove, { passive: true });
-            window.addEventListener('click', (e) => {
-                triggerWaveDisturbance(e.clientX, e.clientY);
-            }, { passive: true });
-
-            // ================================================================
-            // 3-LAYER VISCOUS FLUID WAVE SPECIFICATIONS
-            // Multi-harmonic frequencies for natural, non-repeating fluid motion
-            // ================================================================
-            const waveLayers = [
-                {
-                    // 1. Deep Ganache (Back wave)
-                    baseRatio: 0.62,
-                    amp1: 22, freq1: 0.0032, speed1: 0.00055, phase1: 0.0,
-                    amp2: 13, freq2: 0.0062, speed2: -0.00042, phase2: 1.4,
-                    amp3: 6,  freq3: 0.0105, speed3: 0.00078, phase3: 2.9,
-                    grad: (h) => {
-                        const g = ctx.createLinearGradient(0, h * 0.55, 0, h);
-                        g.addColorStop(0.0, 'rgba(28, 11, 4, 0.48)');
-                        g.addColorStop(0.4, 'rgba(20, 8, 2, 0.72)');
-                        g.addColorStop(1.0, 'rgba(11, 4, 1, 0.92)');
-                        return g;
-                    },
-                    crestGlow: null
-                },
-                {
-                    // 2. Warm Gianduja / Hazelnut Milk Chocolate (Mid wave)
-                    baseRatio: 0.74,
-                    amp1: 26, freq1: 0.0038, speed1: -0.00068, phase1: 2.1,
-                    amp2: 15, freq2: 0.0074, speed2: 0.00052, phase2: 3.8,
-                    amp3: 7,  freq3: 0.0125, speed3: -0.00088, phase3: 0.9,
-                    grad: (h) => {
-                        const g = ctx.createLinearGradient(0, h * 0.68, 0, h);
-                        g.addColorStop(0.0, 'rgba(64, 28, 12, 0.75)');
-                        g.addColorStop(0.35, 'rgba(42, 17, 6, 0.88)');
-                        g.addColorStop(1.0, 'rgba(15, 6, 2, 0.96)');
-                        return g;
-                    },
-                    crestGlow: 'rgba(201, 162, 39, 0.16)'
-                },
-                {
-                    // 3. Glossy Molten Chocolate & Silky Crest Sheen (Front wave)
-                    baseRatio: 0.84,
-                    amp1: 28, freq1: 0.0044, speed1: 0.00082, phase1: 4.3,
-                    amp2: 17, freq2: 0.0084, speed2: -0.00062, phase2: 5.7,
-                    amp3: 8,  freq3: 0.0142, speed3: 0.00102, phase3: 1.8,
-                    grad: (h) => {
-                        const g = ctx.createLinearGradient(0, h * 0.78, 0, h);
-                        g.addColorStop(0.0, 'rgba(92, 46, 21, 0.92)');
-                        g.addColorStop(0.25, 'rgba(61, 28, 12, 0.96)');
-                        g.addColorStop(0.70, 'rgba(32, 12, 4, 0.98)');
-                        g.addColorStop(1.0, 'rgba(13, 5, 2, 1.0)');
-                        return g;
-                    },
-                    crestGlow: 'rgba(232, 197, 71, 0.52)'
-                }
-            ];
-
-            // ================================================================
-            // NATURAL FLUID HEIGHT CALCULATION AT POINT X
-            // ================================================================
-            function getWaveHeight(layerIdx, x, time) {
-                const layer = waveLayers[layerIdx];
-                const baseY = height * layer.baseRatio + (scrollVel * 0.12);
-
-                // Gyroscope liquid sloshing across horizontal container
-                const sloshOffset = tilt.currentX * (x - width * 0.5) * 0.07 + (tilt.currentY * 18);
-
-                // Multi-harmonic natural wave synthesis
-                const t = time;
-                const waveY =
-                    Math.sin(x * layer.freq1 + t * layer.speed1 + layer.phase1) * layer.amp1 +
-                    Math.sin(x * layer.freq2 + t * layer.speed2 + layer.phase2) * layer.amp2 +
-                    Math.cos(x * layer.freq3 + t * layer.speed3 + layer.phase3) * layer.amp3;
-
-                // Interactive ripple displacement
-                let rippleOffset = 0;
-                for (let i = 0; i < disturbances.length; i++) {
-                    const d = disturbances[i];
-                    const distFromCenter = Math.abs(x - d.x);
-                    const waveDist = Math.abs(distFromCenter - d.radius);
-                    if (waveDist < 45) {
-                        const attenuation = (1 - waveDist / 45) * (1 - d.radius / d.maxRadius);
-                        rippleOffset += Math.sin(waveDist * 0.12) * d.amp * attenuation;
-                    }
+            class Particle {
+                constructor() {
+                    this.reset();
                 }
 
-                return baseY + waveY + sloshOffset + rippleOffset;
-            }
-
-            // ================================================================
-            // SUSPENDED GOLD FLAKES (Bobbing and riding with the fluid waves)
-            // ================================================================
-            function initFlakes() {
-                flakes.length = 0;
-                for (let i = 0; i < flakeCount; i++) {
-                    flakes.push({
-                        x: Math.random() * width,
-                        layer: Math.floor(Math.random() * 3), // rides layer 0, 1, or 2
-                        offsetY: (Math.random() - 0.4) * 45,
-                        size: 1.8 + Math.random() * 2.8,
-                        vx: 0.15 + Math.random() * 0.35,
-                        tumble: Math.random() * Math.PI * 2,
-                        tumbleSpeed: 0.012 + Math.random() * 0.02,
-                        alpha: 0.4 + Math.random() * 0.55
-                    });
+                reset() {
+                    this.x = Math.random() * width;
+                    this.y = Math.random() * height;
+                    this.vx = (Math.random() - 0.5) * 0.5;
+                    this.vy = (Math.random() - 0.5) * 0.5;
+                    this.baseVx = this.vx;
+                    this.baseVy = this.vy;
+                    this.radius = 1.2 + Math.random() * 2.8;
+                    this.mass = 0.8 + Math.random() * 0.6;
+                    
+                    const color = neonColors[Math.floor(Math.random() * neonColors.length)];
+                    this.r = color.r;
+                    this.g = color.g;
+                    this.b = color.b;
+                    this.alpha = 0.35 + Math.random() * 0.55;
+                    this.glowBlur = 6 + Math.random() * 10;
+                    
+                    this.spinDir = Math.random() > 0.5 ? 1 : -1;
+                    this.orbitSpeed = (0.07 + Math.random() * 0.1) * this.spinDir;
                 }
-            }
 
-            function updateAndDrawFlakes(time) {
-                for (let i = 0; i < flakes.length; i++) {
-                    const f = flakes[i];
-                    f.x += f.vx + tilt.currentX * 0.4;
-                    f.tumble += f.tumbleSpeed;
+                update() {
+                    // Attraction + Swirl physics around touch / cursor
+                    if (pointer.active) {
+                        const dx = pointer.x - this.x;
+                        const dy = pointer.y - this.y;
+                        const distSq = dx * dx + dy * dy;
+                        const dist = Math.sqrt(distSq);
 
-                    if (f.x > width + 20) {
-                        f.x = -20;
-                        f.offsetY = (Math.random() - 0.4) * 45;
+                        if (dist < touchRadius && dist > 4) {
+                            const normX = dx / dist;
+                            const normY = dy / dist;
+
+                            // 1. Gentle Gravitational pull towards touch
+                            const pullFactor = (1 - dist / touchRadius);
+                            const attractForce = pullFactor * pullFactor * 0.12 * this.mass;
+
+                            // 2. Slow & Smooth tangential orbital swirl
+                            const swirlX = -normY * this.spinDir;
+                            const swirlY = normX * this.spinDir;
+                            const swirlForce = pullFactor * 0.15 * this.orbitSpeed;
+
+                            this.vx += normX * attractForce + swirlX * swirlForce;
+                            this.vy += normY * attractForce + swirlY * swirlForce;
+                        }
                     }
 
-                    // Flake rides directly on the wave surface of its layer!
-                    const surfaceY = getWaveHeight(f.layer, f.x, time);
-                    const y = surfaceY + f.offsetY;
+                    // Apply shockwave radial forces
+                    for (let i = 0; i < shockwaves.length; i++) {
+                        const sw = shockwaves[i];
+                        const dx = this.x - sw.x;
+                        const dy = this.y - sw.y;
+                        const dist = Math.sqrt(dx * dx + dy * dy);
+                        const waveDist = Math.abs(dist - sw.radius);
+                        if (waveDist < 40 && dist > 1) {
+                            const pushForce = (1 - waveDist / 40) * (sw.alpha * 4);
+                            this.vx += (dx / dist) * pushForce;
+                            this.vy += (dy / dist) * pushForce;
+                        }
+                    }
 
+                    // Friction damping for fluid orbits
+                    this.vx *= 0.965;
+                    this.vy *= 0.965;
+
+                    // Subtle natural drift
+                    this.vx += this.baseVx * 0.04;
+                    this.vy += this.baseVy * 0.04;
+
+                    // Position step
+                    this.x += this.vx;
+                    this.y += this.vy;
+
+                    // Boundaries wrap around smoothly
+                    if (this.x < -20) this.x = width + 20;
+                    if (this.x > width + 20) this.x = -20;
+                    if (this.y < -20) this.y = height + 20;
+                    if (this.y > height + 20) this.y = -20;
+                }
+
+                draw() {
                     ctx.save();
-                    ctx.translate(f.x, y);
-
-                    // 3D tumble flip (scaleX simulates flat gold leaf turning in fluid)
-                    const cosTumble = Math.cos(f.tumble);
-                    ctx.scale(cosTumble, 1);
-
-                    const shine = Math.abs(cosTumble);
-                    ctx.fillStyle = `rgba(232, 197, 71, ${f.alpha * (0.35 + shine * 0.65)})`;
+                    ctx.shadowBlur = this.glowBlur;
+                    ctx.shadowColor = `rgba(${this.r}, ${this.g}, ${this.b}, 0.8)`;
+                    ctx.fillStyle = `rgba(${this.r}, ${this.g}, ${this.b}, ${this.alpha})`;
                     ctx.beginPath();
-                    ctx.ellipse(0, 0, f.size, f.size * 0.55, 0, 0, Math.PI * 2);
+                    ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
                     ctx.fill();
-
                     ctx.restore();
                 }
             }
 
-            // ================================================================
-            // DISTURBANCE EXPANSION & DISSIPATION
-            // ================================================================
-            function updateDisturbances() {
-                for (let i = disturbances.length - 1; i >= 0; i--) {
-                    const d = disturbances[i];
-                    d.radius += d.speed;
-                    d.amp *= d.decay;
-                    if (d.radius >= d.maxRadius || d.amp < 0.2) {
-                        disturbances.splice(i, 1);
+            const particles = Array.from({ length: particleCount }, () => new Particle());
+
+            function activatePointer(x, y) {
+                pointer.targetX = x;
+                pointer.targetY = y;
+                pointer.active = true;
+
+                if (pointer.decayTimer) clearTimeout(pointer.decayTimer);
+                pointer.decayTimer = setTimeout(() => {
+                    pointer.active = false;
+                }, 3500);
+            }
+
+            function onPointerMove(e) {
+                const x = e.clientX || (e.touches && e.touches[0] ? e.touches[0].clientX : null);
+                const y = e.clientY || (e.touches && e.touches[0] ? e.touches[0].clientY : null);
+                if (x !== null && y !== null) {
+                    activatePointer(x, y);
+                }
+            }
+
+            function triggerShockwave(x, y) {
+                activatePointer(x, y);
+                shockwaves.push({
+                    x: x,
+                    y: y,
+                    radius: 5,
+                    maxRadius: isMobile ? 140 : 200,
+                    alpha: 1
+                });
+            }
+
+            window.addEventListener('mousemove', onPointerMove, { passive: true });
+            window.addEventListener('touchstart', onPointerMove, { passive: true });
+            window.addEventListener('touchmove', onPointerMove, { passive: true });
+
+            window.addEventListener('click', (e) => {
+                triggerShockwave(e.clientX, e.clientY);
+            });
+
+            function updatePointerSmooth() {
+                if (pointer.x === -1000) {
+                    pointer.x = pointer.targetX;
+                    pointer.y = pointer.targetY;
+                } else {
+                    pointer.x += (pointer.targetX - pointer.x) * 0.08;
+                    pointer.y += (pointer.targetY - pointer.y) * 0.08;
+                }
+            }
+
+            // Draw Constellation Lines between nearby orbiting particles
+            function drawConnections() {
+                if (!pointer.active) return;
+                for (let i = 0; i < particles.length; i++) {
+                    const p1 = particles[i];
+                    const dxP = pointer.x - p1.x;
+                    const dyP = pointer.y - p1.y;
+                    if (dxP * dxP + dyP * dyP > touchRadius * touchRadius) continue;
+
+                    for (let j = i + 1; j < particles.length; j++) {
+                        const p2 = particles[j];
+                        const dx = p1.x - p2.x;
+                        const dy = p1.y - p2.y;
+                        const distSq = dx * dx + dy * dy;
+
+                        if (distSq < connectionDistance * connectionDistance) {
+                            const dist = Math.sqrt(distSq);
+                            const alpha = (1 - dist / connectionDistance) * 0.3 * Math.min(p1.alpha, p2.alpha);
+                            ctx.save();
+                            ctx.strokeStyle = `rgba(${p1.r}, ${p1.g}, ${p1.b}, ${alpha})`;
+                            ctx.lineWidth = 0.8;
+                            ctx.shadowBlur = 4;
+                            ctx.shadowColor = `rgba(${p1.r}, ${p1.g}, ${p1.b}, 0.5)`;
+                            ctx.beginPath();
+                            ctx.moveTo(p1.x, p1.y);
+                            ctx.lineTo(p2.x, p2.y);
+                            ctx.stroke();
+                            ctx.restore();
+                        }
                     }
                 }
             }
 
-            // ================================================================
-            // UPPER SCREEN VOLUMETRIC GANACHE AMBIENCE (Deep luxury glow)
-            // ================================================================
-            function renderUpperAmbience(time) {
-                const cx1 = width * 0.25 + Math.sin(time * 0.00035) * (width * 0.1);
-                const cy1 = height * 0.28 + Math.cos(time * 0.00045) * (height * 0.08);
-                const rad1 = width < 768 ? 320 : 450;
+            function updateAndDrawShockwaves() {
+                for (let i = shockwaves.length - 1; i >= 0; i--) {
+                    const sw = shockwaves[i];
+                    sw.radius += 6;
+                    sw.alpha *= 0.94;
 
-                const g1 = ctx.createRadialGradient(cx1, cy1, 0, cx1, cy1, rad1);
-                g1.addColorStop(0.0, 'rgba(92, 46, 21, 0.22)');
-                g1.addColorStop(0.6, 'rgba(61, 28, 12, 0.08)');
-                g1.addColorStop(1.0, 'rgba(26, 10, 0, 0)');
+                    if (sw.radius >= sw.maxRadius || sw.alpha <= 0.02) {
+                        shockwaves.splice(i, 1);
+                        continue;
+                    }
 
-                ctx.fillStyle = g1;
-                ctx.beginPath();
-                ctx.arc(cx1, cy1, rad1, 0, Math.PI * 2);
-                ctx.fill();
-
-                const cx2 = width * 0.80 + Math.cos(time * 0.00040) * (width * 0.08);
-                const cy2 = height * 0.45 + Math.sin(time * 0.00030) * (height * 0.06);
-                const rad2 = width < 768 ? 350 : 500;
-
-                const g2 = ctx.createRadialGradient(cx2, cy2, 0, cx2, cy2, rad2);
-                g2.addColorStop(0.0, 'rgba(74, 34, 15, 0.18)');
-                g2.addColorStop(0.5, 'rgba(42, 18, 5, 0.06)');
-                g2.addColorStop(1.0, 'rgba(13, 5, 2, 0)');
-
-                ctx.fillStyle = g2;
-                ctx.beginPath();
-                ctx.arc(cx2, cy2, rad2, 0, Math.PI * 2);
-                ctx.fill();
-            }
-
-            // ================================================================
-            // RENDER A SINGLE NATURAL FLUID WAVE LAYER (Spline Interpolation)
-            // ================================================================
-            function renderWaveLayer(layerIdx, time) {
-                const layer = waveLayers[layerIdx];
-                const sampleStep = isMobile ? 18 : 14;
-                const points = [];
-
-                for (let x = 0; x <= width + sampleStep; x += sampleStep) {
-                    points.push({
-                        x: Math.min(x, width),
-                        y: getWaveHeight(layerIdx, x, time)
-                    });
-                }
-
-                if (points.length < 2) return;
-
-                // 1. Draw smooth fluid body
-                ctx.save();
-                ctx.beginPath();
-                ctx.moveTo(0, height);
-                ctx.lineTo(points[0].x, points[0].y);
-
-                // Smooth midpoint quadratic Bezier splines
-                for (let i = 0; i < points.length - 1; i++) {
-                    const curr = points[i];
-                    const next = points[i + 1];
-                    const midX = (curr.x + next.x) * 0.5;
-                    const midY = (curr.y + next.y) * 0.5;
-                    ctx.quadraticCurveTo(curr.x, curr.y, midX, midY);
-                }
-                const last = points[points.length - 1];
-                ctx.lineTo(last.x, last.y);
-                ctx.lineTo(width, height);
-                ctx.closePath();
-
-                ctx.fillStyle = layer.grad(height);
-                ctx.fill();
-
-                // 2. Specular Crest Highlight (Silky liquid reflection along wave edge)
-                if (layer.crestGlow) {
+                    ctx.save();
                     ctx.beginPath();
-                    ctx.moveTo(points[0].x, points[0].y);
-                    for (let i = 0; i < points.length - 1; i++) {
-                        const curr = points[i];
-                        const next = points[i + 1];
-                        const midX = (curr.x + next.x) * 0.5;
-                        const midY = (curr.y + next.y) * 0.5;
-                        ctx.quadraticCurveTo(curr.x, curr.y, midX, midY);
-                    }
-                    ctx.lineTo(last.x, last.y);
-
-                    ctx.strokeStyle = layer.crestGlow;
-                    ctx.lineWidth = layerIdx === 2 ? 2.8 : 1.6;
+                    ctx.arc(sw.x, sw.y, sw.radius, 0, Math.PI * 2);
+                    ctx.strokeStyle = `rgba(232, 197, 71, ${sw.alpha * 0.7})`;
+                    ctx.lineWidth = 2;
+                    ctx.shadowBlur = 12;
+                    ctx.shadowColor = `rgba(255, 213, 79, ${sw.alpha})`;
                     ctx.stroke();
+                    ctx.restore();
                 }
-
-                ctx.restore();
             }
 
-            // ================================================================
-            // ANIMATION LOOP (Butter-smooth 60fps with RAF & Visibility Pause)
-            // ================================================================
             let animationFrameId;
-
-            function animate(now) {
-                // Smooth gyroscope easing
-                tilt.currentX += (tilt.targetX - tilt.currentX) * 0.05;
-                tilt.currentY += (tilt.targetY - tilt.currentY) * 0.05;
-
+            function animate() {
                 ctx.clearRect(0, 0, width, height);
 
-                // 1. Upper ambient chocolate light fields
-                renderUpperAmbience(now);
+                updatePointerSmooth();
 
-                // 2. Render Layer 0 (Deep Ganache)
-                renderWaveLayer(0, now);
-
-                // 3. Render Layer 1 (Warm Gianduja)
-                renderWaveLayer(1, now);
-
-                // 4. Render Layer 2 (Molten Chocolate with Silky Crest Sheen)
-                renderWaveLayer(2, now);
-
-                // 5. Suspended gold flakes riding the waves
-                updateAndDrawFlakes(now);
-
-                // 6. Step wave disturbances
-                updateDisturbances();
-
-                if (!prefersReducedMotion) {
-                    animationFrameId = requestAnimationFrame(animate);
+                for (let i = 0; i < particles.length; i++) {
+                    particles[i].update();
+                    particles[i].draw();
                 }
+
+                drawConnections();
+                updateAndDrawShockwaves();
+
+                animationFrameId = requestAnimationFrame(animate);
             }
 
-            // Reduced motion static render
-            if (prefersReducedMotion) {
-                animate(0);
-                return;
-            }
-
-            // Power conservation: pause when tab is inactive
             document.addEventListener('visibilitychange', () => {
                 if (document.hidden) {
                     cancelAnimationFrame(animationFrameId);
@@ -2483,7 +2382,27 @@
                 }
             });
 
-            animate(performance.now());
+            animate();
+        })();
+
+        // ============================================
+        // FLOATING PARTICLES (reduced count for perf)
+        // ============================================
+        (function createParticles() {
+            const container = document.getElementById('particles');
+            const count = 15;
+            for (let i = 0; i < count; i++) {
+                const p = document.createElement('div');
+                p.classList.add('particle');
+                p.style.left = Math.random() * 100 + '%';
+                const size = (2 + Math.random() * 4) + 'px';
+                p.style.width = size;
+                p.style.height = size;
+                p.style.animationDuration = (6 + Math.random() * 8) + 's';
+                p.style.animationDelay = (Math.random() * 10) + 's';
+                p.style.opacity = 0;
+                container.appendChild(p);
+            }
         })();
 
         // ============================================

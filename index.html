@@ -66,6 +66,10 @@
             --transition-fast: 0.2s cubic-bezier(0.4, 0, 0.2, 1);
             --transition-smooth: 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
             --transition-spring: 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+            /* Text tokens — solid alphas tuned for WCAG AA (4.5:1) on chocolate surfaces */
+            --text-muted: rgba(255, 248, 225, 0.8);
+            --text-subtle: rgba(255, 248, 225, 0.68);
+            --safe-bottom: env(safe-area-inset-bottom, 0px);
         }
 
         /* ============================================ */
@@ -87,6 +91,7 @@
             background: var(--choco-darkest);
             color: var(--cream);
             min-height: 100vh;
+            min-height: 100dvh;
             overflow-x: hidden;
             line-height: 1.7;
             -webkit-font-smoothing: antialiased;
@@ -101,6 +106,16 @@
             max-width: 100%;
             height: auto;
             display: block;
+        }
+
+        [hidden] {
+            display: none !important;
+        }
+
+        /* Visible keyboard focus for every interactive element */
+        :focus-visible {
+            outline: 2px solid var(--gold-bright);
+            outline-offset: 3px;
         }
 
         /* ============================================ */
@@ -130,36 +145,6 @@
             pointer-events: none;
         }
 
-        /* Floating Golden Particles */
-        .particles {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: -1;
-            pointer-events: none;
-            overflow: hidden;
-        }
-
-        .particle {
-            position: absolute;
-            width: 4px;
-            height: 4px;
-            background: var(--gold-bright);
-            border-radius: 50%;
-            opacity: 0;
-            animation: floatParticle 8s infinite;
-            box-shadow: 0 0 6px var(--gold), 0 0 12px rgba(201, 162, 39, 0.3);
-            will-change: transform, opacity;
-        }
-
-        @keyframes floatParticle {
-            0% { opacity: 0; transform: translateY(100vh) scale(0); }
-            10% { opacity: 0.8; }
-            90% { opacity: 0.6; }
-            100% { opacity: 0; transform: translateY(-10vh) scale(1.2); }
-        }
 
         /* ============================================ */
         /*  CHOCOLATE DRIP ANIMATION                    */
@@ -437,10 +422,9 @@
 
         .brand-subtitle {
             font-size: 1rem;
-            color: var(--cream);
-            opacity: 0.7;
+            color: var(--text-muted);
             margin-top: 8px;
-            font-weight: 400;
+            font-weight: 500;
         }
 
         .tagline-badge {
@@ -452,17 +436,98 @@
             background: var(--glass-bg);
             backdrop-filter: var(--glass-blur);
             -webkit-backdrop-filter: var(--glass-blur);
-            border: 1px solid var(--glass-border);
+            border: 1px solid rgba(201, 162, 39, 0.4);
             border-radius: 50px;
             font-size: 0.95rem;
             font-weight: 700;
             color: var(--gold-bright);
-            animation: badgePulse 3s ease-in-out infinite;
         }
 
-        @keyframes badgePulse {
-            0%, 100% { box-shadow: 0 0 0 0 rgba(201, 162, 39, 0.2); }
-            50% { box-shadow: 0 0 0 8px rgba(201, 162, 39, 0); }
+        /* ============================================ */
+        /*  HERO STATS + PRIMARY CTA                    */
+        /* ============================================ */
+        .hero-stats {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-top: 18px;
+            list-style: none;
+        }
+
+        .hero-stats li {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 6px 12px;
+            border-radius: 999px;
+            background: rgba(255, 248, 225, 0.05);
+            border: 1px solid rgba(255, 248, 225, 0.12);
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: var(--text-muted);
+        }
+
+        .hero-stats i {
+            color: var(--gold-bright);
+            font-size: 0.8rem;
+        }
+
+        .hero-actions {
+            display: grid;
+            grid-template-columns: 1fr auto;
+            gap: 10px;
+            margin-top: 22px;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            min-height: 54px;
+            padding: 0 22px;
+            border-radius: 18px;
+            border: 1px solid transparent;
+            font-family: var(--font-ar);
+            font-size: 1.05rem;
+            font-weight: 800;
+            cursor: pointer;
+            -webkit-tap-highlight-color: transparent;
+            transition: transform var(--transition-fast), box-shadow var(--transition-fast), border-color var(--transition-fast);
+        }
+
+        .btn i {
+            font-size: 1.3rem;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--gold-glow), var(--gold));
+            color: var(--choco-darkest);
+            box-shadow: 0 8px 24px rgba(201, 162, 39, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.45);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 12px 32px rgba(201, 162, 39, 0.42), inset 0 1px 0 rgba(255, 255, 255, 0.45);
+        }
+
+        .btn-ghost {
+            background: var(--glass-bg);
+            border-color: rgba(201, 162, 39, 0.4);
+            color: var(--gold-bright);
+            backdrop-filter: var(--glass-blur);
+            -webkit-backdrop-filter: var(--glass-blur);
+        }
+
+        .btn-ghost:hover {
+            transform: translateY(-2px);
+            border-color: var(--gold-bright);
+            box-shadow: var(--shadow-gold);
+        }
+
+        .btn:active {
+            transform: translateY(0) scale(0.98);
         }
 
         /* ============================================ */
@@ -545,7 +610,7 @@
             display: inline-block;
         }
 
-        .copy-link-btn:hover .btn-icon {
+        .pill-btn:hover .btn-icon {
             transform: scale(1.3) rotate(20deg);
         }
 
@@ -575,35 +640,35 @@
             100% { transform: scale(1) rotate(360deg); }
         }
 
-        /* Copy link button style */
-        .copy-link-btn {
+        /* Secondary pill button (copy link, share, open map) */
+        .pill-btn {
             display: inline-flex;
             align-items: center;
             justify-content: center;
             gap: 8px;
-            margin-top: 18px;
-            padding: 10px 24px;
+            min-height: 44px;
+            padding: 10px 22px;
             background: linear-gradient(135deg, var(--choco-rich), var(--choco-warm));
             color: var(--cream);
-            border: 1px solid var(--glass-border);
+            border: 1px solid rgba(201, 162, 39, 0.45);
             border-radius: 50px;
             font-family: var(--font-ar);
             font-size: 0.9rem;
             font-weight: 700;
             cursor: pointer;
-            transition: var(--transition-smooth);
+            transition: transform var(--transition-fast), box-shadow var(--transition-fast), background var(--transition-fast), color var(--transition-fast);
             box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
         }
 
-        .copy-link-btn:hover {
+        .pill-btn:hover {
             transform: translateY(-2px);
             box-shadow: 0 6px 20px rgba(201, 162, 39, 0.35);
-            background: linear-gradient(135deg, var(--gold-dark), var(--gold));
+            background: linear-gradient(135deg, var(--gold), var(--gold-bright));
             color: var(--choco-darkest);
             border-color: var(--gold-bright);
         }
 
-        .copy-link-btn:active {
+        .pill-btn:active {
             transform: translateY(0) scale(0.97);
         }
 
@@ -673,6 +738,81 @@
             z-index: 1;
         }
 
+        /* Click-to-load YouTube facade (saves ~1MB of JS until the user taps play) */
+        .video-facade {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            padding: 0;
+            border: 0;
+            background: var(--choco-deep);
+            cursor: pointer;
+            overflow: hidden;
+        }
+
+        .video-facade img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            filter: brightness(0.75) saturate(1.1);
+            transition: transform var(--transition-smooth), filter var(--transition-smooth);
+        }
+
+        .video-facade::after {
+            content: '';
+            position: absolute;
+            inset: 45% 0 0 0;
+            background: linear-gradient(to top, rgba(13, 5, 3, 0.9), transparent);
+            pointer-events: none;
+        }
+
+        .video-facade:hover img {
+            transform: scale(1.04);
+            filter: brightness(0.9) saturate(1.1);
+        }
+
+        .video-play {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 72px;
+            height: 72px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, var(--gold-glow), var(--gold));
+            color: var(--choco-darkest);
+            font-size: 1.5rem;
+            box-shadow: 0 0 0 8px rgba(232, 197, 71, 0.18), 0 10px 30px rgba(0, 0, 0, 0.5);
+            transition: transform var(--transition-spring);
+            z-index: 2;
+        }
+
+        .video-play i {
+            margin-left: 4px; /* optical centering of the play triangle */
+        }
+
+        .video-facade:hover .video-play {
+            transform: translate(-50%, -50%) scale(1.1);
+        }
+
+        .video-label {
+            position: absolute;
+            right: 18px;
+            left: 18px;
+            bottom: 14px;
+            text-align: right;
+            font-family: var(--font-ar);
+            font-size: 1rem;
+            font-weight: 700;
+            color: var(--cream);
+            text-shadow: 0 2px 8px rgba(0, 0, 0, 0.7);
+            z-index: 2;
+        }
+
         /* ============================================ */
         /*  PRODUCT GALLERY                             */
         /* ============================================ */
@@ -704,7 +844,6 @@
             transition: var(--transition-smooth);
             position: relative;
             cursor: pointer;
-            outline: none;
         }
 
         .gallery-card:hover, .gallery-card:focus-visible {
@@ -767,35 +906,43 @@
             box-shadow: 0 0 15px rgba(201, 162, 39, 0.5);
         }
 
-        /* Gallery Dots Indicator */
+        /* Gallery Dots Indicator — 44px tap area, small visual dot */
         .gallery-dots {
             display: flex;
             justify-content: center;
             align-items: center;
-            gap: 8px;
-            margin-top: 14px;
+            margin-top: 4px;
         }
 
         .gallery-dot {
+            width: 44px;
+            height: 44px;
+            padding: 0;
+            border: 0;
+            border-radius: 50%;
+            background: none;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .gallery-dot::before {
+            content: '';
             width: 8px;
             height: 8px;
-            border-radius: 50%;
-            background: rgba(201, 162, 39, 0.25);
-            border: 1px solid rgba(201, 162, 39, 0.4);
+            border-radius: 999px;
+            background: rgba(201, 162, 39, 0.3);
+            border: 1px solid rgba(201, 162, 39, 0.5);
             transition: var(--transition-smooth);
-            cursor: pointer;
-            outline: none;
-            padding: 0;
         }
 
-        .gallery-dot:hover {
+        .gallery-dot:hover::before {
             background: var(--gold);
-            transform: scale(1.25);
         }
 
-        .gallery-dot.active {
+        .gallery-dot.active::before {
             width: 24px;
-            border-radius: 12px;
             background: linear-gradient(90deg, var(--gold), var(--gold-bright));
             border-color: var(--gold-glow);
             box-shadow: 0 0 10px rgba(201, 162, 39, 0.5);
@@ -871,8 +1018,8 @@
 
         .lightbox-close-btn {
             pointer-events: auto;
-            width: 40px;
-            height: 40px;
+            width: 44px;
+            height: 44px;
             border-radius: 50%;
             background: rgba(13, 5, 3, 0.75);
             backdrop-filter: blur(8px);
@@ -978,8 +1125,7 @@
 
         .lightbox-caption-sub {
             font-size: 0.85rem;
-            color: var(--cream);
-            opacity: 0.6;
+            color: var(--text-subtle);
         }
 
         /* ============================================ */
@@ -1007,7 +1153,6 @@
             position: relative;
             overflow: hidden;
             cursor: pointer;
-            will-change: transform;
             contain: layout style;
         }
 
@@ -1078,10 +1223,9 @@
         }
 
         .social-info .desc {
-            font-size: 0.8rem;
-            color: var(--cream);
-            opacity: 0.5;
-            font-weight: 400;
+            font-size: 0.82rem;
+            color: var(--text-subtle);
+            font-weight: 500;
         }
 
         .social-info .desc[dir="ltr"] {
@@ -1089,33 +1233,49 @@
         }
 
         .social-arrow {
-            font-size: 1.2rem;
-            opacity: 0.3;
+            font-size: 0.95rem;
+            color: var(--gold);
+            opacity: 0.7;
             transition: var(--transition-smooth);
             flex-shrink: 0;
         }
 
         .social-link:hover .social-arrow {
-            opacity: 0.8;
+            opacity: 1;
+            color: var(--gold-bright);
             transform: translateX(-4px);
         }
 
-        /* WhatsApp special glow */
+        /* WhatsApp cards: static green accent instead of an infinite pulse */
         .social-link.whatsapp-link {
-            animation: whatsappGlow 3s ease-in-out infinite;
+            border-color: rgba(37, 211, 102, 0.3);
         }
 
-        @keyframes whatsappGlow {
-            0%, 100% { box-shadow: 0 0 0 0 rgba(37, 211, 102, 0.15); }
-            50% { box-shadow: 0 0 0 6px rgba(37, 211, 102, 0); }
+        .social-link.whatsapp-link:hover {
+            border-color: var(--whatsapp);
+            box-shadow: 0 4px 24px rgba(37, 211, 102, 0.18);
         }
 
-        /* Section Divider */
-        .section-divider {
-            width: 100%;
+        /* Link group labels */
+        .link-group-label {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin: 12px 4px 0;
+            font-size: 0.82rem;
+            font-weight: 700;
+            color: var(--gold);
+        }
+
+        .link-group-label:first-child {
+            margin-top: 0;
+        }
+
+        .link-group-label::after {
+            content: '';
+            flex: 1;
             height: 1px;
-            background: linear-gradient(90deg, transparent, var(--glass-border), transparent);
-            margin: 10px 0;
+            background: linear-gradient(to left, var(--glass-border), transparent);
         }
 
         /* ============================================ */
@@ -1148,12 +1308,6 @@
         .location-icon {
             font-size: 3rem;
             margin-bottom: 12px;
-            animation: bounce 2s ease-in-out infinite;
-        }
-
-        @keyframes bounce {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-8px); }
         }
 
         .location-name {
@@ -1165,8 +1319,7 @@
 
         .location-area {
             font-size: 0.95rem;
-            color: var(--cream);
-            opacity: 0.6;
+            color: var(--text-muted);
             margin-bottom: 16px;
         }
 
@@ -1185,6 +1338,10 @@
 
         .delivery-badge .emoji {
             font-size: 1.2rem;
+        }
+
+        .location-actions {
+            margin-top: 18px;
         }
 
         /* ============================================ */
@@ -1229,8 +1386,7 @@
 
         .qr-label {
             font-size: 0.95rem;
-            color: var(--cream);
-            opacity: 0.6;
+            color: var(--text-muted);
             font-weight: 400;
             line-height: 1.6;
         }
@@ -1240,12 +1396,20 @@
             font-weight: 700;
         }
 
+        .qr-actions {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 18px;
+        }
+
         /* ============================================ */
         /*  FOOTER                                      */
         /* ============================================ */
         .footer {
             text-align: center;
-            padding: 30px 0 40px;
+            padding: 30px 0 calc(110px + var(--safe-bottom)); /* room for sticky CTA */
             position: relative;
         }
 
@@ -1267,16 +1431,45 @@
 
         .footer-tagline {
             font-size: 0.85rem;
-            color: var(--cream);
-            opacity: 0.4;
+            color: var(--text-muted);
         }
 
         .footer-year {
             font-size: 0.75rem;
-            color: var(--cream);
-            opacity: 0.25;
+            color: var(--text-subtle);
             margin-top: 8px;
             direction: ltr;
+        }
+
+        /* ============================================ */
+        /*  STICKY ORDER CTA                            */
+        /* ============================================ */
+        .sticky-cta {
+            position: fixed;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            z-index: 900;
+            padding: 14px 16px calc(14px + var(--safe-bottom));
+            background: linear-gradient(to top, rgba(13, 5, 3, 0.96) 45%, rgba(13, 5, 3, 0));
+            transform: translateY(110%);
+            transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+            pointer-events: none;
+        }
+
+        .sticky-cta.show {
+            transform: translateY(0);
+        }
+
+        .sticky-cta .btn {
+            display: flex;
+            width: 100%;
+            max-width: 520px;
+            margin: 0 auto;
+        }
+
+        .sticky-cta.show .btn {
+            pointer-events: auto;
         }
 
         /* ============================================ */
@@ -1435,7 +1628,6 @@
                 transition-duration: 0.01ms !important;
                 scroll-behavior: auto !important;
             }
-            .particles,
             #antigravity-neon-canvas {
                 display: none !important;
             }
@@ -1452,9 +1644,13 @@
 </head>
 <body>
     <!-- Loading Screen -->
-    <div class="loader" id="loader">
+    <div class="loader" id="loader" aria-hidden="true">
         <div class="loader-content">
-            <div class="loader-donut">🍩</div>
+            <div class="loader-donut">
+                <span class="animated-donut-icon">
+                    <svg viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg"><use href="#donutGraphic"/></svg>
+                </span>
+            </div>
             <div class="loader-text">دوناتيلا...</div>
         </div>
     </div>
@@ -1464,9 +1660,6 @@
 
     <!-- Antigravity Interactive Neon Canvas -->
     <canvas id="antigravity-neon-canvas"></canvas>
-
-    <!-- Floating Golden Particles -->
-    <div class="particles" id="particles"></div>
 
     <!-- Main Content -->
     <main class="container">
@@ -1512,7 +1705,7 @@
                                     </feMerge>
                                 </filter>
                             </defs>
-                            <g class="donut-body">
+                            <g class="donut-body" id="donutGraphic">
                                 <!-- Soft shadow -->
                                 <ellipse cx="60" cy="102" rx="30" ry="5" fill="rgba(0,0,0,0.15)">
                                     <animate attributeName="rx" values="30;28;30" dur="4s" repeatCount="indefinite" />
@@ -1568,6 +1761,23 @@
                 <span>تتاكل اكل</span>
                 <i class="fa-solid fa-wand-magic-sparkles badge-icon"></i>
             </div>
+
+            <ul class="hero-stats" aria-label="مميزات دوناتيلا">
+                <li><i class="fa-solid fa-heart" aria-hidden="true"></i><span><span dir="ltr">+13.9K</span> متابع</span></li>
+                <li><i class="fa-solid fa-leaf" aria-hidden="true"></i><span>منتجات صحية</span></li>
+                <li><i class="fa-solid fa-motorcycle" aria-hidden="true"></i><span>توصيل دمياط</span></li>
+            </ul>
+
+            <div class="hero-actions" id="heroActions">
+                <a href="https://wa.me/201011868045?text=أهلاً%20دوناتيلا!%20حابب%20أطلب" target="_blank" rel="noopener noreferrer" class="btn btn-primary" id="hero-order-btn">
+                    <i class="fa-brands fa-whatsapp" aria-hidden="true"></i>
+                    <span>اطلب الآن على واتساب</span>
+                </a>
+                <a href="tel:+201011868045" class="btn btn-ghost" id="hero-call-btn" aria-label="اتصل بدوناتيلا">
+                    <i class="fa-solid fa-phone" aria-hidden="true"></i>
+                    <span>اتصل</span>
+                </a>
+            </div>
         </section>
 
         <!-- 1. ====== SOCIAL LINKS ====== -->
@@ -1575,11 +1785,13 @@
             <div class="section-title reveal">
                 <h2>
                     <i class="fa-solid fa-share-nodes title-icon"></i>
-                    <span>تابعنا على السوشيال ميديا</span>
+                    <span>تابعنا وتواصل معانا</span>
                 </h2>
             </div>
 
             <div class="links-grid reveal-stagger" id="linksGrid">
+                <p class="link-group-label">السوشيال ميديا</p>
+
                 <!-- Facebook Page -->
                 <a href="https://www.facebook.com/share/19K7qWkUta/" target="_blank" rel="noopener noreferrer" class="social-link" id="link-fb-page">
                     <div class="social-icon facebook">
@@ -1589,7 +1801,7 @@
                         <div class="name">صفحة دوناتيلا</div>
                         <div class="desc">Facebook Page — +13,900 متابع</div>
                     </div>
-                    <span class="social-arrow">←</span>
+                    <i class="fa-solid fa-chevron-left social-arrow" aria-hidden="true"></i>
                 </a>
 
                 <!-- Facebook Group -->
@@ -1601,7 +1813,7 @@
                         <div class="name">جروب دوناتيلا</div>
                         <div class="desc">Facebook Group</div>
                     </div>
-                    <span class="social-arrow">←</span>
+                    <i class="fa-solid fa-chevron-left social-arrow" aria-hidden="true"></i>
                 </a>
 
                 <!-- Instagram -->
@@ -1613,7 +1825,7 @@
                         <div class="name">انستجرام دوناتيلا</div>
                         <div class="desc">@donat_ella68</div>
                     </div>
-                    <span class="social-arrow">←</span>
+                    <i class="fa-solid fa-chevron-left social-arrow" aria-hidden="true"></i>
                 </a>
 
                 <!-- Donatella Personal -->
@@ -1625,7 +1837,7 @@
                         <div class="name">صفحة دوناتيلا الشخصية</div>
                         <div class="desc">Donatella's Personal Page</div>
                     </div>
-                    <span class="social-arrow">←</span>
+                    <i class="fa-solid fa-chevron-left social-arrow" aria-hidden="true"></i>
                 </a>
 
                 <!-- Osama Personal -->
@@ -1637,10 +1849,10 @@
                         <div class="name">أسامة</div>
                         <div class="desc">Osama's Personal Page</div>
                     </div>
-                    <span class="social-arrow">←</span>
+                    <i class="fa-solid fa-chevron-left social-arrow" aria-hidden="true"></i>
                 </a>
 
-                <div class="section-divider"></div>
+                <p class="link-group-label">اطلب على واتساب</p>
 
                 <!-- WhatsApp Osama -->
                 <a href="https://wa.me/201011868045" target="_blank" rel="noopener noreferrer" class="social-link whatsapp-link" id="link-wa-osama">
@@ -1651,7 +1863,7 @@
                         <div class="name">واتساب — أسامة</div>
                         <div class="desc" dir="ltr">01011868045</div>
                     </div>
-                    <span class="social-arrow">←</span>
+                    <i class="fa-solid fa-chevron-left social-arrow" aria-hidden="true"></i>
                 </a>
 
                 <!-- WhatsApp Amr -->
@@ -1663,7 +1875,7 @@
                         <div class="name">واتساب — عمرو</div>
                         <div class="desc" dir="ltr">01115602194</div>
                     </div>
-                    <span class="social-arrow">←</span>
+                    <i class="fa-solid fa-chevron-left social-arrow" aria-hidden="true"></i>
                 </a>
 
                 <!-- WhatsApp Group -->
@@ -1675,10 +1887,10 @@
                         <div class="name">واتساب — الجروب</div>
                         <div class="desc" dir="ltr">01010018484</div>
                     </div>
-                    <span class="social-arrow">←</span>
+                    <i class="fa-solid fa-chevron-left social-arrow" aria-hidden="true"></i>
                 </a>
 
-                <div class="section-divider"></div>
+                <p class="link-group-label">اتصال مباشر</p>
 
                 <!-- Phone Osama -->
                 <a href="tel:+201011868045" class="social-link phone-link" id="link-call-osama">
@@ -1689,7 +1901,7 @@
                         <div class="name">اتصل — أسامة</div>
                         <div class="desc" dir="ltr">01011868045</div>
                     </div>
-                    <span class="social-arrow">←</span>
+                    <i class="fa-solid fa-chevron-left social-arrow" aria-hidden="true"></i>
                 </a>
 
                 <!-- Phone Amr -->
@@ -1701,7 +1913,7 @@
                         <div class="name">اتصل — عمرو</div>
                         <div class="desc" dir="ltr">01115602194</div>
                     </div>
-                    <span class="social-arrow">←</span>
+                    <i class="fa-solid fa-chevron-left social-arrow" aria-hidden="true"></i>
                 </a>
             </div>
         </section>
@@ -1720,10 +1932,16 @@
                     امسح الكود بالكاميرا<br>
                     <strong>وشارك الصفحة مع صحابك!</strong>
                 </p>
-                <button class="copy-link-btn" id="copyBtn" onclick="copyPageLink()">
-                    <i class="fa-solid fa-copy btn-icon"></i>
-                    <span>نسخ رابط الصفحة</span>
-                </button>
+                <div class="qr-actions">
+                    <button type="button" class="pill-btn" id="copyBtn" onclick="copyPageLink()" aria-live="polite">
+                        <i class="fa-solid fa-copy btn-icon" aria-hidden="true"></i>
+                        <span>نسخ رابط الصفحة</span>
+                    </button>
+                    <button type="button" class="pill-btn" id="shareBtn" hidden>
+                        <i class="fa-solid fa-share-from-square btn-icon" aria-hidden="true"></i>
+                        <span>مشاركة</span>
+                    </button>
+                </div>
             </div>
         </section>
 
@@ -1755,10 +1973,10 @@
                     </div>
                 </div>
             </div>
-            <div class="gallery-dots" id="galleryDots" role="tablist" aria-label="مؤشرات صور المعرض">
-                <button class="gallery-dot active" data-index="0" aria-label="الصورة 1"></button>
-                <button class="gallery-dot" data-index="1" aria-label="الصورة 2"></button>
-                <button class="gallery-dot" data-index="2" aria-label="الصورة 3"></button>
+            <div class="gallery-dots" id="galleryDots" role="group" aria-label="مؤشرات صور المعرض">
+                <button type="button" class="gallery-dot active" data-index="0" aria-label="الصورة 1" aria-current="true"></button>
+                <button type="button" class="gallery-dot" data-index="1" aria-label="الصورة 2" aria-current="false"></button>
+                <button type="button" class="gallery-dot" data-index="2" aria-label="الصورة 3" aria-current="false"></button>
             </div>
         </section>
 
@@ -1771,13 +1989,11 @@
                 </h2>
             </div>
             <div class="video-wrapper">
-                <iframe 
-                    src="https://www.youtube.com/embed/knOB1aiyiXo?rel=0&modestbranding=1&playsinline=1" 
-                    title="دوناتيلا — Donatella"
-                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                    allowfullscreen
-                    loading="lazy">
-                </iframe>
+                <button type="button" class="video-facade" id="videoFacade" data-video-id="knOB1aiyiXo" aria-label="تشغيل فيديو قصة دوناتيلا">
+                    <img src="https://i.ytimg.com/vi/knOB1aiyiXo/hqdefault.jpg" alt="" loading="lazy" width="480" height="360">
+                    <span class="video-play" aria-hidden="true"><i class="fa-solid fa-play"></i></span>
+                    <span class="video-label">شوف قصة دوناتيلا</span>
+                </button>
             </div>
         </section>
 
@@ -1799,17 +2015,31 @@
                     <i class="fa-solid fa-motorcycle delivery-icon"></i>
                     <span>متوفر توصيل داخل محافظة دمياط</span>
                 </div>
+                <div class="location-actions">
+                    <a href="https://www.google.com/maps/search/?api=1&amp;query=تفتيش%20كفر%20سعد%20دمياط" target="_blank" rel="noopener noreferrer" class="pill-btn" id="open-map-btn">
+                        <i class="fa-solid fa-map-location-dot btn-icon" aria-hidden="true"></i>
+                        <span>افتح على الخريطة</span>
+                    </a>
+                </div>
             </div>
         </section>
 
         <!-- ====== FOOTER ====== -->
         <footer class="footer reveal" id="footer">
-            <div class="footer-brand">🍩 دوناتيلا — Donatella</div>
+            <div class="footer-brand">دوناتيلا — Donatella</div>
             <div class="footer-tagline">تتاكل اكل</div>
             <div class="footer-year">© 2026 Donatella. All rights reserved.</div>
         </footer>
 
     </main>
+
+    <!-- Sticky Order CTA (slides in once the hero CTA scrolls out of view) -->
+    <div class="sticky-cta" id="stickyCta" inert>
+        <a href="https://wa.me/201011868045?text=أهلاً%20دوناتيلا!%20حابب%20أطلب" target="_blank" rel="noopener noreferrer" class="btn btn-primary" id="sticky-order-btn">
+            <i class="fa-brands fa-whatsapp" aria-hidden="true"></i>
+            <span>اطلب الآن على واتساب</span>
+        </a>
+    </div>
 
     <!-- Lightbox Modal -->
     <div class="lightbox-modal" id="lightboxModal" role="dialog" aria-modal="true" aria-label="معاينة الصورة" onclick="handleLightboxBackdrop(event)">
@@ -1831,285 +2061,420 @@
             </div>
             <div class="lightbox-caption">
                 <div class="lightbox-caption-text" id="lightboxTitle"></div>
-                <div class="lightbox-caption-sub" id="lightboxSub">دوناتيلا — تتاكل اكل 🍩</div>
+                <div class="lightbox-caption-sub" id="lightboxSub">دوناتيلا — تتاكل اكل</div>
             </div>
         </div>
     </div>
 
     <script>
-        // ============================================
-        // ANTIGRAVITY INTERACTIVE NEON PHYSICS CANVAS
-        // ============================================
-        (function initAntigravityNeonCanvas() {
+                // ============================================================================
+        // NATURAL LIQUID CHOCOLATE WAVES (Concept 1: Multi-Harmonic Viscous Fluid)
+        // High-end realistic melted chocolate with silky specular crest sheen,
+        // gyroscope liquid sloshing, interactive wave ripples & wave-riding gold flakes
+        // ============================================================================
+        (function initLiquidChocolateWaves() {
             const canvas = document.getElementById('antigravity-neon-canvas');
             if (!canvas) return;
             const ctx = canvas.getContext('2d', { alpha: true });
             if (!ctx) return;
 
-            // Performance tuning based on device
-            const isMobile = window.innerWidth <= 768;
-            const particleCount = isMobile ? 45 : 75;
-            const connectionDistance = isMobile ? 85 : 115;
-            const touchRadius = isMobile ? 220 : 300;
+            const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
+            const isMobile = window.innerWidth <= 768;
             let width = 0;
             let height = 0;
-            let dpr = Math.min(window.devicePixelRatio || 1, 2);
+            let dpr = 1;
 
-            // Pointer tracking
-            const pointer = {
-                x: -1000,
-                y: -1000,
-                targetX: -1000,
-                targetY: -1000,
-                active: false,
-                decayTimer: null
+            // Gyroscope tilt & sloshing inertia
+            const tilt = {
+                currentX: 0,
+                targetX: 0,
+                currentY: 0,
+                targetY: 0,
+                active: false
             };
 
-            const shockwaves = [];
+            // Scroll momentum for fluid drag
+            let scrollVel = 0;
+            let lastScrollY = window.scrollY || window.pageYOffset || 0;
 
-            // Neon Palette (Gold, Amber, Glow Yellow, Cream, Rose accents)
-            const neonColors = [
-                { r: 232, g: 197, b: 71 },  // Gold bright (#e8c547)
-                { r: 255, g: 213, b: 79 },  // Gold glow (#ffd54f)
-                { r: 255, g: 145, b: 0 },   // Neon Amber (#ff9100)
-                { r: 255, g: 248, b: 225 }, // Warm Cream (#fff8e1)
-                { r: 255, g: 110, b: 150 }  // Neon Rose (#ff6e96)
-            ];
+            // Interactive wave disturbances (ripples that displace wave surface)
+            const disturbances = [];
 
+            // Suspended gold flakes riding the fluid surface
+            const flakeCount = isMobile ? 18 : 28;
+            const flakes = [];
+
+            // ================================================================
+            // RESIZE & HIGH-DPI CANVAS MANAGEMENT
+            // ================================================================
             function resize() {
                 dpr = Math.min(window.devicePixelRatio || 1, 2);
                 width = window.innerWidth;
                 height = window.innerHeight;
-                canvas.width = width * dpr;
-                canvas.height = height * dpr;
+                canvas.width = Math.round(width * dpr);
+                canvas.height = Math.round(height * dpr);
                 canvas.style.width = width + 'px';
                 canvas.style.height = height + 'px';
-                ctx.scale(dpr, dpr);
+                ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+
+                if (flakes.length === 0) {
+                    initFlakes();
+                }
             }
             window.addEventListener('resize', resize, { passive: true });
             resize();
 
-            class Particle {
-                constructor() {
-                    this.reset();
-                }
-
-                reset() {
-                    this.x = Math.random() * width;
-                    this.y = Math.random() * height;
-                    this.vx = (Math.random() - 0.5) * 0.5;
-                    this.vy = (Math.random() - 0.5) * 0.5;
-                    this.baseVx = this.vx;
-                    this.baseVy = this.vy;
-                    this.radius = 1.2 + Math.random() * 2.8;
-                    this.mass = 0.8 + Math.random() * 0.6;
-                    
-                    const color = neonColors[Math.floor(Math.random() * neonColors.length)];
-                    this.r = color.r;
-                    this.g = color.g;
-                    this.b = color.b;
-                    this.alpha = 0.35 + Math.random() * 0.55;
-                    this.glowBlur = 6 + Math.random() * 10;
-                    
-                    this.spinDir = Math.random() > 0.5 ? 1 : -1;
-                    this.orbitSpeed = (0.07 + Math.random() * 0.1) * this.spinDir;
-                }
-
-                update() {
-                    // Attraction + Swirl physics around touch / cursor
-                    if (pointer.active) {
-                        const dx = pointer.x - this.x;
-                        const dy = pointer.y - this.y;
-                        const distSq = dx * dx + dy * dy;
-                        const dist = Math.sqrt(distSq);
-
-                        if (dist < touchRadius && dist > 4) {
-                            const normX = dx / dist;
-                            const normY = dy / dist;
-
-                            // 1. Gentle Gravitational pull towards touch
-                            const pullFactor = (1 - dist / touchRadius);
-                            const attractForce = pullFactor * pullFactor * 0.12 * this.mass;
-
-                            // 2. Slow & Smooth tangential orbital swirl
-                            const swirlX = -normY * this.spinDir;
-                            const swirlY = normX * this.spinDir;
-                            const swirlForce = pullFactor * 0.15 * this.orbitSpeed;
-
-                            this.vx += normX * attractForce + swirlX * swirlForce;
-                            this.vy += normY * attractForce + swirlY * swirlForce;
-                        }
-                    }
-
-                    // Apply shockwave radial forces
-                    for (let i = 0; i < shockwaves.length; i++) {
-                        const sw = shockwaves[i];
-                        const dx = this.x - sw.x;
-                        const dy = this.y - sw.y;
-                        const dist = Math.sqrt(dx * dx + dy * dy);
-                        const waveDist = Math.abs(dist - sw.radius);
-                        if (waveDist < 40 && dist > 1) {
-                            const pushForce = (1 - waveDist / 40) * (sw.alpha * 4);
-                            this.vx += (dx / dist) * pushForce;
-                            this.vy += (dy / dist) * pushForce;
-                        }
-                    }
-
-                    // Friction damping for fluid orbits
-                    this.vx *= 0.965;
-                    this.vy *= 0.965;
-
-                    // Subtle natural drift
-                    this.vx += this.baseVx * 0.04;
-                    this.vy += this.baseVy * 0.04;
-
-                    // Position step
-                    this.x += this.vx;
-                    this.y += this.vy;
-
-                    // Boundaries wrap around smoothly
-                    if (this.x < -20) this.x = width + 20;
-                    if (this.x > width + 20) this.x = -20;
-                    if (this.y < -20) this.y = height + 20;
-                    if (this.y > height + 20) this.y = -20;
-                }
-
-                draw() {
-                    ctx.save();
-                    ctx.shadowBlur = this.glowBlur;
-                    ctx.shadowColor = `rgba(${this.r}, ${this.g}, ${this.b}, 0.8)`;
-                    ctx.fillStyle = `rgba(${this.r}, ${this.g}, ${this.b}, ${this.alpha})`;
-                    ctx.beginPath();
-                    ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
-                    ctx.fill();
-                    ctx.restore();
+            // ================================================================
+            // SENSORS: GYROSCOPE SLOSHING (Mobile) & SCROLL DRAG
+            // ================================================================
+            function handleOrientation(e) {
+                if (e.gamma !== null && e.beta !== null) {
+                    tilt.active = true;
+                    // Clamp gamma (-30 to +30 deg)
+                    const rawX = Math.max(-30, Math.min(30, e.gamma)) / 30;
+                    const rawY = Math.max(-30, Math.min(30, e.beta - 45)) / 30;
+                    tilt.targetX = rawX * 1.4;
+                    tilt.targetY = rawY * 1.0;
                 }
             }
-
-            const particles = Array.from({ length: particleCount }, () => new Particle());
-
-            function activatePointer(x, y) {
-                pointer.targetX = x;
-                pointer.targetY = y;
-                pointer.active = true;
-
-                if (pointer.decayTimer) clearTimeout(pointer.decayTimer);
-                pointer.decayTimer = setTimeout(() => {
-                    pointer.active = false;
-                }, 3500);
+            if (window.DeviceOrientationEvent) {
+                window.addEventListener('deviceorientation', handleOrientation, { passive: true });
             }
 
-            function onPointerMove(e) {
-                const x = e.clientX || (e.touches && e.touches[0] ? e.touches[0].clientX : null);
-                const y = e.clientY || (e.touches && e.touches[0] ? e.touches[0].clientY : null);
-                if (x !== null && y !== null) {
-                    activatePointer(x, y);
-                }
-            }
+            let scrollTimeout;
+            window.addEventListener('scroll', () => {
+                const currentY = window.scrollY || window.pageYOffset || 0;
+                const dy = currentY - lastScrollY;
+                scrollVel = Math.max(-20, Math.min(20, dy * 0.15));
+                lastScrollY = currentY;
 
-            function triggerShockwave(x, y) {
-                activatePointer(x, y);
-                shockwaves.push({
-                    x: x,
-                    y: y,
-                    radius: 5,
-                    maxRadius: isMobile ? 140 : 200,
-                    alpha: 1
+                clearTimeout(scrollTimeout);
+                scrollTimeout = setTimeout(() => {
+                    scrollVel = 0;
+                }, 150);
+            }, { passive: true });
+
+            // ================================================================
+            // TOUCH & MOUSE INTERACTIVE WAVE RIPPLE DISTURBANCE
+            // ================================================================
+            function triggerWaveDisturbance(clientX, clientY) {
+                if (clientX === null || clientY === null) return;
+                disturbances.push({
+                    x: clientX,
+                    y: clientY,
+                    radius: 0,
+                    maxRadius: isMobile ? 160 : 240,
+                    amp: 16,
+                    speed: isMobile ? 3.8 : 4.5,
+                    decay: 0.94
                 });
             }
 
-            window.addEventListener('mousemove', onPointerMove, { passive: true });
-            window.addEventListener('touchstart', onPointerMove, { passive: true });
-            window.addEventListener('touchmove', onPointerMove, { passive: true });
+            let lastDisturbTime = 0;
+            function handlePointerMove(e) {
+                const now = performance.now();
+                if (now - lastDisturbTime < 90) return; // throttle disturbances for natural fluid feel
+                const x = e.clientX || (e.touches && e.touches[0] ? e.touches[0].clientX : null);
+                const y = e.clientY || (e.touches && e.touches[0] ? e.touches[0].clientY : null);
+                if (x !== null && y !== null) {
+                    lastDisturbTime = now;
+                    triggerWaveDisturbance(x, y);
+                }
+            }
 
+            window.addEventListener('mousemove', handlePointerMove, { passive: true });
+            window.addEventListener('touchmove', handlePointerMove, { passive: true });
+            window.addEventListener('touchstart', handlePointerMove, { passive: true });
             window.addEventListener('click', (e) => {
-                triggerShockwave(e.clientX, e.clientY);
-            });
+                triggerWaveDisturbance(e.clientX, e.clientY);
+            }, { passive: true });
 
-            function updatePointerSmooth() {
-                if (pointer.x === -1000) {
-                    pointer.x = pointer.targetX;
-                    pointer.y = pointer.targetY;
-                } else {
-                    pointer.x += (pointer.targetX - pointer.x) * 0.08;
-                    pointer.y += (pointer.targetY - pointer.y) * 0.08;
+            // ================================================================
+            // 3-LAYER VISCOUS FLUID WAVE SPECIFICATIONS
+            // Multi-harmonic frequencies for natural, non-repeating fluid motion
+            // ================================================================
+            const waveLayers = [
+                {
+                    // 1. Deep Ganache (Back wave)
+                    baseRatio: 0.62,
+                    amp1: 22, freq1: 0.0032, speed1: 0.00055, phase1: 0.0,
+                    amp2: 13, freq2: 0.0062, speed2: -0.00042, phase2: 1.4,
+                    amp3: 6,  freq3: 0.0105, speed3: 0.00078, phase3: 2.9,
+                    grad: (h) => {
+                        const g = ctx.createLinearGradient(0, h * 0.55, 0, h);
+                        g.addColorStop(0.0, 'rgba(28, 11, 4, 0.48)');
+                        g.addColorStop(0.4, 'rgba(20, 8, 2, 0.72)');
+                        g.addColorStop(1.0, 'rgba(11, 4, 1, 0.92)');
+                        return g;
+                    },
+                    crestGlow: null
+                },
+                {
+                    // 2. Warm Gianduja / Hazelnut Milk Chocolate (Mid wave)
+                    baseRatio: 0.74,
+                    amp1: 26, freq1: 0.0038, speed1: -0.00068, phase1: 2.1,
+                    amp2: 15, freq2: 0.0074, speed2: 0.00052, phase2: 3.8,
+                    amp3: 7,  freq3: 0.0125, speed3: -0.00088, phase3: 0.9,
+                    grad: (h) => {
+                        const g = ctx.createLinearGradient(0, h * 0.68, 0, h);
+                        g.addColorStop(0.0, 'rgba(64, 28, 12, 0.75)');
+                        g.addColorStop(0.35, 'rgba(42, 17, 6, 0.88)');
+                        g.addColorStop(1.0, 'rgba(15, 6, 2, 0.96)');
+                        return g;
+                    },
+                    crestGlow: 'rgba(201, 162, 39, 0.16)'
+                },
+                {
+                    // 3. Glossy Molten Chocolate & Silky Crest Sheen (Front wave)
+                    baseRatio: 0.84,
+                    amp1: 28, freq1: 0.0044, speed1: 0.00082, phase1: 4.3,
+                    amp2: 17, freq2: 0.0084, speed2: -0.00062, phase2: 5.7,
+                    amp3: 8,  freq3: 0.0142, speed3: 0.00102, phase3: 1.8,
+                    grad: (h) => {
+                        const g = ctx.createLinearGradient(0, h * 0.78, 0, h);
+                        g.addColorStop(0.0, 'rgba(92, 46, 21, 0.92)');
+                        g.addColorStop(0.25, 'rgba(61, 28, 12, 0.96)');
+                        g.addColorStop(0.70, 'rgba(32, 12, 4, 0.98)');
+                        g.addColorStop(1.0, 'rgba(13, 5, 2, 1.0)');
+                        return g;
+                    },
+                    crestGlow: 'rgba(232, 197, 71, 0.52)'
+                }
+            ];
+
+            // ================================================================
+            // NATURAL FLUID HEIGHT CALCULATION AT POINT X
+            // ================================================================
+            function getWaveHeight(layerIdx, x, time) {
+                const layer = waveLayers[layerIdx];
+                const baseY = height * layer.baseRatio + (scrollVel * 0.12);
+
+                // Gyroscope liquid sloshing across horizontal container
+                const sloshOffset = tilt.currentX * (x - width * 0.5) * 0.07 + (tilt.currentY * 18);
+
+                // Multi-harmonic natural wave synthesis
+                const t = time;
+                const waveY =
+                    Math.sin(x * layer.freq1 + t * layer.speed1 + layer.phase1) * layer.amp1 +
+                    Math.sin(x * layer.freq2 + t * layer.speed2 + layer.phase2) * layer.amp2 +
+                    Math.cos(x * layer.freq3 + t * layer.speed3 + layer.phase3) * layer.amp3;
+
+                // Interactive ripple displacement
+                let rippleOffset = 0;
+                for (let i = 0; i < disturbances.length; i++) {
+                    const d = disturbances[i];
+                    const distFromCenter = Math.abs(x - d.x);
+                    const waveDist = Math.abs(distFromCenter - d.radius);
+                    if (waveDist < 45) {
+                        const attenuation = (1 - waveDist / 45) * (1 - d.radius / d.maxRadius);
+                        rippleOffset += Math.sin(waveDist * 0.12) * d.amp * attenuation;
+                    }
+                }
+
+                return baseY + waveY + sloshOffset + rippleOffset;
+            }
+
+            // ================================================================
+            // SUSPENDED GOLD FLAKES (Bobbing and riding with the fluid waves)
+            // ================================================================
+            function initFlakes() {
+                flakes.length = 0;
+                for (let i = 0; i < flakeCount; i++) {
+                    flakes.push({
+                        x: Math.random() * width,
+                        layer: Math.floor(Math.random() * 3), // rides layer 0, 1, or 2
+                        offsetY: (Math.random() - 0.4) * 45,
+                        size: 1.8 + Math.random() * 2.8,
+                        vx: 0.15 + Math.random() * 0.35,
+                        tumble: Math.random() * Math.PI * 2,
+                        tumbleSpeed: 0.012 + Math.random() * 0.02,
+                        alpha: 0.4 + Math.random() * 0.55
+                    });
                 }
             }
 
-            // Draw Constellation Lines between nearby orbiting particles
-            function drawConnections() {
-                if (!pointer.active) return;
-                for (let i = 0; i < particles.length; i++) {
-                    const p1 = particles[i];
-                    const dxP = pointer.x - p1.x;
-                    const dyP = pointer.y - p1.y;
-                    if (dxP * dxP + dyP * dyP > touchRadius * touchRadius) continue;
+            function updateAndDrawFlakes(time) {
+                for (let i = 0; i < flakes.length; i++) {
+                    const f = flakes[i];
+                    f.x += f.vx + tilt.currentX * 0.4;
+                    f.tumble += f.tumbleSpeed;
 
-                    for (let j = i + 1; j < particles.length; j++) {
-                        const p2 = particles[j];
-                        const dx = p1.x - p2.x;
-                        const dy = p1.y - p2.y;
-                        const distSq = dx * dx + dy * dy;
-
-                        if (distSq < connectionDistance * connectionDistance) {
-                            const dist = Math.sqrt(distSq);
-                            const alpha = (1 - dist / connectionDistance) * 0.3 * Math.min(p1.alpha, p2.alpha);
-                            ctx.save();
-                            ctx.strokeStyle = `rgba(${p1.r}, ${p1.g}, ${p1.b}, ${alpha})`;
-                            ctx.lineWidth = 0.8;
-                            ctx.shadowBlur = 4;
-                            ctx.shadowColor = `rgba(${p1.r}, ${p1.g}, ${p1.b}, 0.5)`;
-                            ctx.beginPath();
-                            ctx.moveTo(p1.x, p1.y);
-                            ctx.lineTo(p2.x, p2.y);
-                            ctx.stroke();
-                            ctx.restore();
-                        }
+                    if (f.x > width + 20) {
+                        f.x = -20;
+                        f.offsetY = (Math.random() - 0.4) * 45;
                     }
-                }
-            }
 
-            function updateAndDrawShockwaves() {
-                for (let i = shockwaves.length - 1; i >= 0; i--) {
-                    const sw = shockwaves[i];
-                    sw.radius += 6;
-                    sw.alpha *= 0.94;
-
-                    if (sw.radius >= sw.maxRadius || sw.alpha <= 0.02) {
-                        shockwaves.splice(i, 1);
-                        continue;
-                    }
+                    // Flake rides directly on the wave surface of its layer!
+                    const surfaceY = getWaveHeight(f.layer, f.x, time);
+                    const y = surfaceY + f.offsetY;
 
                     ctx.save();
+                    ctx.translate(f.x, y);
+
+                    // 3D tumble flip (scaleX simulates flat gold leaf turning in fluid)
+                    const cosTumble = Math.cos(f.tumble);
+                    ctx.scale(cosTumble, 1);
+
+                    const shine = Math.abs(cosTumble);
+                    ctx.fillStyle = `rgba(232, 197, 71, ${f.alpha * (0.35 + shine * 0.65)})`;
                     ctx.beginPath();
-                    ctx.arc(sw.x, sw.y, sw.radius, 0, Math.PI * 2);
-                    ctx.strokeStyle = `rgba(232, 197, 71, ${sw.alpha * 0.7})`;
-                    ctx.lineWidth = 2;
-                    ctx.shadowBlur = 12;
-                    ctx.shadowColor = `rgba(255, 213, 79, ${sw.alpha})`;
-                    ctx.stroke();
+                    ctx.ellipse(0, 0, f.size, f.size * 0.55, 0, 0, Math.PI * 2);
+                    ctx.fill();
+
                     ctx.restore();
                 }
             }
 
-            let animationFrameId;
-            function animate() {
-                ctx.clearRect(0, 0, width, height);
-
-                updatePointerSmooth();
-
-                for (let i = 0; i < particles.length; i++) {
-                    particles[i].update();
-                    particles[i].draw();
+            // ================================================================
+            // DISTURBANCE EXPANSION & DISSIPATION
+            // ================================================================
+            function updateDisturbances() {
+                for (let i = disturbances.length - 1; i >= 0; i--) {
+                    const d = disturbances[i];
+                    d.radius += d.speed;
+                    d.amp *= d.decay;
+                    if (d.radius >= d.maxRadius || d.amp < 0.2) {
+                        disturbances.splice(i, 1);
+                    }
                 }
-
-                drawConnections();
-                updateAndDrawShockwaves();
-
-                animationFrameId = requestAnimationFrame(animate);
             }
 
+            // ================================================================
+            // UPPER SCREEN VOLUMETRIC GANACHE AMBIENCE (Deep luxury glow)
+            // ================================================================
+            function renderUpperAmbience(time) {
+                const cx1 = width * 0.25 + Math.sin(time * 0.00035) * (width * 0.1);
+                const cy1 = height * 0.28 + Math.cos(time * 0.00045) * (height * 0.08);
+                const rad1 = width < 768 ? 320 : 450;
+
+                const g1 = ctx.createRadialGradient(cx1, cy1, 0, cx1, cy1, rad1);
+                g1.addColorStop(0.0, 'rgba(92, 46, 21, 0.22)');
+                g1.addColorStop(0.6, 'rgba(61, 28, 12, 0.08)');
+                g1.addColorStop(1.0, 'rgba(26, 10, 0, 0)');
+
+                ctx.fillStyle = g1;
+                ctx.beginPath();
+                ctx.arc(cx1, cy1, rad1, 0, Math.PI * 2);
+                ctx.fill();
+
+                const cx2 = width * 0.80 + Math.cos(time * 0.00040) * (width * 0.08);
+                const cy2 = height * 0.45 + Math.sin(time * 0.00030) * (height * 0.06);
+                const rad2 = width < 768 ? 350 : 500;
+
+                const g2 = ctx.createRadialGradient(cx2, cy2, 0, cx2, cy2, rad2);
+                g2.addColorStop(0.0, 'rgba(74, 34, 15, 0.18)');
+                g2.addColorStop(0.5, 'rgba(42, 18, 5, 0.06)');
+                g2.addColorStop(1.0, 'rgba(13, 5, 2, 0)');
+
+                ctx.fillStyle = g2;
+                ctx.beginPath();
+                ctx.arc(cx2, cy2, rad2, 0, Math.PI * 2);
+                ctx.fill();
+            }
+
+            // ================================================================
+            // RENDER A SINGLE NATURAL FLUID WAVE LAYER (Spline Interpolation)
+            // ================================================================
+            function renderWaveLayer(layerIdx, time) {
+                const layer = waveLayers[layerIdx];
+                const sampleStep = isMobile ? 18 : 14;
+                const points = [];
+
+                for (let x = 0; x <= width + sampleStep; x += sampleStep) {
+                    points.push({
+                        x: Math.min(x, width),
+                        y: getWaveHeight(layerIdx, x, time)
+                    });
+                }
+
+                if (points.length < 2) return;
+
+                // 1. Draw smooth fluid body
+                ctx.save();
+                ctx.beginPath();
+                ctx.moveTo(0, height);
+                ctx.lineTo(points[0].x, points[0].y);
+
+                // Smooth midpoint quadratic Bezier splines
+                for (let i = 0; i < points.length - 1; i++) {
+                    const curr = points[i];
+                    const next = points[i + 1];
+                    const midX = (curr.x + next.x) * 0.5;
+                    const midY = (curr.y + next.y) * 0.5;
+                    ctx.quadraticCurveTo(curr.x, curr.y, midX, midY);
+                }
+                const last = points[points.length - 1];
+                ctx.lineTo(last.x, last.y);
+                ctx.lineTo(width, height);
+                ctx.closePath();
+
+                ctx.fillStyle = layer.grad(height);
+                ctx.fill();
+
+                // 2. Specular Crest Highlight (Silky liquid reflection along wave edge)
+                if (layer.crestGlow) {
+                    ctx.beginPath();
+                    ctx.moveTo(points[0].x, points[0].y);
+                    for (let i = 0; i < points.length - 1; i++) {
+                        const curr = points[i];
+                        const next = points[i + 1];
+                        const midX = (curr.x + next.x) * 0.5;
+                        const midY = (curr.y + next.y) * 0.5;
+                        ctx.quadraticCurveTo(curr.x, curr.y, midX, midY);
+                    }
+                    ctx.lineTo(last.x, last.y);
+
+                    ctx.strokeStyle = layer.crestGlow;
+                    ctx.lineWidth = layerIdx === 2 ? 2.8 : 1.6;
+                    ctx.stroke();
+                }
+
+                ctx.restore();
+            }
+
+            // ================================================================
+            // ANIMATION LOOP (Butter-smooth 60fps with RAF & Visibility Pause)
+            // ================================================================
+            let animationFrameId;
+
+            function animate(now) {
+                // Smooth gyroscope easing
+                tilt.currentX += (tilt.targetX - tilt.currentX) * 0.05;
+                tilt.currentY += (tilt.targetY - tilt.currentY) * 0.05;
+
+                ctx.clearRect(0, 0, width, height);
+
+                // 1. Upper ambient chocolate light fields
+                renderUpperAmbience(now);
+
+                // 2. Render Layer 0 (Deep Ganache)
+                renderWaveLayer(0, now);
+
+                // 3. Render Layer 1 (Warm Gianduja)
+                renderWaveLayer(1, now);
+
+                // 4. Render Layer 2 (Molten Chocolate with Silky Crest Sheen)
+                renderWaveLayer(2, now);
+
+                // 5. Suspended gold flakes riding the waves
+                updateAndDrawFlakes(now);
+
+                // 6. Step wave disturbances
+                updateDisturbances();
+
+                if (!prefersReducedMotion) {
+                    animationFrameId = requestAnimationFrame(animate);
+                }
+            }
+
+            // Reduced motion static render
+            if (prefersReducedMotion) {
+                animate(0);
+                return;
+            }
+
+            // Power conservation: pause when tab is inactive
             document.addEventListener('visibilitychange', () => {
                 if (document.hidden) {
                     cancelAnimationFrame(animationFrameId);
@@ -2118,27 +2483,60 @@
                 }
             });
 
-            animate();
+            animate(performance.now());
         })();
 
         // ============================================
-        // FLOATING PARTICLES (reduced count for perf)
+        // STICKY ORDER CTA — visible once hero CTA scrolls above the viewport
         // ============================================
-        (function createParticles() {
-            const container = document.getElementById('particles');
-            const count = 15;
-            for (let i = 0; i < count; i++) {
-                const p = document.createElement('div');
-                p.classList.add('particle');
-                p.style.left = Math.random() * 100 + '%';
-                const size = (2 + Math.random() * 4) + 'px';
-                p.style.width = size;
-                p.style.height = size;
-                p.style.animationDuration = (6 + Math.random() * 8) + 's';
-                p.style.animationDelay = (Math.random() * 10) + 's';
-                p.style.opacity = 0;
-                container.appendChild(p);
-            }
+        (function initStickyCta() {
+            const bar = document.getElementById('stickyCta');
+            const heroActions = document.getElementById('heroActions');
+            if (!bar || !heroActions || !('IntersectionObserver' in window)) return;
+
+            const setVisible = (visible) => {
+                bar.classList.toggle('show', visible);
+                bar.toggleAttribute('inert', !visible);
+            };
+
+            new IntersectionObserver(([entry]) => {
+                setVisible(!entry.isIntersecting && entry.boundingClientRect.top < 0);
+            }).observe(heroActions);
+        })();
+
+        // ============================================
+        // YOUTUBE FACADE — load the real player only on tap
+        // ============================================
+        (function initVideoFacade() {
+            const facade = document.getElementById('videoFacade');
+            if (!facade) return;
+
+            facade.addEventListener('click', () => {
+                const iframe = document.createElement('iframe');
+                iframe.src = `https://www.youtube-nocookie.com/embed/${facade.dataset.videoId}?rel=0&modestbranding=1&playsinline=1&autoplay=1`;
+                iframe.title = 'دوناتيلا — Donatella';
+                iframe.allow = 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share';
+                iframe.allowFullscreen = true;
+                facade.replaceWith(iframe);
+                iframe.focus();
+            }, { once: true });
+        })();
+
+        // ============================================
+        // NATIVE SHARE (shown only where supported)
+        // ============================================
+        (function initShare() {
+            const btn = document.getElementById('shareBtn');
+            if (!btn || typeof navigator.share !== 'function') return;
+
+            btn.hidden = false;
+            btn.addEventListener('click', () => {
+                navigator.share({
+                    title: document.title,
+                    text: 'دوناتيلا — حلويات ومنتجات صحية',
+                    url: window.location.href
+                }).catch(() => { /* user cancelled share sheet */ });
+            });
         })();
 
         // ============================================
@@ -2267,7 +2665,10 @@
                     if (entry.isIntersecting) {
                         const index = Array.from(cards).indexOf(entry.target);
                         if (index !== -1) {
-                            dots.forEach((d, i) => d.classList.toggle('active', i === index));
+                            dots.forEach((d, i) => {
+                                d.classList.toggle('active', i === index);
+                                d.setAttribute('aria-current', i === index ? 'true' : 'false');
+                            });
                         }
                     }
                 });
@@ -2443,16 +2844,12 @@
         // ============================================
         // LOADING SCREEN
         // ============================================
-        window.addEventListener('load', function() {
-            setTimeout(() => {
-                document.getElementById('loader').classList.add('hidden');
-            }, 800);
-        });
+        // QR-scan visitors want content fast: short brand flash, no artificial wait
+        const hideLoader = () => document.getElementById('loader').classList.add('hidden');
+        window.addEventListener('load', () => setTimeout(hideLoader, 150));
 
-        // Fallback: hide loader after 3 seconds no matter what
-        setTimeout(() => {
-            document.getElementById('loader').classList.add('hidden');
-        }, 3000);
+        // Fallback: never block content longer than 1.8s
+        setTimeout(hideLoader, 1800);
     </script>
 </body>
 </html>

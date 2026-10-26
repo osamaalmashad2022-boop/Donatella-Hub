@@ -507,7 +507,7 @@
             display: grid;
             grid-template-columns: 1fr auto;
             gap: 10px;
-            margin-top: 22px;
+            margin: 6px 0;
         }
 
         .btn {
@@ -1543,6 +1543,8 @@
         .reveal-stagger.visible > *:nth-child(11) { transition-delay: 0.44s; }
         .reveal-stagger.visible > *:nth-child(12) { transition-delay: 0.48s; }
         .reveal-stagger.visible > *:nth-child(13) { transition-delay: 0.52s; }
+        .reveal-stagger.visible > *:nth-child(14) { transition-delay: 0.56s; }
+        .reveal-stagger.visible > *:nth-child(15) { transition-delay: 0.60s; }
 
         .reveal-stagger.visible > * {
             opacity: 1;
@@ -1801,17 +1803,6 @@
                 <li><i class="fa-solid fa-leaf" aria-hidden="true"></i><span>منتجات صحية</span></li>
                 <li><i class="fa-solid fa-motorcycle" aria-hidden="true"></i><span>توصيل دمياط</span></li>
             </ul>
-
-            <div class="hero-actions" id="heroActions">
-                <a href="https://wa.me/201011868045?text=أهلاً%20دوناتيلا!%20حابب%20أطلب" target="_blank" rel="noopener noreferrer" class="btn btn-primary" id="hero-order-btn">
-                    <i class="fa-brands fa-whatsapp" aria-hidden="true"></i>
-                    <span>اطلب الآن على واتساب</span>
-                </a>
-                <a href="tel:+201011868045" class="btn btn-ghost" id="hero-call-btn" aria-label="اتصل بدوناتيلا">
-                    <i class="fa-solid fa-phone" aria-hidden="true"></i>
-                    <span>اتصل</span>
-                </a>
-            </div>
         </section>
 
         <!-- 1. ====== SOCIAL LINKS ====== -->
@@ -2406,12 +2397,12 @@
         })();
 
         // ============================================
-        // STICKY ORDER CTA — visible once hero CTA scrolls above the viewport
+        // STICKY ORDER CTA — visible once hero section scrolls above the viewport
         // ============================================
         (function initStickyCta() {
             const bar = document.getElementById('stickyCta');
-            const heroActions = document.getElementById('heroActions');
-            if (!bar || !heroActions || !('IntersectionObserver' in window)) return;
+            const heroSection = document.getElementById('hero');
+            if (!bar || !heroSection || !('IntersectionObserver' in window)) return;
 
             const setVisible = (visible) => {
                 bar.classList.toggle('show', visible);
@@ -2420,7 +2411,7 @@
 
             new IntersectionObserver(([entry]) => {
                 setVisible(!entry.isIntersecting && entry.boundingClientRect.top < 0);
-            }).observe(heroActions);
+            }).observe(heroSection);
         })();
 
         // ============================================

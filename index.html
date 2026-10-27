@@ -93,16 +93,22 @@
             scroll-behavior: smooth;
             -webkit-text-size-adjust: 100%;
             overflow-x: hidden;
-            scrollbar-width: none;
-            -ms-overflow-style: none;
         }
 
-        /* إخفاء شريط التمرير نهائياً مع استمرار التمرير */
-        html::-webkit-scrollbar,
-        body::-webkit-scrollbar {
+        /* إخفاء شريط التمرير نهائياً وقطعياً في جميع المتصفحات والأنظمة */
+        html,
+        body,
+        * {
+            scrollbar-width: none !important;
+            -ms-overflow-style: none !important;
+        }
+
+        ::-webkit-scrollbar,
+        *::-webkit-scrollbar {
             display: none !important;
             width: 0 !important;
             height: 0 !important;
+            background: transparent !important;
         }
 
         body {

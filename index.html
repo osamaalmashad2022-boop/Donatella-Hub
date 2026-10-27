@@ -1952,37 +1952,73 @@
         @keyframes genieExpand {
             0% {
                 transform-origin: 28px calc(100% - 28px);
-                transform: scale(0.02, 0.02) skew(-20deg, 10deg) rotate(-3deg);
+                transform: scale(0.01, 0.01) skew(-18deg, 8deg) rotate(-2deg);
                 opacity: 0;
                 border-radius: 50%;
-                filter: brightness(2.2) blur(4px);
+                filter: brightness(2.5) blur(6px);
             }
 
-            25% {
+            8% {
+                transform-origin: 28px calc(100% - 28px);
+                /* Initial spark — tiny bright dot emerging from the star */
+                transform: scale(0.06, 0.1) skew(-20deg, 10deg) rotate(-3deg);
+                opacity: 0.35;
+                border-radius: 50%;
+                filter: brightness(2.0) blur(4px);
+            }
+
+            20% {
                 transform-origin: 28px calc(100% - 28px);
                 /* Smoke vapor rising and twisting from the star center */
-                transform: scale(0.25, 0.38) skew(-22deg, 9deg) rotate(-2deg);
-                opacity: 0.75;
-                border-radius: 45px 50% 50% 50%;
-                filter: brightness(1.6) blur(1px) drop-shadow(0 4px 20px rgba(201, 162, 39, 0.7));
+                transform: scale(0.2, 0.32) skew(-22deg, 9deg) rotate(-2.5deg);
+                opacity: 0.65;
+                border-radius: 48px 50% 50% 50%;
+                filter: brightness(1.6) blur(2px) drop-shadow(0 4px 20px rgba(201, 162, 39, 0.6));
             }
 
-            58% {
+            38% {
                 transform-origin: 28px calc(100% - 28px);
-                /* Expanding funnel body opening up into card shape */
-                transform: scale(0.78, 0.84) skew(-10deg, 4deg) rotate(-1deg);
-                opacity: 0.95;
-                border-radius: 24px 30px 38px 45px;
-                filter: brightness(1.2) drop-shadow(0 8px 32px rgba(201, 162, 39, 0.5));
+                /* Funnel neck widening — fluid morph towards card */
+                transform: scale(0.48, 0.58) skew(-16deg, 7deg) rotate(-2deg);
+                opacity: 0.82;
+                border-radius: 38px 44px 48px 50%;
+                filter: brightness(1.35) blur(0.5px) drop-shadow(0 6px 26px rgba(201, 162, 39, 0.55));
             }
 
-            82% {
+            56% {
+                transform-origin: 28px calc(100% - 28px);
+                /* Expanding body opening up into card shape */
+                transform: scale(0.76, 0.82) skew(-8deg, 3deg) rotate(-0.8deg);
+                opacity: 0.94;
+                border-radius: 26px 30px 36px 42px;
+                filter: brightness(1.15) drop-shadow(0 8px 32px rgba(201, 162, 39, 0.45));
+            }
+
+            72% {
+                transform-origin: 28px calc(100% - 28px);
+                /* Nearly full size — approaching final form */
+                transform: scale(0.94, 0.96) skew(-3deg, 1deg) rotate(-0.3deg);
+                opacity: 0.98;
+                border-radius: 22px 23px 22px 24px;
+                filter: brightness(1.06) drop-shadow(0 10px 40px rgba(0, 0, 0, 0.5));
+            }
+
+            84% {
                 transform-origin: 28px calc(100% - 28px);
                 /* Subtle spring overshoot characteristic of Apple Genie */
-                transform: scale(1.03, 1.02) skew(2deg, -1deg) rotate(0.5deg);
+                transform: scale(1.025, 1.018) skew(1.5deg, -0.8deg) rotate(0.3deg);
                 opacity: 1;
                 border-radius: var(--radius-md);
-                filter: brightness(1.05) drop-shadow(0 12px 48px rgba(0, 0, 0, 0.55));
+                filter: brightness(1.03) drop-shadow(0 12px 48px rgba(0, 0, 0, 0.55));
+            }
+
+            93% {
+                transform-origin: 28px calc(100% - 28px);
+                /* Settle back — slight undershoot for natural spring */
+                transform: scale(0.995, 0.997) skew(0.3deg, -0.15deg) rotate(0.05deg);
+                opacity: 1;
+                border-radius: var(--radius-md);
+                filter: brightness(1.01) drop-shadow(0 12px 48px rgba(0, 0, 0, 0.55));
             }
 
             100% {
@@ -2004,31 +2040,58 @@
                 filter: brightness(1) drop-shadow(0 12px 48px rgba(0, 0, 0, 0.55));
             }
 
+            10% {
+                transform-origin: 28px calc(100% - 28px);
+                /* Initial pull — slight contraction and tilt towards star */
+                transform: scale(0.96, 0.98) skew(-4deg, 1.5deg) rotate(-0.5deg);
+                border-radius: var(--radius-md);
+                opacity: 1;
+                filter: brightness(1.04) drop-shadow(0 10px 42px rgba(0, 0, 0, 0.52));
+            }
+
             25% {
                 transform-origin: 28px calc(100% - 28px);
                 /* Fluid bending towards the suction vortex */
-                transform: scale(0.8, 0.88) skew(-12deg, 4deg) rotate(-1.5deg);
-                border-radius: 20px 30px 42px 48px;
-                opacity: 0.95;
-                filter: brightness(1.15) drop-shadow(0 8px 30px rgba(201, 162, 39, 0.5));
+                transform: scale(0.82, 0.9) skew(-10deg, 3.5deg) rotate(-1.2deg);
+                border-radius: 22px 28px 38px 44px;
+                opacity: 0.96;
+                filter: brightness(1.12) drop-shadow(0 8px 30px rgba(201, 162, 39, 0.45));
             }
 
-            55% {
+            42% {
+                transform-origin: 28px calc(100% - 28px);
+                /* Accelerating funnel squeeze */
+                transform: scale(0.58, 0.72) skew(-18deg, 7deg) rotate(-2.2deg);
+                border-radius: 30px 40px 46px 50%;
+                opacity: 0.9;
+                filter: brightness(1.22) drop-shadow(0 6px 24px rgba(201, 162, 39, 0.6));
+            }
+
+            58% {
                 transform-origin: 28px calc(100% - 28px);
                 /* Dramatic hourglass / funnel stretch into star center */
-                transform: scale(0.42, 0.55) skew(-24deg, 10deg) rotate(-3deg);
-                border-radius: 36px 45px 50% 50%;
-                opacity: 0.85;
-                filter: brightness(1.35) drop-shadow(0 4px 22px rgba(201, 162, 39, 0.7));
+                transform: scale(0.35, 0.48) skew(-24deg, 10deg) rotate(-3deg);
+                border-radius: 38px 46px 50% 50%;
+                opacity: 0.78;
+                filter: brightness(1.4) blur(0.5px) drop-shadow(0 4px 18px rgba(201, 162, 39, 0.7));
             }
 
-            82% {
+            74% {
                 transform-origin: 28px calc(100% - 28px);
-                /* Narrow vapor neck disappearing into the star center */
-                transform: scale(0.12, 0.18) skew(-18deg, 8deg) rotate(-1.5deg);
+                /* Narrow vapor neck — nearing final absorption */
+                transform: scale(0.16, 0.24) skew(-20deg, 9deg) rotate(-2deg);
                 border-radius: 50%;
-                opacity: 0.5;
-                filter: brightness(1.7) blur(1px);
+                opacity: 0.52;
+                filter: brightness(1.65) blur(1.5px);
+            }
+
+            88% {
+                transform-origin: 28px calc(100% - 28px);
+                /* Thin wisp disappearing into the star center */
+                transform: scale(0.05, 0.08) skew(-12deg, 5deg) rotate(-1deg);
+                border-radius: 50%;
+                opacity: 0.2;
+                filter: brightness(1.9) blur(3px);
             }
 
             100% {
@@ -2037,13 +2100,14 @@
                 transform: scale(0, 0) skew(0deg, 0deg) rotate(0deg);
                 border-radius: 50%;
                 opacity: 0;
-                filter: brightness(2) blur(3px);
+                filter: brightness(2.2) blur(5px);
             }
         }
 
         .review-toast.genie-closing {
-            animation: genieSuction 0.55s cubic-bezier(0.25, 0.9, 0.45, 1) forwards !important;
+            animation: genieSuction 0.7s cubic-bezier(0.32, 0, 0.67, 0) forwards !important;
             pointer-events: none !important;
+            will-change: transform, opacity, filter, border-radius;
         }
 
         /* ============================================ */
@@ -2211,8 +2275,9 @@
         }
 
         .review-toast.show {
-            animation: genieExpand 0.58s cubic-bezier(0.22, 1, 0.36, 1) forwards !important;
+            animation: genieExpand 0.72s cubic-bezier(0.22, 1, 0.36, 1) forwards !important;
             pointer-events: auto !important;
+            will-change: transform, opacity, filter, border-radius;
         }
 
         .review-toast-close {
@@ -3422,7 +3487,7 @@
                 // Hide FAB once the expanding toast covers it
                 setTimeout(function () {
                     fab.classList.remove('show', 'swallow');
-                }, 280);
+                }, 340);
             }
 
             function showBubble() {
@@ -3470,7 +3535,7 @@
                 toast.classList.remove('show');
                 toast.classList.add('genie-closing');
 
-                // 3. Right as the suction reaches the center of the star (520ms)
+                // 3. Right as the suction reaches the center of the star (660ms)
                 setTimeout(function () {
                     toast.classList.remove('genie-closing');
 
@@ -3484,7 +3549,7 @@
                         showBubble();
                         isGenieInProgress = false;
                     }, 240);
-                }, 520);
+                }, 660);
             }
 
             function openReview() {

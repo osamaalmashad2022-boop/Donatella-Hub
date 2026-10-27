@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
@@ -8,7 +9,8 @@
     <meta name="theme-color" content="#1a0a00">
     <meta name="robots" content="index, follow">
     <link rel="canonical" href="https://donatella-hub.vercel.app/">
-    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🍩</text></svg>">
+    <link rel="icon"
+        href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🍩</text></svg>">
     <meta property="og:title" content="دوناتيلا — Donatella">
     <meta property="og:description" content="حلويات ومنتجات صحية — تتاكل اكل">
     <meta property="og:type" content="website">
@@ -18,10 +20,13 @@
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;800;900&family=Playfair+Display:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;800;900&family=Playfair+Display:wght@400;600;700;800&display=swap"
+        rel="stylesheet">
 
     <!-- Font Awesome 6 Free Icons -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+        crossorigin="anonymous" referrerpolicy="no-referrer">
 
     <!-- QR Code Library (Deferred for Performance) -->
     <script src="https://cdn.jsdelivr.net/npm/qrcodejs@1.0.0/qrcode.min.js" defer></script>
@@ -88,6 +93,16 @@
             scroll-behavior: smooth;
             -webkit-text-size-adjust: 100%;
             overflow-x: hidden;
+            scrollbar-width: none;
+            -ms-overflow-style: none;
+        }
+
+        /* إخفاء شريط التمرير نهائياً مع استمرار التمرير */
+        html::-webkit-scrollbar,
+        body::-webkit-scrollbar {
+            display: none !important;
+            width: 0 !important;
+            height: 0 !important;
         }
 
         body {
@@ -134,7 +149,7 @@
             width: 100%;
             height: 100%;
             z-index: -2;
-            background: 
+            background:
                 radial-gradient(ellipse at 20% 0%, rgba(61, 28, 12, 0.6) 0%, transparent 60%),
                 radial-gradient(ellipse at 80% 100%, rgba(92, 46, 21, 0.4) 0%, transparent 60%),
                 radial-gradient(ellipse at 50% 50%, rgba(26, 10, 0, 1) 0%, rgba(13, 5, 3, 1) 100%);
@@ -161,7 +176,7 @@
 
         .drip-path {
             fill: var(--choco-rich);
-            filter: drop-shadow(0 4px 6px rgba(0,0,0,0.3));
+            filter: drop-shadow(0 4px 6px rgba(0, 0, 0, 0.3));
         }
 
         /* ============================================ */
@@ -199,8 +214,17 @@
         }
 
         @keyframes pulseGlow {
-            0%, 100% { transform: translate(-50%, -50%) scale(1); opacity: 0.6; }
-            50% { transform: translate(-50%, -50%) scale(1.3); opacity: 1; }
+
+            0%,
+            100% {
+                transform: translate(-50%, -50%) scale(1);
+                opacity: 0.6;
+            }
+
+            50% {
+                transform: translate(-50%, -50%) scale(1.3);
+                opacity: 1;
+            }
         }
 
         .logo-wrapper {
@@ -214,7 +238,7 @@
             height: 160px;
             border-radius: 50%;
             border: 3px solid transparent;
-            background: 
+            background:
                 linear-gradient(var(--choco-deep), var(--choco-deep)) padding-box,
                 linear-gradient(135deg, var(--gold), var(--choco-warm), var(--gold-bright)) border-box;
             display: flex;
@@ -223,7 +247,7 @@
             margin: 0 auto;
             position: relative;
             overflow: hidden;
-            box-shadow: 
+            box-shadow:
                 0 0 30px rgba(201, 162, 39, 0.2),
                 0 0 60px rgba(201, 162, 39, 0.1),
                 inset 0 0 30px rgba(0, 0, 0, 0.3);
@@ -243,7 +267,9 @@
         }
 
         @keyframes borderSpin {
-            to { transform: rotate(360deg); }
+            to {
+                transform: rotate(360deg);
+            }
         }
 
         .logo-ring img {
@@ -300,10 +326,23 @@
         }
 
         @keyframes donutFloat {
-            0%, 100% { transform: translateY(0) rotate(0deg); }
-            25% { transform: translateY(-3px) rotate(5deg); }
-            50% { transform: translateY(-6px) rotate(0deg); }
-            75% { transform: translateY(-3px) rotate(-5deg); }
+
+            0%,
+            100% {
+                transform: translateY(0) rotate(0deg);
+            }
+
+            25% {
+                transform: translateY(-3px) rotate(5deg);
+            }
+
+            50% {
+                transform: translateY(-6px) rotate(0deg);
+            }
+
+            75% {
+                transform: translateY(-3px) rotate(-5deg);
+            }
         }
 
         /* Glaze shimmer */
@@ -312,8 +351,15 @@
         }
 
         @keyframes glazeShimmer {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0.85; }
+
+            0%,
+            100% {
+                opacity: 1;
+            }
+
+            50% {
+                opacity: 0.85;
+            }
         }
 
         /* Chocolate drip animation */
@@ -322,13 +368,28 @@
             transform-origin: top center;
         }
 
-        .choco-drip:nth-child(1) { animation-delay: 0s; }
-        .choco-drip:nth-child(2) { animation-delay: 0.5s; }
-        .choco-drip:nth-child(3) { animation-delay: 1s; }
+        .choco-drip:nth-child(1) {
+            animation-delay: 0s;
+        }
+
+        .choco-drip:nth-child(2) {
+            animation-delay: 0.5s;
+        }
+
+        .choco-drip:nth-child(3) {
+            animation-delay: 1s;
+        }
 
         @keyframes dripPulse {
-            0%, 100% { transform: scaleY(1); }
-            50% { transform: scaleY(1.12); }
+
+            0%,
+            100% {
+                transform: scaleY(1);
+            }
+
+            50% {
+                transform: scaleY(1.12);
+            }
         }
 
         /* Sprinkle animations */
@@ -336,12 +397,26 @@
             animation: sprinkleGlow 2s ease-in-out infinite;
         }
 
-        .sprinkle:nth-child(odd) { animation-delay: 0.3s; }
-        .sprinkle:nth-child(even) { animation-delay: 0.8s; }
+        .sprinkle:nth-child(odd) {
+            animation-delay: 0.3s;
+        }
+
+        .sprinkle:nth-child(even) {
+            animation-delay: 0.8s;
+        }
 
         @keyframes sprinkleGlow {
-            0%, 100% { opacity: 0.9; filter: brightness(1); }
-            50% { opacity: 1; filter: brightness(1.4); }
+
+            0%,
+            100% {
+                opacity: 0.9;
+                filter: brightness(1);
+            }
+
+            50% {
+                opacity: 1;
+                filter: brightness(1.4);
+            }
         }
 
         /* Golden sparkle particles around donut */
@@ -360,16 +435,19 @@
             left: 50%;
             animation-delay: 0s;
         }
+
         .donut-sparkle:nth-child(2) {
             top: 50%;
             right: 2%;
             animation-delay: 0.8s;
         }
+
         .donut-sparkle:nth-child(3) {
             bottom: 8%;
             left: 15%;
             animation-delay: 1.6s;
         }
+
         .donut-sparkle:nth-child(4) {
             top: 20%;
             left: 5%;
@@ -377,8 +455,17 @@
         }
 
         @keyframes sparkleOrbit {
-            0%, 100% { transform: scale(0.5); opacity: 0.2; }
-            50% { transform: scale(1.5); opacity: 1; }
+
+            0%,
+            100% {
+                transform: scale(0.5);
+                opacity: 0.2;
+            }
+
+            50% {
+                transform: scale(1.5);
+                opacity: 1;
+            }
         }
 
         .brand-title {
@@ -400,9 +487,17 @@
         }
 
         @keyframes shimmerText {
-            0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
+            0% {
+                background-position: 0% 50%;
+            }
+
+            50% {
+                background-position: 100% 50%;
+            }
+
+            100% {
+                background-position: 0% 50%;
+            }
         }
 
         .brand-title-en {
@@ -613,28 +708,67 @@
 
         /* Animation Keyframes */
         @keyframes iconPulseShake {
-            0%, 100% { transform: scale(1.25) rotate(0deg); }
-            25% { transform: scale(1.35) rotate(-14deg); }
-            75% { transform: scale(1.35) rotate(14deg); }
+
+            0%,
+            100% {
+                transform: scale(1.25) rotate(0deg);
+            }
+
+            25% {
+                transform: scale(1.35) rotate(-14deg);
+            }
+
+            75% {
+                transform: scale(1.35) rotate(14deg);
+            }
         }
 
         @keyframes phoneRinging {
-            0%, 100% { transform: scale(1.25) rotate(0deg); }
-            20% { transform: scale(1.3) rotate(16deg); }
-            40% { transform: scale(1.3) rotate(-16deg); }
-            60% { transform: scale(1.3) rotate(12deg); }
-            80% { transform: scale(1.3) rotate(-12deg); }
+
+            0%,
+            100% {
+                transform: scale(1.25) rotate(0deg);
+            }
+
+            20% {
+                transform: scale(1.3) rotate(16deg);
+            }
+
+            40% {
+                transform: scale(1.3) rotate(-16deg);
+            }
+
+            60% {
+                transform: scale(1.3) rotate(12deg);
+            }
+
+            80% {
+                transform: scale(1.3) rotate(-12deg);
+            }
         }
 
         @keyframes driveForward {
-            0% { transform: translateX(0); }
-            100% { transform: translateX(-8px); }
+            0% {
+                transform: translateX(0);
+            }
+
+            100% {
+                transform: translateX(-8px);
+            }
         }
 
         @keyframes sparkleSpin {
-            0% { transform: scale(1) rotate(0deg); }
-            50% { transform: scale(1.4) rotate(180deg); }
-            100% { transform: scale(1) rotate(360deg); }
+            0% {
+                transform: scale(1) rotate(0deg);
+            }
+
+            50% {
+                transform: scale(1.4) rotate(180deg);
+            }
+
+            100% {
+                transform: scale(1) rotate(360deg);
+            }
         }
 
         /* Secondary pill button (copy link, share, open map) */
@@ -789,7 +923,8 @@
         }
 
         .video-play i {
-            margin-left: 4px; /* optical centering of the play triangle */
+            margin-left: 4px;
+            /* optical centering of the play triangle */
         }
 
         .video-facade:hover .video-play {
@@ -843,7 +978,8 @@
             cursor: pointer;
         }
 
-        .gallery-card:hover, .gallery-card:focus-visible {
+        .gallery-card:hover,
+        .gallery-card:focus-visible {
             transform: scale(1.03);
             box-shadow: var(--shadow-dark), var(--shadow-gold);
             border-color: var(--gold);
@@ -856,7 +992,8 @@
             transition: var(--transition-smooth);
         }
 
-        .gallery-card:hover img, .gallery-card:focus-visible img {
+        .gallery-card:hover img,
+        .gallery-card:focus-visible img {
             transform: scale(1.08);
         }
 
@@ -894,7 +1031,8 @@
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
         }
 
-        .gallery-card:hover .gallery-zoom-badge, .gallery-card:focus-visible .gallery-zoom-badge {
+        .gallery-card:hover .gallery-zoom-badge,
+        .gallery-card:focus-visible .gallery-zoom-badge {
             transform: scale(1.15) rotate(15deg);
             background: var(--gold);
             color: var(--choco-darkest);
@@ -1406,7 +1544,8 @@
         /* ============================================ */
         .footer {
             text-align: center;
-            padding: 30px 0 calc(110px + var(--safe-bottom)); /* room for sticky CTA */
+            padding: 30px 0 calc(110px + var(--safe-bottom));
+            /* room for sticky CTA */
             position: relative;
         }
 
@@ -1490,36 +1629,80 @@
         }
 
         /* Stagger children */
-        .reveal-stagger > * {
+        .reveal-stagger>* {
             opacity: 0;
             transform: translateY(20px);
             transition: opacity 0.45s ease-out, transform 0.45s cubic-bezier(0.25, 0.46, 0.45, 0.94);
             will-change: opacity, transform;
         }
 
-        .reveal-stagger.visible > *:nth-child(1) { transition-delay: 0.04s; }
-        .reveal-stagger.visible > *:nth-child(2) { transition-delay: 0.08s; }
-        .reveal-stagger.visible > *:nth-child(3) { transition-delay: 0.12s; }
-        .reveal-stagger.visible > *:nth-child(4) { transition-delay: 0.16s; }
-        .reveal-stagger.visible > *:nth-child(5) { transition-delay: 0.2s; }
-        .reveal-stagger.visible > *:nth-child(6) { transition-delay: 0.24s; }
-        .reveal-stagger.visible > *:nth-child(7) { transition-delay: 0.28s; }
-        .reveal-stagger.visible > *:nth-child(8) { transition-delay: 0.32s; }
-        .reveal-stagger.visible > *:nth-child(9) { transition-delay: 0.36s; }
-        .reveal-stagger.visible > *:nth-child(10) { transition-delay: 0.4s; }
-        .reveal-stagger.visible > *:nth-child(11) { transition-delay: 0.44s; }
-        .reveal-stagger.visible > *:nth-child(12) { transition-delay: 0.48s; }
-        .reveal-stagger.visible > *:nth-child(13) { transition-delay: 0.52s; }
-        .reveal-stagger.visible > *:nth-child(14) { transition-delay: 0.56s; }
-        .reveal-stagger.visible > *:nth-child(15) { transition-delay: 0.60s; }
+        .reveal-stagger.visible>*:nth-child(1) {
+            transition-delay: 0.04s;
+        }
 
-        .reveal-stagger.visible > * {
+        .reveal-stagger.visible>*:nth-child(2) {
+            transition-delay: 0.08s;
+        }
+
+        .reveal-stagger.visible>*:nth-child(3) {
+            transition-delay: 0.12s;
+        }
+
+        .reveal-stagger.visible>*:nth-child(4) {
+            transition-delay: 0.16s;
+        }
+
+        .reveal-stagger.visible>*:nth-child(5) {
+            transition-delay: 0.2s;
+        }
+
+        .reveal-stagger.visible>*:nth-child(6) {
+            transition-delay: 0.24s;
+        }
+
+        .reveal-stagger.visible>*:nth-child(7) {
+            transition-delay: 0.28s;
+        }
+
+        .reveal-stagger.visible>*:nth-child(8) {
+            transition-delay: 0.32s;
+        }
+
+        .reveal-stagger.visible>*:nth-child(9) {
+            transition-delay: 0.36s;
+        }
+
+        .reveal-stagger.visible>*:nth-child(10) {
+            transition-delay: 0.4s;
+        }
+
+        .reveal-stagger.visible>*:nth-child(11) {
+            transition-delay: 0.44s;
+        }
+
+        .reveal-stagger.visible>*:nth-child(12) {
+            transition-delay: 0.48s;
+        }
+
+        .reveal-stagger.visible>*:nth-child(13) {
+            transition-delay: 0.52s;
+        }
+
+        .reveal-stagger.visible>*:nth-child(14) {
+            transition-delay: 0.56s;
+        }
+
+        .reveal-stagger.visible>*:nth-child(15) {
+            transition-delay: 0.60s;
+        }
+
+        .reveal-stagger.visible>* {
             opacity: 1;
             transform: translateY(0);
         }
 
         /* Once animation completes, remove will-change to free GPU memory */
-        .reveal-stagger.revealed > * {
+        .reveal-stagger.revealed>* {
             will-change: auto;
         }
 
@@ -1530,13 +1713,16 @@
             .brand-title-ar {
                 font-size: 2.2rem;
             }
+
             .brand-title-en {
                 font-size: 1.1rem;
                 letter-spacing: 5px;
             }
+
             .gallery-card {
                 flex: 0 0 220px;
             }
+
             .gallery-card img {
                 height: 220px;
             }
@@ -1552,6 +1738,7 @@
             .container {
                 max-width: 560px;
             }
+
             .brand-title-ar {
                 font-size: 3.2rem;
             }
@@ -1592,9 +1779,17 @@
         }
 
         @keyframes loaderSpin {
-            0% { transform: rotate(0deg) scale(1); }
-            50% { transform: rotate(-180deg) scale(1.18); }
-            100% { transform: rotate(-360deg) scale(1); }
+            0% {
+                transform: rotate(0deg) scale(1);
+            }
+
+            50% {
+                transform: rotate(-180deg) scale(1.18);
+            }
+
+            100% {
+                transform: rotate(-360deg) scale(1);
+            }
         }
 
         .loader-text {
@@ -1621,16 +1816,22 @@
         /*  ACCESSIBILITY & REDUCED MOTION             */
         /* ============================================ */
         @media (prefers-reduced-motion: reduce) {
-            *, *::before, *::after {
+
+            *,
+            *::before,
+            *::after {
                 animation-duration: 0.01ms !important;
                 animation-iteration-count: 1 !important;
                 transition-duration: 0.01ms !important;
                 scroll-behavior: auto !important;
             }
+
             .logo-ring::before {
                 animation: none !important;
             }
-            .reveal, .reveal-stagger > * {
+
+            .reveal,
+            .reveal-stagger>* {
                 opacity: 1 !important;
                 transform: none !important;
                 transition: none !important;
@@ -1696,9 +1897,17 @@
 
         /* Pulse ring animation for attention */
         @keyframes reviewFabPulse {
-            0%   { box-shadow: 0 4px 24px rgba(201, 162, 39, 0.3), 0 0 0 0 rgba(232, 197, 71, 0.55); }
-            70%  { box-shadow: 0 4px 24px rgba(201, 162, 39, 0.3), 0 0 0 16px rgba(232, 197, 71, 0); }
-            100% { box-shadow: 0 4px 24px rgba(201, 162, 39, 0.3), 0 0 0 0 rgba(232, 197, 71, 0); }
+            0% {
+                box-shadow: 0 4px 24px rgba(201, 162, 39, 0.3), 0 0 0 0 rgba(232, 197, 71, 0.55);
+            }
+
+            70% {
+                box-shadow: 0 4px 24px rgba(201, 162, 39, 0.3), 0 0 0 16px rgba(232, 197, 71, 0);
+            }
+
+            100% {
+                box-shadow: 0 4px 24px rgba(201, 162, 39, 0.3), 0 0 0 0 rgba(232, 197, 71, 0);
+            }
         }
 
         .review-fab.pulse {
@@ -1710,16 +1919,20 @@
             0% {
                 transform: scale(1);
             }
+
             30% {
                 transform: scale(1.32);
                 box-shadow: 0 0 35px rgba(232, 197, 71, 0.95), 0 0 60px rgba(201, 162, 39, 0.65);
             }
+
             60% {
                 transform: scale(0.88);
             }
+
             80% {
                 transform: scale(1.1);
             }
+
             100% {
                 transform: scale(1);
             }
@@ -1738,6 +1951,7 @@
                 border-radius: 50%;
                 filter: brightness(2.2) blur(4px);
             }
+
             25% {
                 transform-origin: 28px calc(100% - 28px);
                 /* Smoke vapor rising and twisting from the star center */
@@ -1746,6 +1960,7 @@
                 border-radius: 45px 50% 50% 50%;
                 filter: brightness(1.6) blur(1px) drop-shadow(0 4px 20px rgba(201, 162, 39, 0.7));
             }
+
             58% {
                 transform-origin: 28px calc(100% - 28px);
                 /* Expanding funnel body opening up into card shape */
@@ -1754,6 +1969,7 @@
                 border-radius: 24px 30px 38px 45px;
                 filter: brightness(1.2) drop-shadow(0 8px 32px rgba(201, 162, 39, 0.5));
             }
+
             82% {
                 transform-origin: 28px calc(100% - 28px);
                 /* Subtle spring overshoot characteristic of Apple Genie */
@@ -1762,6 +1978,7 @@
                 border-radius: var(--radius-md);
                 filter: brightness(1.05) drop-shadow(0 12px 48px rgba(0, 0, 0, 0.55));
             }
+
             100% {
                 transform-origin: 28px calc(100% - 28px);
                 transform: scale(1, 1) skew(0deg, 0deg) rotate(0deg);
@@ -1780,6 +1997,7 @@
                 opacity: 1;
                 filter: brightness(1) drop-shadow(0 12px 48px rgba(0, 0, 0, 0.55));
             }
+
             25% {
                 transform-origin: 28px calc(100% - 28px);
                 /* Fluid bending towards the suction vortex */
@@ -1788,6 +2006,7 @@
                 opacity: 0.95;
                 filter: brightness(1.15) drop-shadow(0 8px 30px rgba(201, 162, 39, 0.5));
             }
+
             55% {
                 transform-origin: 28px calc(100% - 28px);
                 /* Dramatic hourglass / funnel stretch into star center */
@@ -1796,6 +2015,7 @@
                 opacity: 0.85;
                 filter: brightness(1.35) drop-shadow(0 4px 22px rgba(201, 162, 39, 0.7));
             }
+
             82% {
                 transform-origin: 28px calc(100% - 28px);
                 /* Narrow vapor neck disappearing into the star center */
@@ -1804,6 +2024,7 @@
                 opacity: 0.5;
                 filter: brightness(1.7) blur(1px);
             }
+
             100% {
                 transform-origin: 28px calc(100% - 28px);
                 /* Complete absorption into the star center */
@@ -1894,9 +2115,17 @@
         }
 
         @keyframes bubbleSmileBounce {
-            0%   { transform: scale(1) translateY(0); }
-            50%  { transform: scale(1.15) translateY(-3px); }
-            100% { transform: scale(1) translateY(0); }
+            0% {
+                transform: scale(1) translateY(0);
+            }
+
+            50% {
+                transform: scale(1.15) translateY(-3px);
+            }
+
+            100% {
+                transform: scale(1) translateY(0);
+            }
         }
 
         .review-bubble-text {
@@ -2097,6 +2326,7 @@
             .review-fab {
                 left: 16px;
             }
+
             .review-toast {
                 left: 12px;
                 right: 12px;
@@ -2104,17 +2334,21 @@
                 padding: 20px 16px;
                 border-radius: 18px;
             }
+
             .review-toast-title {
                 font-size: 1.05rem;
             }
+
             .review-toast-desc {
                 font-size: 0.86rem;
                 line-height: 1.55;
             }
+
             .review-toast-btn {
                 padding: 12px 14px;
                 font-size: 0.9rem;
             }
+
             .review-bubble {
                 left: 12px;
                 right: auto;
@@ -2122,12 +2356,16 @@
                 padding: 12px 16px;
                 border-radius: 18px;
             }
+
             .review-bubble::after {
-                left: 26px; /* Aligns with 16px FAB margin + center */
+                left: 26px;
+                /* Aligns with 16px FAB margin + center */
             }
+
             .review-bubble-text {
                 font-size: 0.92rem;
             }
+
             .review-bubble-icon {
                 font-size: 1.35rem;
             }
@@ -2140,14 +2378,17 @@
                 opacity: 1 !important;
                 transition: opacity 0.3s ease !important;
             }
+
             .review-toast.genie-closing {
                 animation: none !important;
                 opacity: 0 !important;
                 transition: opacity 0.3s ease !important;
             }
+
             .review-fab.swallow {
                 animation: none !important;
             }
+
             .review-bubble {
                 transition: opacity 0.3s ease !important;
                 transform: none !important;
@@ -2155,13 +2396,16 @@
         }
     </style>
 </head>
+
 <body>
     <!-- Loading Screen -->
     <div class="loader" id="loader" aria-hidden="true">
         <div class="loader-content">
             <div class="loader-donut">
                 <span class="animated-donut-icon">
-                    <svg viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg"><use href="#donutGraphic"/></svg>
+                    <svg viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg">
+                        <use href="#donutGraphic" />
+                    </svg>
                 </span>
             </div>
             <div class="loader-text">دوناتيلا...</div>
@@ -2189,30 +2433,32 @@
                         <svg viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg">
                             <defs>
                                 <radialGradient id="donutBody" cx="50%" cy="42%" r="55%">
-                                    <stop offset="0%" stop-color="#f0c060"/>
-                                    <stop offset="30%" stop-color="#e8a94e"/>
-                                    <stop offset="70%" stop-color="#d4893a"/>
-                                    <stop offset="100%" stop-color="#b06a28"/>
+                                    <stop offset="0%" stop-color="#f0c060" />
+                                    <stop offset="30%" stop-color="#e8a94e" />
+                                    <stop offset="70%" stop-color="#d4893a" />
+                                    <stop offset="100%" stop-color="#b06a28" />
                                 </radialGradient>
                                 <radialGradient id="donutHole" cx="50%" cy="42%" r="50%">
-                                    <stop offset="0%" stop-color="#6d4425"/>
-                                    <stop offset="100%" stop-color="#3d1c0c"/>
+                                    <stop offset="0%" stop-color="#6d4425" />
+                                    <stop offset="100%" stop-color="#3d1c0c" />
                                 </radialGradient>
                                 <linearGradient id="chocoGlaze" x1="0%" y1="0%" x2="100%" y2="100%">
                                     <stop offset="0%" stop-color="#5c2e15">
-                                        <animate attributeName="stop-color" values="#5c2e15;#7a4220;#5c2e15" dur="3s" repeatCount="indefinite" />
+                                        <animate attributeName="stop-color" values="#5c2e15;#7a4220;#5c2e15" dur="3s"
+                                            repeatCount="indefinite" />
                                     </stop>
                                     <stop offset="35%" stop-color="#8b5533">
-                                        <animate attributeName="stop-color" values="#8b5533;#a0612e;#8b5533" dur="3s" repeatCount="indefinite" />
+                                        <animate attributeName="stop-color" values="#8b5533;#a0612e;#8b5533" dur="3s"
+                                            repeatCount="indefinite" />
                                     </stop>
                                     <stop offset="65%" stop-color="#4a2210" />
                                     <stop offset="100%" stop-color="#3d1c0c" />
                                 </linearGradient>
                                 <filter id="donutGlow">
-                                    <feGaussianBlur stdDeviation="2" result="glow"/>
+                                    <feGaussianBlur stdDeviation="2" result="glow" />
                                     <feMerge>
-                                        <feMergeNode in="glow"/>
-                                        <feMergeNode in="SourceGraphic"/>
+                                        <feMergeNode in="glow" />
+                                        <feMergeNode in="SourceGraphic" />
                                     </feMerge>
                                 </filter>
                             </defs>
@@ -2224,36 +2470,61 @@
                                 <!-- Donut body -->
                                 <circle cx="60" cy="60" r="38" fill="url(#donutBody)" />
                                 <!-- Body texture ring -->
-                                <circle cx="60" cy="60" r="36" fill="none" stroke="rgba(180,120,50,0.15)" stroke-width="1" />
+                                <circle cx="60" cy="60" r="36" fill="none" stroke="rgba(180,120,50,0.15)"
+                                    stroke-width="1" />
                                 <!-- Donut hole -->
                                 <circle cx="60" cy="60" r="14" fill="url(#donutHole)" />
                                 <!-- Inner ring depth -->
-                                <circle cx="60" cy="60" r="15" fill="none" stroke="#8b5e34" stroke-width="1.5" opacity="0.3" />
+                                <circle cx="60" cy="60" r="15" fill="none" stroke="#8b5e34" stroke-width="1.5"
+                                    opacity="0.3" />
                                 <!-- Chocolate glaze top -->
-                                <path class="donut-glaze" d="M26,50 C26,28 38,20 60,20 C82,20 94,28 94,50 C94,55 92,59 89,62 C87,60 86,56 86,52 C86,48 87,44 88,42 L88,50 C88,32 78,26 60,26 C42,26 32,32 32,50 L32,42 C33,44 34,48 34,52 C34,56 33,60 31,62 C28,59 26,55 26,50Z" fill="url(#chocoGlaze)" filter="url(#donutGlow)" />
+                                <path class="donut-glaze"
+                                    d="M26,50 C26,28 38,20 60,20 C82,20 94,28 94,50 C94,55 92,59 89,62 C87,60 86,56 86,52 C86,48 87,44 88,42 L88,50 C88,32 78,26 60,26 C42,26 32,32 32,50 L32,42 C33,44 34,48 34,52 C34,56 33,60 31,62 C28,59 26,55 26,50Z"
+                                    fill="url(#chocoGlaze)" filter="url(#donutGlow)" />
                                 <!-- Glaze highlight -->
-                                <path d="M38,30 C44,24 52,22 60,22 C68,22 76,24 82,30" fill="none" stroke="rgba(255,255,255,0.25)" stroke-width="2.5" stroke-linecap="round">
-                                    <animate attributeName="opacity" values="0.25;0.5;0.25" dur="2s" repeatCount="indefinite" />
+                                <path d="M38,30 C44,24 52,22 60,22 C68,22 76,24 82,30" fill="none"
+                                    stroke="rgba(255,255,255,0.25)" stroke-width="2.5" stroke-linecap="round">
+                                    <animate attributeName="opacity" values="0.25;0.5;0.25" dur="2s"
+                                        repeatCount="indefinite" />
                                 </path>
                                 <!-- Chocolate drips -->
-                                <path class="choco-drip" d="M34,58 C34,58 32,66 33,72 C34,76 36,76 37,72 C38,66 36,58 36,58Z" fill="#4a2210" opacity="0.9" />
-                                <path class="choco-drip" d="M80,52 C80,52 82,62 82,68 C82,73 80,73 79,68 C78,62 78,52 78,52Z" fill="#4a2210" opacity="0.9" />
-                                <path class="choco-drip" d="M56,22 C56,22 55,30 55.5,34 C56,38 57.5,38 58,34 C58.5,30 58,22 58,22Z" fill="#4a2210" opacity="0.85" />
-                                <path class="choco-drip" d="M68,24 C68,24 69,29 69,32 C69,35 67.5,35 67,32 C66.5,29 66,24 66,24Z" fill="#3d1c0c" opacity="0.7" />
+                                <path class="choco-drip"
+                                    d="M34,58 C34,58 32,66 33,72 C34,76 36,76 37,72 C38,66 36,58 36,58Z" fill="#4a2210"
+                                    opacity="0.9" />
+                                <path class="choco-drip"
+                                    d="M80,52 C80,52 82,62 82,68 C82,73 80,73 79,68 C78,62 78,52 78,52Z" fill="#4a2210"
+                                    opacity="0.9" />
+                                <path class="choco-drip"
+                                    d="M56,22 C56,22 55,30 55.5,34 C56,38 57.5,38 58,34 C58.5,30 58,22 58,22Z"
+                                    fill="#4a2210" opacity="0.85" />
+                                <path class="choco-drip"
+                                    d="M68,24 C68,24 69,29 69,32 C69,35 67.5,35 67,32 C66.5,29 66,24 66,24Z"
+                                    fill="#3d1c0c" opacity="0.7" />
                                 <!-- Sprinkles -->
-                                <rect class="sprinkle" x="42" y="32" width="7" height="2.8" rx="1.4" fill="#ff6b9d" transform="rotate(-30 45 33)" />
-                                <rect class="sprinkle" x="66" y="28" width="7" height="2.8" rx="1.4" fill="#ffd54f" transform="rotate(25 69 29)" />
-                                <rect class="sprinkle" x="50" y="26" width="6" height="2.5" rx="1.2" fill="#4dd0e1" transform="rotate(-15 53 27)" />
-                                <rect class="sprinkle" x="76" y="36" width="6" height="2.5" rx="1.2" fill="#81c784" transform="rotate(45 79 37)" />
-                                <rect class="sprinkle" x="36" y="42" width="6" height="2.5" rx="1.2" fill="#ffab40" transform="rotate(-50 39 43)" />
-                                <rect class="sprinkle" x="58" y="24" width="5" height="2" rx="1" fill="#e57373" transform="rotate(10 60 25)" />
-                                <rect class="sprinkle" x="82" y="44" width="5" height="2.5" rx="1.2" fill="#ba68c8" transform="rotate(65 84 45)" />
-                                <rect class="sprinkle" x="44" y="48" width="5" height="2" rx="1" fill="#64b5f6" transform="rotate(-60 46 49)" />
-                                <rect class="sprinkle" x="72" y="46" width="5" height="2" rx="1" fill="#fff176" transform="rotate(35 74 47)" />
+                                <rect class="sprinkle" x="42" y="32" width="7" height="2.8" rx="1.4" fill="#ff6b9d"
+                                    transform="rotate(-30 45 33)" />
+                                <rect class="sprinkle" x="66" y="28" width="7" height="2.8" rx="1.4" fill="#ffd54f"
+                                    transform="rotate(25 69 29)" />
+                                <rect class="sprinkle" x="50" y="26" width="6" height="2.5" rx="1.2" fill="#4dd0e1"
+                                    transform="rotate(-15 53 27)" />
+                                <rect class="sprinkle" x="76" y="36" width="6" height="2.5" rx="1.2" fill="#81c784"
+                                    transform="rotate(45 79 37)" />
+                                <rect class="sprinkle" x="36" y="42" width="6" height="2.5" rx="1.2" fill="#ffab40"
+                                    transform="rotate(-50 39 43)" />
+                                <rect class="sprinkle" x="58" y="24" width="5" height="2" rx="1" fill="#e57373"
+                                    transform="rotate(10 60 25)" />
+                                <rect class="sprinkle" x="82" y="44" width="5" height="2.5" rx="1.2" fill="#ba68c8"
+                                    transform="rotate(65 84 45)" />
+                                <rect class="sprinkle" x="44" y="48" width="5" height="2" rx="1" fill="#64b5f6"
+                                    transform="rotate(-60 46 49)" />
+                                <rect class="sprinkle" x="72" y="46" width="5" height="2" rx="1" fill="#fff176"
+                                    transform="rotate(35 74 47)" />
                                 <!-- Body highlight -->
-                                <ellipse cx="48" cy="74" rx="16" ry="7" fill="rgba(255,255,255,0.06)" transform="rotate(-20 48 74)" />
+                                <ellipse cx="48" cy="74" rx="16" ry="7" fill="rgba(255,255,255,0.06)"
+                                    transform="rotate(-20 48 74)" />
                                 <!-- Top light reflection -->
-                                <ellipse cx="52" cy="40" rx="8" ry="3" fill="rgba(255,255,255,0.06)" transform="rotate(-10 52 40)" />
+                                <ellipse cx="52" cy="40" rx="8" ry="3" fill="rgba(255,255,255,0.06)"
+                                    transform="rotate(-10 52 40)" />
                             </g>
                         </svg>
                     </div>
@@ -2274,7 +2545,8 @@
             </div>
 
             <ul class="hero-stats" aria-label="مميزات دوناتيلا">
-                <li><i class="fa-solid fa-heart" aria-hidden="true"></i><span><span dir="ltr">+13.9K</span> متابع</span></li>
+                <li><i class="fa-solid fa-heart" aria-hidden="true"></i><span><span dir="ltr">+13.9K</span> متابع</span>
+                </li>
                 <li><i class="fa-solid fa-leaf" aria-hidden="true"></i><span>منتجات صحية</span></li>
                 <li><i class="fa-solid fa-motorcycle" aria-hidden="true"></i><span>توصيل دمياط</span></li>
             </ul>
@@ -2293,7 +2565,8 @@
                 <p class="link-group-label">السوشيال ميديا</p>
 
                 <!-- Facebook Page -->
-                <a href="https://www.facebook.com/share/19K7qWkUta/" target="_blank" rel="noopener noreferrer" class="social-link" id="link-fb-page">
+                <a href="https://www.facebook.com/share/19K7qWkUta/" target="_blank" rel="noopener noreferrer"
+                    class="social-link" id="link-fb-page">
                     <div class="social-icon facebook">
                         <i class="fa-brands fa-facebook-f card-icon"></i>
                     </div>
@@ -2305,7 +2578,8 @@
                 </a>
 
                 <!-- Facebook Group -->
-                <a href="https://www.facebook.com/share/g/18DMGHkRcK/" target="_blank" rel="noopener noreferrer" class="social-link" id="link-fb-group">
+                <a href="https://www.facebook.com/share/g/18DMGHkRcK/" target="_blank" rel="noopener noreferrer"
+                    class="social-link" id="link-fb-group">
                     <div class="social-icon facebook">
                         <i class="fa-solid fa-users card-icon"></i>
                     </div>
@@ -2317,7 +2591,8 @@
                 </a>
 
                 <!-- Instagram -->
-                <a href="https://www.instagram.com/donat_ella68" target="_blank" rel="noopener noreferrer" class="social-link" id="link-instagram">
+                <a href="https://www.instagram.com/donat_ella68" target="_blank" rel="noopener noreferrer"
+                    class="social-link" id="link-instagram">
                     <div class="social-icon instagram">
                         <i class="fa-brands fa-instagram card-icon"></i>
                     </div>
@@ -2329,7 +2604,8 @@
                 </a>
 
                 <!-- Donatella Personal -->
-                <a href="https://www.facebook.com/share/1Jf1TmcBjv/" target="_blank" rel="noopener noreferrer" class="social-link" id="link-donatella-personal">
+                <a href="https://www.facebook.com/share/1Jf1TmcBjv/" target="_blank" rel="noopener noreferrer"
+                    class="social-link" id="link-donatella-personal">
                     <div class="social-icon facebook">
                         <i class="fa-brands fa-facebook card-icon"></i>
                     </div>
@@ -2341,7 +2617,8 @@
                 </a>
 
                 <!-- Osama Personal -->
-                <a href="https://www.facebook.com/share/18uWrkr9Lb/" target="_blank" rel="noopener noreferrer" class="social-link" id="link-osama">
+                <a href="https://www.facebook.com/share/18uWrkr9Lb/" target="_blank" rel="noopener noreferrer"
+                    class="social-link" id="link-osama">
                     <div class="social-icon facebook">
                         <i class="fa-solid fa-user-tie card-icon"></i>
                     </div>
@@ -2355,7 +2632,8 @@
                 <p class="link-group-label">اطلب على واتساب</p>
 
                 <!-- WhatsApp Osama -->
-                <a href="https://wa.me/201011868045" target="_blank" rel="noopener noreferrer" class="social-link whatsapp-link" id="link-wa-osama">
+                <a href="https://wa.me/201011868045" target="_blank" rel="noopener noreferrer"
+                    class="social-link whatsapp-link" id="link-wa-osama">
                     <div class="social-icon whatsapp">
                         <i class="fa-brands fa-whatsapp card-icon"></i>
                     </div>
@@ -2367,7 +2645,8 @@
                 </a>
 
                 <!-- WhatsApp Amr -->
-                <a href="https://wa.me/201115602194" target="_blank" rel="noopener noreferrer" class="social-link whatsapp-link" id="link-wa-amr">
+                <a href="https://wa.me/201115602194" target="_blank" rel="noopener noreferrer"
+                    class="social-link whatsapp-link" id="link-wa-amr">
                     <div class="social-icon whatsapp">
                         <i class="fa-brands fa-whatsapp card-icon"></i>
                     </div>
@@ -2379,7 +2658,8 @@
                 </a>
 
                 <!-- WhatsApp Group -->
-                <a href="https://wa.me/201010018484" target="_blank" rel="noopener noreferrer" class="social-link whatsapp-link" id="link-wa-group">
+                <a href="https://wa.me/201010018484" target="_blank" rel="noopener noreferrer"
+                    class="social-link whatsapp-link" id="link-wa-group">
                     <div class="social-icon whatsapp">
                         <i class="fa-solid fa-comments card-icon"></i>
                     </div>
@@ -2454,29 +2734,39 @@
                 </h2>
             </div>
             <div class="gallery-scroll" id="galleryScroll">
-                <div class="gallery-card" onclick="openLightbox(0)" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' ')openLightbox(0)" aria-label="عرض صورة تشكيلة حلويات دوناتيلا" aria-haspopup="dialog">
+                <div class="gallery-card" onclick="openLightbox(0)" role="button" tabindex="0"
+                    onkeydown="if(event.key==='Enter'||event.key===' ')openLightbox(0)"
+                    aria-label="عرض صورة تشكيلة حلويات دوناتيلا" aria-haspopup="dialog">
                     <img src="product-1.jpeg" alt="تشكيلة حلويات دوناتيلا" loading="lazy" width="260" height="260">
                     <div class="gallery-zoom-badge">
                         <i class="fa-solid fa-magnifying-glass-plus"></i>
                     </div>
                 </div>
-                <div class="gallery-card" onclick="openLightbox(1)" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' ')openLightbox(1)" aria-label="عرض صورة سينابون دوناتيلا" aria-haspopup="dialog">
+                <div class="gallery-card" onclick="openLightbox(1)" role="button" tabindex="0"
+                    onkeydown="if(event.key==='Enter'||event.key===' ')openLightbox(1)"
+                    aria-label="عرض صورة سينابون دوناتيلا" aria-haspopup="dialog">
                     <img src="product-2-compressed.jpg" alt="سينابون دوناتيلا" loading="lazy" width="260" height="260">
                     <div class="gallery-zoom-badge">
                         <i class="fa-solid fa-magnifying-glass-plus"></i>
                     </div>
                 </div>
-                <div class="gallery-card" onclick="openLightbox(2)" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' ')openLightbox(2)" aria-label="عرض صورة كارت دوناتيلا للحلويات والمنتجات الصحية" aria-haspopup="dialog">
-                    <img src="product-3-compressed.jpg" alt="كارت دوناتيلا للحلويات والمنتجات الصحية" loading="lazy" width="260" height="260">
+                <div class="gallery-card" onclick="openLightbox(2)" role="button" tabindex="0"
+                    onkeydown="if(event.key==='Enter'||event.key===' ')openLightbox(2)"
+                    aria-label="عرض صورة كارت دوناتيلا للحلويات والمنتجات الصحية" aria-haspopup="dialog">
+                    <img src="product-3-compressed.jpg" alt="كارت دوناتيلا للحلويات والمنتجات الصحية" loading="lazy"
+                        width="260" height="260">
                     <div class="gallery-zoom-badge">
                         <i class="fa-solid fa-magnifying-glass-plus"></i>
                     </div>
                 </div>
             </div>
             <div class="gallery-dots" id="galleryDots" role="group" aria-label="مؤشرات صور المعرض">
-                <button type="button" class="gallery-dot active" data-index="0" aria-label="الصورة 1" aria-current="true"></button>
-                <button type="button" class="gallery-dot" data-index="1" aria-label="الصورة 2" aria-current="false"></button>
-                <button type="button" class="gallery-dot" data-index="2" aria-label="الصورة 3" aria-current="false"></button>
+                <button type="button" class="gallery-dot active" data-index="0" aria-label="الصورة 1"
+                    aria-current="true"></button>
+                <button type="button" class="gallery-dot" data-index="1" aria-label="الصورة 2"
+                    aria-current="false"></button>
+                <button type="button" class="gallery-dot" data-index="2" aria-label="الصورة 3"
+                    aria-current="false"></button>
             </div>
         </section>
 
@@ -2489,8 +2779,10 @@
                 </h2>
             </div>
             <div class="video-wrapper">
-                <button type="button" class="video-facade" id="videoFacade" data-video-id="knOB1aiyiXo" aria-label="تشغيل فيديو قصة دوناتيلا">
-                    <img src="https://i.ytimg.com/vi/knOB1aiyiXo/hqdefault.jpg" alt="" loading="lazy" width="480" height="360">
+                <button type="button" class="video-facade" id="videoFacade" data-video-id="knOB1aiyiXo"
+                    aria-label="تشغيل فيديو قصة دوناتيلا">
+                    <img src="https://i.ytimg.com/vi/knOB1aiyiXo/hqdefault.jpg" alt="" loading="lazy" width="480"
+                        height="360">
                     <span class="video-play" aria-hidden="true"><i class="fa-solid fa-play"></i></span>
                     <span class="video-label">شوف قصة دوناتيلا</span>
                 </button>
@@ -2516,7 +2808,8 @@
                     <span>متوفر توصيل داخل محافظة دمياط</span>
                 </div>
                 <div class="location-actions">
-                    <a href="https://www.google.com/maps/search/?api=1&amp;query=تفتيش%20كفر%20سعد%20دمياط" target="_blank" rel="noopener noreferrer" class="pill-btn" id="open-map-btn">
+                    <a href="https://www.google.com/maps/search/?api=1&amp;query=تفتيش%20كفر%20سعد%20دمياط"
+                        target="_blank" rel="noopener noreferrer" class="pill-btn" id="open-map-btn">
                         <i class="fa-solid fa-map-location-dot btn-icon" aria-hidden="true"></i>
                         <span>افتح على الخريطة</span>
                     </a>
@@ -2535,7 +2828,8 @@
 
     <!-- Sticky Order CTA (slides in once the hero CTA scrolls out of view) -->
     <div class="sticky-cta" id="stickyCta" inert>
-        <a href="https://wa.me/201011868045?text=أهلاً%20دوناتيلا!%20حابب%20أطلب" target="_blank" rel="noopener noreferrer" class="btn btn-primary" id="sticky-order-btn">
+        <a href="https://wa.me/201011868045?text=أهلاً%20دوناتيلا!%20حابب%20أطلب" target="_blank"
+            rel="noopener noreferrer" class="btn btn-primary" id="sticky-order-btn">
             <i class="fa-brands fa-whatsapp" aria-hidden="true"></i>
             <span>اطلب الآن على واتساب</span>
         </a>
@@ -2568,7 +2862,8 @@
             </div>
             <div class="review-toast-text">
                 <div class="review-toast-title">عجبتك دوناتيلا؟ 🍩</div>
-                <div class="review-toast-desc">رأيك بيفرق معانا! كلمة حلوة منك بتفرّحنا، وبيكم ومعاكم بنكبر ونقدملكم الأفضل دايماً ❤️</div>
+                <div class="review-toast-desc">رأيك بيفرق معانا! كلمة حلوة منك بتفرّحنا، وبيكم ومعاكم بنكبر ونقدملكم
+                    الأفضل دايماً ❤️</div>
             </div>
         </div>
         <div class="review-toast-actions">
@@ -2583,7 +2878,8 @@
     </div>
 
     <!-- Lightbox Modal -->
-    <div class="lightbox-modal" id="lightboxModal" role="dialog" aria-modal="true" aria-label="معاينة الصورة" onclick="handleLightboxBackdrop(event)">
+    <div class="lightbox-modal" id="lightboxModal" role="dialog" aria-modal="true" aria-label="معاينة الصورة"
+        onclick="handleLightboxBackdrop(event)">
         <div class="lightbox-dialog" id="lightboxDialog">
             <div class="lightbox-header">
                 <span class="lightbox-counter" id="lightboxCounter">1 / 3</span>
@@ -2993,59 +3289,59 @@
 
             // 3D Golden Star Lottie Data (Self-contained, Zero Network Dependency)
             const starLottieData = {
-                "v":"5.7.0","fr":60,"ip":0,"op":180,"w":100,"h":100,"nm":"Lottie Gold Star","ddd":0,"assets":[],
-                "layers":[
+                "v": "5.7.0", "fr": 60, "ip": 0, "op": 180, "w": 100, "h": 100, "nm": "Lottie Gold Star", "ddd": 0, "assets": [],
+                "layers": [
                     {
-                        "ddd":0,"ind":1,"ty":4,"nm":"Sparkle Top","sr":1,
-                        "ks":{
-                            "o":{"a":1,"k":[{"t":0,"s":[10],"i":{"x":[0.5],"y":[1]},"o":{"x":[0.5],"y":[0]}},{"t":45,"s":[100],"i":{"x":[0.5],"y":[1]},"o":{"x":[0.5],"y":[0]}},{"t":90,"s":[10],"i":{"x":[0.5],"y":[1]},"o":{"x":[0.5],"y":[0]}},{"t":135,"s":[100],"i":{"x":[0.5],"y":[1]},"o":{"x":[0.5],"y":[0]}},{"t":180,"s":[10]}]},
-                            "r":{"a":1,"k":[{"t":0,"s":[0],"i":{"x":[0.4],"y":[1]},"o":{"x":[0.2],"y":[0]}},{"t":180,"s":[360]}]},
-                            "p":{"a":0,"k":[78,22,0]},"a":{"a":0,"k":[0,0,0]},
-                            "s":{"a":1,"k":[{"t":0,"s":[30,30,100],"i":{"x":[0.5,0.5,0.5],"y":[1,1,1]},"o":{"x":[0.5,0.5,0.5],"y":[0,0,0]}},{"t":45,"s":[115,115,100],"i":{"x":[0.5,0.5,0.5],"y":[1,1,1]},"o":{"x":[0.5,0.5,0.5],"y":[0,0,0]}},{"t":90,"s":[30,30,100],"i":{"x":[0.5,0.5,0.5],"y":[1,1,1]},"o":{"x":[0.5,0.5,0.5],"y":[0,0,0]}},{"t":135,"s":[115,115,100],"i":{"x":[0.5,0.5,0.5],"y":[1,1,1]},"o":{"x":[0.5,0.5,0.5],"y":[0,0,0]}},{"t":180,"s":[30,30,100]}]}
+                        "ddd": 0, "ind": 1, "ty": 4, "nm": "Sparkle Top", "sr": 1,
+                        "ks": {
+                            "o": { "a": 1, "k": [{ "t": 0, "s": [10], "i": { "x": [0.5], "y": [1] }, "o": { "x": [0.5], "y": [0] } }, { "t": 45, "s": [100], "i": { "x": [0.5], "y": [1] }, "o": { "x": [0.5], "y": [0] } }, { "t": 90, "s": [10], "i": { "x": [0.5], "y": [1] }, "o": { "x": [0.5], "y": [0] } }, { "t": 135, "s": [100], "i": { "x": [0.5], "y": [1] }, "o": { "x": [0.5], "y": [0] } }, { "t": 180, "s": [10] }] },
+                            "r": { "a": 1, "k": [{ "t": 0, "s": [0], "i": { "x": [0.4], "y": [1] }, "o": { "x": [0.2], "y": [0] } }, { "t": 180, "s": [360] }] },
+                            "p": { "a": 0, "k": [78, 22, 0] }, "a": { "a": 0, "k": [0, 0, 0] },
+                            "s": { "a": 1, "k": [{ "t": 0, "s": [30, 30, 100], "i": { "x": [0.5, 0.5, 0.5], "y": [1, 1, 1] }, "o": { "x": [0.5, 0.5, 0.5], "y": [0, 0, 0] } }, { "t": 45, "s": [115, 115, 100], "i": { "x": [0.5, 0.5, 0.5], "y": [1, 1, 1] }, "o": { "x": [0.5, 0.5, 0.5], "y": [0, 0, 0] } }, { "t": 90, "s": [30, 30, 100], "i": { "x": [0.5, 0.5, 0.5], "y": [1, 1, 1] }, "o": { "x": [0.5, 0.5, 0.5], "y": [0, 0, 0] } }, { "t": 135, "s": [115, 115, 100], "i": { "x": [0.5, 0.5, 0.5], "y": [1, 1, 1] }, "o": { "x": [0.5, 0.5, 0.5], "y": [0, 0, 0] } }, { "t": 180, "s": [30, 30, 100] }] }
                         },
-                        "ao":0,
-                        "shapes":[{"ty":"gr","it":[{"ty":"sh","ks":{"a":0,"k":{"i":[[0,0],[0,0],[0,0],[0,0],[0,0],[0,0],[0,0],[0,0]],"o":[[0,0],[0,0],[0,0],[0,0],[0,0],[0,0],[0,0],[0,0]],"v":[[0,-10],[2.5,-2.5],[10,0],[2.5,2.5],[0,10],[-2.5,2.5],[-10,0],[-2.5,-2.5]],"c":true}},"nm":"Diamond Sparkle"},{"ty":"fl","c":{"a":0,"k":[1,0.96,0.7,1]},"o":{"a":0,"k":100},"r":1,"nm":"Fill Gold Light"},{"ty":"tr","p":{"a":0,"k":[0,0]},"a":{"a":0,"k":[0,0]},"s":{"a":0,"k":[100,100]},"r":{"a":0,"k":0},"o":{"a":0,"k":100},"sk":{"a":0,"k":0},"sa":{"a":0,"k":0},"nm":"Transform"}]}],
-                        "ip":0,"op":180,"st":0,"bm":0
+                        "ao": 0,
+                        "shapes": [{ "ty": "gr", "it": [{ "ty": "sh", "ks": { "a": 0, "k": { "i": [[0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0]], "o": [[0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0]], "v": [[0, -10], [2.5, -2.5], [10, 0], [2.5, 2.5], [0, 10], [-2.5, 2.5], [-10, 0], [-2.5, -2.5]], "c": true } }, "nm": "Diamond Sparkle" }, { "ty": "fl", "c": { "a": 0, "k": [1, 0.96, 0.7, 1] }, "o": { "a": 0, "k": 100 }, "r": 1, "nm": "Fill Gold Light" }, { "ty": "tr", "p": { "a": 0, "k": [0, 0] }, "a": { "a": 0, "k": [0, 0] }, "s": { "a": 0, "k": [100, 100] }, "r": { "a": 0, "k": 0 }, "o": { "a": 0, "k": 100 }, "sk": { "a": 0, "k": 0 }, "sa": { "a": 0, "k": 0 }, "nm": "Transform" }] }],
+                        "ip": 0, "op": 180, "st": 0, "bm": 0
                     },
                     {
-                        "ddd":0,"ind":2,"ty":4,"nm":"Sparkle Bottom","sr":1,
-                        "ks":{
-                            "o":{"a":1,"k":[{"t":0,"s":[90],"i":{"x":[0.5],"y":[1]},"o":{"x":[0.5],"y":[0]}},{"t":45,"s":[10],"i":{"x":[0.5],"y":[1]},"o":{"x":[0.5],"y":[0]}},{"t":90,"s":[90],"i":{"x":[0.5],"y":[1]},"o":{"x":[0.5],"y":[0]}},{"t":135,"s":[10],"i":{"x":[0.5],"y":[1]},"o":{"x":[0.5],"y":[0]}},{"t":180,"s":[90]}]},
-                            "r":{"a":1,"k":[{"t":0,"s":[0],"i":{"x":[0.4],"y":[1]},"o":{"x":[0.2],"y":[0]}},{"t":180,"s":[-360]}]},
-                            "p":{"a":0,"k":[22,76,0]},"a":{"a":0,"k":[0,0,0]},
-                            "s":{"a":1,"k":[{"t":0,"s":[100,100,100],"i":{"x":[0.5,0.5,0.5],"y":[1,1,1]},"o":{"x":[0.5,0.5,0.5],"y":[0,0,0]}},{"t":45,"s":[25,25,100],"i":{"x":[0.5,0.5,0.5],"y":[1,1,1]},"o":{"x":[0.5,0.5,0.5],"y":[0,0,0]}},{"t":90,"s":[100,100,100],"i":{"x":[0.5,0.5,0.5],"y":[1,1,1]},"o":{"x":[0.5,0.5,0.5],"y":[0,0,0]}},{"t":135,"s":[25,25,100],"i":{"x":[0.5,0.5,0.5],"y":[1,1,1]},"o":{"x":[0.5,0.5,0.5],"y":[0,0,0]}},{"t":180,"s":[100,100,100]}]}
+                        "ddd": 0, "ind": 2, "ty": 4, "nm": "Sparkle Bottom", "sr": 1,
+                        "ks": {
+                            "o": { "a": 1, "k": [{ "t": 0, "s": [90], "i": { "x": [0.5], "y": [1] }, "o": { "x": [0.5], "y": [0] } }, { "t": 45, "s": [10], "i": { "x": [0.5], "y": [1] }, "o": { "x": [0.5], "y": [0] } }, { "t": 90, "s": [90], "i": { "x": [0.5], "y": [1] }, "o": { "x": [0.5], "y": [0] } }, { "t": 135, "s": [10], "i": { "x": [0.5], "y": [1] }, "o": { "x": [0.5], "y": [0] } }, { "t": 180, "s": [90] }] },
+                            "r": { "a": 1, "k": [{ "t": 0, "s": [0], "i": { "x": [0.4], "y": [1] }, "o": { "x": [0.2], "y": [0] } }, { "t": 180, "s": [-360] }] },
+                            "p": { "a": 0, "k": [22, 76, 0] }, "a": { "a": 0, "k": [0, 0, 0] },
+                            "s": { "a": 1, "k": [{ "t": 0, "s": [100, 100, 100], "i": { "x": [0.5, 0.5, 0.5], "y": [1, 1, 1] }, "o": { "x": [0.5, 0.5, 0.5], "y": [0, 0, 0] } }, { "t": 45, "s": [25, 25, 100], "i": { "x": [0.5, 0.5, 0.5], "y": [1, 1, 1] }, "o": { "x": [0.5, 0.5, 0.5], "y": [0, 0, 0] } }, { "t": 90, "s": [100, 100, 100], "i": { "x": [0.5, 0.5, 0.5], "y": [1, 1, 1] }, "o": { "x": [0.5, 0.5, 0.5], "y": [0, 0, 0] } }, { "t": 135, "s": [25, 25, 100], "i": { "x": [0.5, 0.5, 0.5], "y": [1, 1, 1] }, "o": { "x": [0.5, 0.5, 0.5], "y": [0, 0, 0] } }, { "t": 180, "s": [100, 100, 100] }] }
                         },
-                        "ao":0,
-                        "shapes":[{"ty":"gr","it":[{"ty":"sh","ks":{"a":0,"k":{"i":[[0,0],[0,0],[0,0],[0,0],[0,0],[0,0],[0,0],[0,0]],"o":[[0,0],[0,0],[0,0],[0,0],[0,0],[0,0],[0,0],[0,0]],"v":[[0,-8],[2,-2],[8,0],[2,2],[0,8],[-2,2],[-8,0],[-2,-2]],"c":true}},"nm":"Diamond Sparkle Small"},{"ty":"fl","c":{"a":0,"k":[1,0.95,0.6,1]},"o":{"a":0,"k":100},"r":1,"nm":"Fill Gold Light"},{"ty":"tr","p":{"a":0,"k":[0,0]},"a":{"a":0,"k":[0,0]},"s":{"a":0,"k":[100,100]},"r":{"a":0,"k":0},"o":{"a":0,"k":100},"sk":{"a":0,"k":0},"sa":{"a":0,"k":0},"nm":"Transform"}]}],
-                        "ip":0,"op":180,"st":0,"bm":0
+                        "ao": 0,
+                        "shapes": [{ "ty": "gr", "it": [{ "ty": "sh", "ks": { "a": 0, "k": { "i": [[0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0]], "o": [[0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0]], "v": [[0, -8], [2, -2], [8, 0], [2, 2], [0, 8], [-2, 2], [-8, 0], [-2, -2]], "c": true } }, "nm": "Diamond Sparkle Small" }, { "ty": "fl", "c": { "a": 0, "k": [1, 0.95, 0.6, 1] }, "o": { "a": 0, "k": 100 }, "r": 1, "nm": "Fill Gold Light" }, { "ty": "tr", "p": { "a": 0, "k": [0, 0] }, "a": { "a": 0, "k": [0, 0] }, "s": { "a": 0, "k": [100, 100] }, "r": { "a": 0, "k": 0 }, "o": { "a": 0, "k": 100 }, "sk": { "a": 0, "k": 0 }, "sa": { "a": 0, "k": 0 }, "nm": "Transform" }] }],
+                        "ip": 0, "op": 180, "st": 0, "bm": 0
                     },
                     {
-                        "ddd":0,"ind":3,"ty":4,"nm":"Main Star Layer","sr":1,
-                        "ks":{
-                            "o":{"a":0,"k":100},
-                            "r":{"a":1,"k":[{"t":0,"s":[-6],"i":{"x":[0.4],"y":[1]},"o":{"x":[0.2],"y":[0]}},{"t":45,"s":[7],"i":{"x":[0.4],"y":[1]},"o":{"x":[0.2],"y":[0]}},{"t":90,"s":[-6],"i":{"x":[0.4],"y":[1]},"o":{"x":[0.2],"y":[0]}},{"t":135,"s":[7],"i":{"x":[0.4],"y":[1]},"o":{"x":[0.2],"y":[0]}},{"t":180,"s":[-6]}]},
-                            "p":{"a":0,"k":[50,50,0]},"a":{"a":0,"k":[0,0,0]},
-                            "s":{"a":1,"k":[{"t":0,"s":[96,96,100],"i":{"x":[0.4,0.4,0.4],"y":[1,1,1]},"o":{"x":[0.2,0.2,0.2],"y":[0,0,0]}},{"t":45,"s":[108,108,100],"i":{"x":[0.4,0.4,0.4],"y":[1,1,1]},"o":{"x":[0.2,0.2,0.2],"y":[0,0,0]}},{"t":90,"s":[96,96,100],"i":{"x":[0.4,0.4,0.4],"y":[1,1,1]},"o":{"x":[0.2,0.2,0.2],"y":[0,0,0]}},{"t":135,"s":[108,108,100],"i":{"x":[0.4,0.4,0.4],"y":[1,1,1]},"o":{"x":[0.2,0.2,0.2],"y":[0,0,0]}},{"t":180,"s":[96,96,100]}]}
+                        "ddd": 0, "ind": 3, "ty": 4, "nm": "Main Star Layer", "sr": 1,
+                        "ks": {
+                            "o": { "a": 0, "k": 100 },
+                            "r": { "a": 1, "k": [{ "t": 0, "s": [-6], "i": { "x": [0.4], "y": [1] }, "o": { "x": [0.2], "y": [0] } }, { "t": 45, "s": [7], "i": { "x": [0.4], "y": [1] }, "o": { "x": [0.2], "y": [0] } }, { "t": 90, "s": [-6], "i": { "x": [0.4], "y": [1] }, "o": { "x": [0.2], "y": [0] } }, { "t": 135, "s": [7], "i": { "x": [0.4], "y": [1] }, "o": { "x": [0.2], "y": [0] } }, { "t": 180, "s": [-6] }] },
+                            "p": { "a": 0, "k": [50, 50, 0] }, "a": { "a": 0, "k": [0, 0, 0] },
+                            "s": { "a": 1, "k": [{ "t": 0, "s": [96, 96, 100], "i": { "x": [0.4, 0.4, 0.4], "y": [1, 1, 1] }, "o": { "x": [0.2, 0.2, 0.2], "y": [0, 0, 0] } }, { "t": 45, "s": [108, 108, 100], "i": { "x": [0.4, 0.4, 0.4], "y": [1, 1, 1] }, "o": { "x": [0.2, 0.2, 0.2], "y": [0, 0, 0] } }, { "t": 90, "s": [96, 96, 100], "i": { "x": [0.4, 0.4, 0.4], "y": [1, 1, 1] }, "o": { "x": [0.2, 0.2, 0.2], "y": [0, 0, 0] } }, { "t": 135, "s": [108, 108, 100], "i": { "x": [0.4, 0.4, 0.4], "y": [1, 1, 1] }, "o": { "x": [0.2, 0.2, 0.2], "y": [0, 0, 0] } }, { "t": 180, "s": [96, 96, 100] }] }
                         },
-                        "ao":0,
-                        "shapes":[
+                        "ao": 0,
+                        "shapes": [
                             {
-                                "ty":"gr","it":[
-                                    {"ty":"sh","ks":{"a":0,"k":{"i":[[0,0],[0,0],[0,0],[0,0],[0,0],[0,0],[0,0],[0,0],[0,0],[0,0]],"o":[[0,0],[0,0],[0,0],[0,0],[0,0],[0,0],[0,0],[0,0],[0,0],[0,0]],"v":[[0,-32],[9.4,-9.9],[30.4,-9.9],[13.4,2.5],[19.9,24.9],[0,10.4],[-19.9,24.9],[-13.4,2.5],[-30.4,-9.9],[-9.4,-9.9]],"c":true}},"nm":"Star Body Path"},
-                                    {"ty":"fl","c":{"a":0,"k":[0.96,0.77,0.16,1]},"o":{"a":0,"k":100},"r":1,"nm":"Fill Gold Body"},
-                                    {"ty":"st","c":{"a":0,"k":[1,0.94,0.65,1]},"o":{"a":0,"k":95},"w":{"a":0,"k":2.2},"lc":2,"lj":2,"nm":"Stroke Rim"},
-                                    {"ty":"tr","p":{"a":0,"k":[0,0]},"a":{"a":0,"k":[0,0]},"s":{"a":0,"k":[100,100]},"r":{"a":0,"k":0},"o":{"a":0,"k":100},"sk":{"a":0,"k":0},"sa":{"a":0,"k":0},"nm":"Transform"}
-                                ],"nm":"Full Star"
+                                "ty": "gr", "it": [
+                                    { "ty": "sh", "ks": { "a": 0, "k": { "i": [[0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0]], "o": [[0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0]], "v": [[0, -32], [9.4, -9.9], [30.4, -9.9], [13.4, 2.5], [19.9, 24.9], [0, 10.4], [-19.9, 24.9], [-13.4, 2.5], [-30.4, -9.9], [-9.4, -9.9]], "c": true } }, "nm": "Star Body Path" },
+                                    { "ty": "fl", "c": { "a": 0, "k": [0.96, 0.77, 0.16, 1] }, "o": { "a": 0, "k": 100 }, "r": 1, "nm": "Fill Gold Body" },
+                                    { "ty": "st", "c": { "a": 0, "k": [1, 0.94, 0.65, 1] }, "o": { "a": 0, "k": 95 }, "w": { "a": 0, "k": 2.2 }, "lc": 2, "lj": 2, "nm": "Stroke Rim" },
+                                    { "ty": "tr", "p": { "a": 0, "k": [0, 0] }, "a": { "a": 0, "k": [0, 0] }, "s": { "a": 0, "k": [100, 100] }, "r": { "a": 0, "k": 0 }, "o": { "a": 0, "k": 100 }, "sk": { "a": 0, "k": 0 }, "sa": { "a": 0, "k": 0 }, "nm": "Transform" }
+                                ], "nm": "Full Star"
                             },
                             {
-                                "ty":"gr","it":[
-                                    {"ty":"sh","ks":{"a":0,"k":{"i":[[0,0],[0,0],[0,0],[0,0],[0,0],[0,0]],"o":[[0,0],[0,0],[0,0],[0,0],[0,0],[0,0]],"v":[[0,-32],[9.4,-9.9],[30.4,-9.9],[13.4,2.5],[19.9,24.9],[0,10.4]],"c":true}},"nm":"3D Shadow Half"},
-                                    {"ty":"fl","c":{"a":0,"k":[0,0,0,1]},"o":{"a":0,"k":14},"r":1,"nm":"Shadow Fill"},
-                                    {"ty":"tr","p":{"a":0,"k":[0,0]},"a":{"a":0,"k":[0,0]},"s":{"a":0,"k":[100,100]},"r":{"a":0,"k":0},"o":{"a":0,"k":100},"sk":{"a":0,"k":0},"sa":{"a":0,"k":0},"nm":"Transform"}
-                                ],"nm":"3D Relief"
+                                "ty": "gr", "it": [
+                                    { "ty": "sh", "ks": { "a": 0, "k": { "i": [[0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0]], "o": [[0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0]], "v": [[0, -32], [9.4, -9.9], [30.4, -9.9], [13.4, 2.5], [19.9, 24.9], [0, 10.4]], "c": true } }, "nm": "3D Shadow Half" },
+                                    { "ty": "fl", "c": { "a": 0, "k": [0, 0, 0, 1] }, "o": { "a": 0, "k": 14 }, "r": 1, "nm": "Shadow Fill" },
+                                    { "ty": "tr", "p": { "a": 0, "k": [0, 0] }, "a": { "a": 0, "k": [0, 0] }, "s": { "a": 0, "k": [100, 100] }, "r": { "a": 0, "k": 0 }, "o": { "a": 0, "k": 100 }, "sk": { "a": 0, "k": 0 }, "sa": { "a": 0, "k": 0 }, "nm": "Transform" }
+                                ], "nm": "3D Relief"
                             }
                         ],
-                        "ip":0,"op":180,"st":0,"bm":0
+                        "ip": 0, "op": 180, "st": 0, "bm": 0
                     }
                 ]
             };
@@ -3092,7 +3388,7 @@
             }
 
             // Show Toast automatically after 10s (stays until user dismisses it)
-            autoToastTimer = setTimeout(function() {
+            autoToastTimer = setTimeout(function () {
                 if (!toast.classList.contains('show') && !isGenieInProgress) {
                     showToast();
                 }
@@ -3118,7 +3414,7 @@
                 toast.classList.add('show');
 
                 // Hide FAB once the expanding toast covers it
-                setTimeout(function() {
+                setTimeout(function () {
                     fab.classList.remove('show', 'swallow');
                 }, 280);
             }
@@ -3133,7 +3429,7 @@
                 bubble.classList.add('show');
 
                 // Stays for exactly 5 seconds as requested ("وخلي الرسالة تقعد 5ث")
-                bubbleTimer = setTimeout(function() {
+                bubbleTimer = setTimeout(function () {
                     hideBubble();
                 }, 5000);
             }
@@ -3145,7 +3441,7 @@
                 }
                 if (!bubble || !bubble.classList.contains('show')) return;
                 bubble.classList.add('closing');
-                setTimeout(function() {
+                setTimeout(function () {
                     bubble.classList.remove('show', 'closing');
                 }, 350);
             }
@@ -3169,7 +3465,7 @@
                 toast.classList.add('genie-closing');
 
                 // 3. Right as the suction reaches the center of the star (520ms)
-                setTimeout(function() {
+                setTimeout(function () {
                     toast.classList.remove('genie-closing');
 
                     // Trigger Star Swallow Reaction (bounce & glow)
@@ -3178,7 +3474,7 @@
                     fab.classList.add('swallow');
 
                     // 4. Eject Speech Bubble from the star (after swallow peak)
-                    setTimeout(function() {
+                    setTimeout(function () {
                         showBubble();
                         isGenieInProgress = false;
                     }, 240);
@@ -3189,7 +3485,7 @@
                 window.open(REVIEW_URL, '_blank', 'noopener,noreferrer');
                 hideBubble();
                 toast.classList.remove('show', 'genie-closing');
-                setTimeout(function() {
+                setTimeout(function () {
                     fab.classList.add('show');
                 }, 300);
             }
@@ -3199,13 +3495,13 @@
             toastDismiss.addEventListener('click', dismissWithGenie);
             toastBtn.addEventListener('click', openReview);
 
-            fab.addEventListener('click', function() {
+            fab.addEventListener('click', function () {
                 hideBubble();
                 showToast();
             });
 
             if (bubble) {
-                bubble.addEventListener('click', function(e) {
+                bubble.addEventListener('click', function (e) {
                     if (e.target.closest('#reviewBubbleClose')) {
                         e.stopPropagation();
                         hideBubble();
@@ -3219,4 +3515,5 @@
         })();
     </script>
 </body>
+
 </html>

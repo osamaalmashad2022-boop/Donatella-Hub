@@ -98,13 +98,14 @@
         /* إخفاء شريط التمرير نهائياً وقطعياً في جميع المتصفحات والأنظمة */
         html,
         body,
-        * {
+        .gallery-scroll {
             scrollbar-width: none !important;
             -ms-overflow-style: none !important;
         }
 
-        ::-webkit-scrollbar,
-        *::-webkit-scrollbar {
+        html::-webkit-scrollbar,
+        body::-webkit-scrollbar,
+        .gallery-scroll::-webkit-scrollbar {
             display: none !important;
             width: 0 !important;
             height: 0 !important;
@@ -127,6 +128,17 @@
         a {
             text-decoration: none;
             color: inherit;
+        }
+
+        a,
+        button,
+        .btn,
+        .pill-btn,
+        .social-link,
+        .gallery-card,
+        .review-fab,
+        .review-bubble {
+            touch-action: manipulation;
         }
 
         img {
@@ -424,13 +436,11 @@
 
             0%,
             100% {
-                opacity: 0.9;
-                filter: brightness(1);
+                opacity: 0.75;
             }
 
             50% {
                 opacity: 1;
-                filter: brightness(1.4);
             }
         }
 
@@ -1782,6 +1792,11 @@
             pointer-events: none;
         }
 
+        .loader.hidden .loader-donut,
+        .loader.hidden .loader-donut * {
+            animation: none !important;
+        }
+
         .loader-content {
             text-align: center;
         }
@@ -1963,163 +1978,68 @@
         /* Genie Effect Expand Animation (خروج المارد من النجمة) */
         @keyframes genieExpand {
             0% {
-                transform-origin: 28px calc(100% - 28px);
-                transform: scale(0.01, 0.01) skew(-18deg, 8deg) rotate(-2deg);
+                transform: translate3d(0, 12px, 0) scale3d(0.02, 0.02, 1) skew(-18deg, 8deg);
                 opacity: 0;
-                border-radius: 50%;
-                filter: brightness(2.5) blur(6px);
             }
 
-            8% {
-                transform-origin: 28px calc(100% - 28px);
-                /* Initial spark — tiny bright dot emerging from the star */
-                transform: scale(0.06, 0.1) skew(-20deg, 10deg) rotate(-3deg);
-                opacity: 0.35;
-                border-radius: 50%;
-                filter: brightness(2.0) blur(4px);
+            18% {
+                transform: translate3d(0, 8px, 0) scale3d(0.18, 0.28, 1) skew(-20deg, 9deg);
+                opacity: 0.55;
             }
 
-            20% {
-                transform-origin: 28px calc(100% - 28px);
-                /* Smoke vapor rising and twisting from the star center */
-                transform: scale(0.2, 0.32) skew(-22deg, 9deg) rotate(-2.5deg);
-                opacity: 0.65;
-                border-radius: 48px 50% 50% 50%;
-                filter: brightness(1.6) blur(2px) drop-shadow(0 4px 20px rgba(201, 162, 39, 0.6));
+            42% {
+                transform: translate3d(0, 4px, 0) scale3d(0.52, 0.62, 1) skew(-14deg, 6deg);
+                opacity: 0.85;
             }
 
-            38% {
-                transform-origin: 28px calc(100% - 28px);
-                /* Funnel neck widening — fluid morph towards card */
-                transform: scale(0.48, 0.58) skew(-16deg, 7deg) rotate(-2deg);
-                opacity: 0.82;
-                border-radius: 38px 44px 48px 50%;
-                filter: brightness(1.35) blur(0.5px) drop-shadow(0 6px 26px rgba(201, 162, 39, 0.55));
-            }
-
-            56% {
-                transform-origin: 28px calc(100% - 28px);
-                /* Expanding body opening up into card shape */
-                transform: scale(0.76, 0.82) skew(-8deg, 3deg) rotate(-0.8deg);
-                opacity: 0.94;
-                border-radius: 26px 30px 36px 42px;
-                filter: brightness(1.15) drop-shadow(0 8px 32px rgba(201, 162, 39, 0.45));
-            }
-
-            72% {
-                transform-origin: 28px calc(100% - 28px);
-                /* Nearly full size — approaching final form */
-                transform: scale(0.94, 0.96) skew(-3deg, 1deg) rotate(-0.3deg);
+            68% {
+                transform: translate3d(0, 0, 0) scale3d(0.92, 0.95, 1) skew(-3deg, 1deg);
                 opacity: 0.98;
-                border-radius: 22px 23px 22px 24px;
-                filter: brightness(1.06) drop-shadow(0 10px 40px rgba(0, 0, 0, 0.5));
             }
 
-            84% {
-                transform-origin: 28px calc(100% - 28px);
-                /* Subtle spring overshoot characteristic of Apple Genie */
-                transform: scale(1.025, 1.018) skew(1.5deg, -0.8deg) rotate(0.3deg);
+            85% {
+                transform: translate3d(0, -2px, 0) scale3d(1.02, 1.015, 1) skew(1deg, -0.5deg);
                 opacity: 1;
-                border-radius: var(--radius-md);
-                filter: brightness(1.03) drop-shadow(0 12px 48px rgba(0, 0, 0, 0.55));
-            }
-
-            93% {
-                transform-origin: 28px calc(100% - 28px);
-                /* Settle back — slight undershoot for natural spring */
-                transform: scale(0.995, 0.997) skew(0.3deg, -0.15deg) rotate(0.05deg);
-                opacity: 1;
-                border-radius: var(--radius-md);
-                filter: brightness(1.01) drop-shadow(0 12px 48px rgba(0, 0, 0, 0.55));
             }
 
             100% {
-                transform-origin: 28px calc(100% - 28px);
-                transform: scale(1, 1) skew(0deg, 0deg) rotate(0deg);
+                transform: translate3d(0, 0, 0) scale3d(1, 1, 1) skew(0deg, 0deg);
                 opacity: 1;
-                border-radius: var(--radius-md);
-                filter: brightness(1) drop-shadow(0 12px 48px rgba(0, 0, 0, 0.55));
             }
         }
 
         /* Genie Effect Suction Animation (شفط المارد داخل النجمة) */
         @keyframes genieSuction {
             0% {
-                transform-origin: 28px calc(100% - 28px);
-                transform: scale(1, 1) skew(0deg, 0deg) rotate(0deg);
-                border-radius: var(--radius-md);
+                transform: translate3d(0, 0, 0) scale3d(1, 1, 1) skew(0deg, 0deg);
                 opacity: 1;
-                filter: brightness(1) drop-shadow(0 12px 48px rgba(0, 0, 0, 0.55));
             }
 
-            10% {
-                transform-origin: 28px calc(100% - 28px);
-                /* Initial pull — slight contraction and tilt towards star */
-                transform: scale(0.96, 0.98) skew(-4deg, 1.5deg) rotate(-0.5deg);
-                border-radius: var(--radius-md);
-                opacity: 1;
-                filter: brightness(1.04) drop-shadow(0 10px 42px rgba(0, 0, 0, 0.52));
-            }
-
-            25% {
-                transform-origin: 28px calc(100% - 28px);
-                /* Fluid bending towards the suction vortex */
-                transform: scale(0.82, 0.9) skew(-10deg, 3.5deg) rotate(-1.2deg);
-                border-radius: 22px 28px 38px 44px;
+            20% {
+                transform: translate3d(0, 2px, 0) scale3d(0.86, 0.92, 1) skew(-8deg, 3deg);
                 opacity: 0.96;
-                filter: brightness(1.12) drop-shadow(0 8px 30px rgba(201, 162, 39, 0.45));
             }
 
-            42% {
-                transform-origin: 28px calc(100% - 28px);
-                /* Accelerating funnel squeeze */
-                transform: scale(0.58, 0.72) skew(-18deg, 7deg) rotate(-2.2deg);
-                border-radius: 30px 40px 46px 50%;
-                opacity: 0.9;
-                filter: brightness(1.22) drop-shadow(0 6px 24px rgba(201, 162, 39, 0.6));
+            48% {
+                transform: translate3d(0, 5px, 0) scale3d(0.48, 0.62, 1) skew(-18deg, 8deg);
+                opacity: 0.84;
             }
 
-            58% {
-                transform-origin: 28px calc(100% - 28px);
-                /* Dramatic hourglass / funnel stretch into star center */
-                transform: scale(0.35, 0.48) skew(-24deg, 10deg) rotate(-3deg);
-                border-radius: 38px 46px 50% 50%;
-                opacity: 0.78;
-                filter: brightness(1.4) blur(0.5px) drop-shadow(0 4px 18px rgba(201, 162, 39, 0.7));
-            }
-
-            74% {
-                transform-origin: 28px calc(100% - 28px);
-                /* Narrow vapor neck — nearing final absorption */
-                transform: scale(0.16, 0.24) skew(-20deg, 9deg) rotate(-2deg);
-                border-radius: 50%;
-                opacity: 0.52;
-                filter: brightness(1.65) blur(1.5px);
-            }
-
-            88% {
-                transform-origin: 28px calc(100% - 28px);
-                /* Thin wisp disappearing into the star center */
-                transform: scale(0.05, 0.08) skew(-12deg, 5deg) rotate(-1deg);
-                border-radius: 50%;
-                opacity: 0.2;
-                filter: brightness(1.9) blur(3px);
+            76% {
+                transform: translate3d(0, 9px, 0) scale3d(0.16, 0.24, 1) skew(-16deg, 7deg);
+                opacity: 0.45;
             }
 
             100% {
-                transform-origin: 28px calc(100% - 28px);
-                /* Complete absorption into the star center */
-                transform: scale(0, 0) skew(0deg, 0deg) rotate(0deg);
-                border-radius: 50%;
+                transform: translate3d(0, 12px, 0) scale3d(0.01, 0.01, 1) skew(0deg, 0deg);
                 opacity: 0;
-                filter: brightness(2.2) blur(5px);
             }
         }
 
         .review-toast.genie-closing {
             animation: genieSuction 0.7s cubic-bezier(0.32, 0, 0.67, 0) forwards !important;
             pointer-events: none !important;
-            will-change: transform, opacity, filter, border-radius;
+            will-change: transform, opacity;
         }
 
         /* ============================================ */
@@ -2289,7 +2209,7 @@
         .review-toast.show {
             animation: genieExpand 0.72s cubic-bezier(0.22, 1, 0.36, 1) forwards !important;
             pointer-events: auto !important;
-            will-change: transform, opacity, filter, border-radius;
+            will-change: transform, opacity;
         }
 
         .review-toast-close {
@@ -2526,14 +2446,8 @@
                                     <stop offset="100%" stop-color="#3d1c0c" />
                                 </radialGradient>
                                 <linearGradient id="chocoGlaze" x1="0%" y1="0%" x2="100%" y2="100%">
-                                    <stop offset="0%" stop-color="#5c2e15">
-                                        <animate attributeName="stop-color" values="#5c2e15;#7a4220;#5c2e15" dur="3s"
-                                            repeatCount="indefinite" />
-                                    </stop>
-                                    <stop offset="35%" stop-color="#8b5533">
-                                        <animate attributeName="stop-color" values="#8b5533;#a0612e;#8b5533" dur="3s"
-                                            repeatCount="indefinite" />
-                                    </stop>
+                                    <stop offset="0%" stop-color="#5c2e15" />
+                                    <stop offset="35%" stop-color="#8b5533" />
                                     <stop offset="65%" stop-color="#4a2210" />
                                     <stop offset="100%" stop-color="#3d1c0c" />
                                 </linearGradient>
@@ -3048,6 +2962,8 @@
                 svgEl('stop', { offset: '0.35', 'stop-color': '#3d1c0c' }, lg);
                 svgEl('stop', { offset: '1', 'stop-color': '#5c2e15' }, lg);
 
+                const isMobile = window.matchMedia('(pointer: coarse)').matches || window.innerWidth < 768;
+
                 // Goo filter merges stems, bulbs, and falling drops into glossy liquid chocolate
                 const filter = svgEl('filter', {
                     id: 'bgChocoGoo',
@@ -3058,33 +2974,35 @@
                     height: VH + 120,
                     'color-interpolation-filters': 'sRGB'
                 }, defs);
-                svgEl('feGaussianBlur', { in: 'SourceGraphic', stdDeviation: 6, result: 'blur' }, filter);
+                svgEl('feGaussianBlur', { in: 'SourceGraphic', stdDeviation: isMobile ? 4.5 : 6, result: 'blur' }, filter);
                 svgEl('feColorMatrix', {
                     in: 'blur',
                     mode: 'matrix',
                     values: '1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 22 -9',
                     result: 'goo'
                 }, filter);
-                svgEl('feGaussianBlur', { in: 'goo', stdDeviation: 2.2, result: 'gooBlur' }, filter);
-                const spec = svgEl('feSpecularLighting', {
-                    in: 'gooBlur',
-                    surfaceScale: 5,
-                    specularConstant: 0.9,
-                    specularExponent: 28,
-                    'lighting-color': '#ffdca0',
-                    result: 'spec'
-                }, filter);
-                svgEl('feDistantLight', { azimuth: 235, elevation: 48 }, spec);
-                svgEl('feComposite', { in: 'spec', in2: 'goo', operator: 'in', result: 'specIn' }, filter);
-                svgEl('feComposite', {
-                    in: 'goo',
-                    in2: 'specIn',
-                    operator: 'arithmetic',
-                    k1: 0,
-                    k2: 1,
-                    k3: 0.55,
-                    k4: 0
-                }, filter);
+                if (!isMobile) {
+                    svgEl('feGaussianBlur', { in: 'goo', stdDeviation: 2.2, result: 'gooBlur' }, filter);
+                    const spec = svgEl('feSpecularLighting', {
+                        in: 'gooBlur',
+                        surfaceScale: 5,
+                        specularConstant: 0.9,
+                        specularExponent: 28,
+                        'lighting-color': '#ffdca0',
+                        result: 'spec'
+                    }, filter);
+                    svgEl('feDistantLight', { azimuth: 235, elevation: 48 }, spec);
+                    svgEl('feComposite', { in: 'spec', in2: 'goo', operator: 'in', result: 'specIn' }, filter);
+                    svgEl('feComposite', {
+                        in: 'goo',
+                        in2: 'specIn',
+                        operator: 'arithmetic',
+                        k1: 0,
+                        k2: 1,
+                        k3: 0.55,
+                        k4: 0
+                    }, filter);
+                }
 
                 const g = svgEl('g', { filter: 'url(#bgChocoGoo)', fill: 'url(#bgChocoGrad)' }, svg);
                 svgEl('rect', { x: -30, y: -60, width: VW + 60, height: 76 }, g);
@@ -3196,6 +3114,8 @@
             }, { passive: true });
 
             const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+            const isMobileLoop = window.matchMedia('(pointer: coarse)').matches || window.innerWidth < 768;
+            const minFrameMs = isMobileLoop ? 32 : 14;
             let rafId = 0;
             let lastTime = 0;
             let running = false;
@@ -3204,7 +3124,7 @@
                 if (!running) return;
                 rafId = requestAnimationFrame(frame);
                 const dt = now - lastTime;
-                if (dt < 14) return;
+                if (dt < minFrameMs) return;
                 lastTime = now;
                 step(Math.min(dt, 50));
             };
@@ -3682,6 +3602,9 @@
             };
 
             // Initialize Lottie animations safely
+            let fabAnim = null;
+            let toastAnim = null;
+
             function loadLottieIcons() {
                 if (typeof lottie === 'undefined') {
                     setTimeout(loadLottieIcons, 80);
@@ -3691,7 +3614,7 @@
                 const toastBox = document.getElementById('toastLottie');
                 if (fabBox && !fabBox.dataset.loaded) {
                     fabBox.dataset.loaded = '1';
-                    lottie.loadAnimation({
+                    fabAnim = lottie.loadAnimation({
                         container: fabBox,
                         renderer: 'svg',
                         loop: true,
@@ -3701,11 +3624,11 @@
                 }
                 if (toastBox && !toastBox.dataset.loaded) {
                     toastBox.dataset.loaded = '1';
-                    lottie.loadAnimation({
+                    toastAnim = lottie.loadAnimation({
                         container: toastBox,
                         renderer: 'svg',
                         loop: true,
-                        autoplay: true,
+                        autoplay: false,
                         animationData: starLottieData
                     });
                 }
@@ -3746,11 +3669,13 @@
                 fab.classList.add('swallow');
 
                 // Trigger Genie Expansion out of the star
+                if (toastAnim) toastAnim.play();
                 toast.classList.add('show');
 
                 // Hide FAB once the expanding toast covers it
                 setTimeout(function () {
                     fab.classList.remove('show', 'swallow');
+                    if (fabAnim) fabAnim.pause();
                 }, 340);
             }
 
@@ -3794,6 +3719,7 @@
                 // 1. Reveal Star FAB underneath so suction visibly targets it
                 fab.classList.remove('pulse', 'swallow');
                 fab.classList.add('show');
+                if (fabAnim) fabAnim.play();
 
                 // 2. Start Genie Effect suction on the review box
                 toast.classList.remove('show');
@@ -3802,6 +3728,7 @@
                 // 3. Right as the suction reaches the center of the star (660ms)
                 setTimeout(function () {
                     toast.classList.remove('genie-closing');
+                    if (toastAnim) toastAnim.pause();
 
                     // Trigger Star Swallow Reaction (bounce & glow)
                     fab.classList.remove('swallow');
@@ -3820,8 +3747,10 @@
                 window.open(REVIEW_URL, '_blank', 'noopener,noreferrer');
                 hideBubble();
                 toast.classList.remove('show', 'genie-closing');
+                if (toastAnim) toastAnim.pause();
                 setTimeout(function () {
                     fab.classList.add('show');
+                    if (fabAnim) fabAnim.play();
                 }, 300);
             }
 

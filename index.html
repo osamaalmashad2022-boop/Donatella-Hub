@@ -146,7 +146,7 @@
         }
 
         /* ============================================ */
-        /*  ANIMATED BACKGROUND                         */
+        /*  ANIMATED BACKGROUND — CHOCOLATE DRIPS       */
         /* ============================================ */
         .page-bg {
             position: fixed;
@@ -154,11 +154,20 @@
             left: 0;
             width: 100%;
             height: 100%;
+            height: 100lvh;
             z-index: -2;
+            overflow: hidden;
+            pointer-events: none;
             background:
                 radial-gradient(ellipse at 20% 0%, rgba(61, 28, 12, 0.6) 0%, transparent 60%),
                 radial-gradient(ellipse at 80% 100%, rgba(92, 46, 21, 0.4) 0%, transparent 60%),
                 radial-gradient(ellipse at 50% 50%, rgba(26, 10, 0, 1) 0%, rgba(13, 5, 3, 1) 100%);
+        }
+
+        .page-bg svg {
+            width: 100%;
+            height: 100%;
+            display: block;
         }
 
 
@@ -2487,7 +2496,7 @@
     </div>
 
     <!-- Animated Background -->
-    <div class="page-bg"></div>
+    <div class="page-bg" id="pageBg" aria-hidden="true"></div>
 
 
     <!-- Main Content -->
@@ -2983,6 +2992,241 @@
     </div>
 
     <script>
+
+        // ============================================
+        // CHOCOLATE DRIPS BACKGROUND (SVG Goo + Spring Physics)
+        // ============================================
+        (function initChocolateDripsBg() {
+            const host = document.getElementById('pageBg');
+            if (!host) return;
+
+            const SVG_NS = 'http://www.w3.org/2000/svg';
+            const VW = 400;
+            const rand = (a, b) => a + Math.random() * (b - a);
+            const svgEl = (name, attrs, parent) => {
+                const el = document.createElementNS(SVG_NS, name);
+                for (const k in attrs) el.setAttribute(k, attrs[k]);
+                if (parent) parent.appendChild(el);
+                return el;
+            };
+
+            let VH = 800;
+            let poolY = 0;
+            let drips = [];
+            let drops = [];
+            let t = 0;
+            let boost = 0;
+            let scrollVel = 0;
+            let lastScrollY = window.scrollY;
+            let lastScrollT = performance.now();
+
+            const build = () => {
+                host.replaceChildren();
+                const stageW = Math.max(host.clientWidth || window.innerWidth, 1);
+                const stageH = Math.max(host.clientHeight || window.innerHeight, 1);
+                VH = Math.round(VW * stageH / stageW);
+                poolY = VH - 12;
+
+                const svg = svgEl('svg', {
+                    viewBox: `0 0 ${VW} ${VH}`,
+                    preserveAspectRatio: 'none',
+                    width: '100%',
+                    height: '100%'
+                }, host);
+
+                const defs = svgEl('defs', {}, svg);
+
+                const lg = svgEl('linearGradient', {
+                    id: 'bgChocoGrad',
+                    gradientUnits: 'userSpaceOnUse',
+                    x1: 0,
+                    y1: 0,
+                    x2: 0,
+                    y2: VH
+                }, defs);
+                svgEl('stop', { offset: '0', 'stop-color': '#4a230f' }, lg);
+                svgEl('stop', { offset: '0.35', 'stop-color': '#3d1c0c' }, lg);
+                svgEl('stop', { offset: '1', 'stop-color': '#5c2e15' }, lg);
+
+                // Goo filter merges stems, bulbs, and falling drops into glossy liquid chocolate
+                const filter = svgEl('filter', {
+                    id: 'bgChocoGoo',
+                    filterUnits: 'userSpaceOnUse',
+                    x: -30,
+                    y: -60,
+                    width: VW + 60,
+                    height: VH + 120,
+                    'color-interpolation-filters': 'sRGB'
+                }, defs);
+                svgEl('feGaussianBlur', { in: 'SourceGraphic', stdDeviation: 6, result: 'blur' }, filter);
+                svgEl('feColorMatrix', {
+                    in: 'blur',
+                    mode: 'matrix',
+                    values: '1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 22 -9',
+                    result: 'goo'
+                }, filter);
+                svgEl('feGaussianBlur', { in: 'goo', stdDeviation: 2.2, result: 'gooBlur' }, filter);
+                const spec = svgEl('feSpecularLighting', {
+                    in: 'gooBlur',
+                    surfaceScale: 5,
+                    specularConstant: 0.9,
+                    specularExponent: 28,
+                    'lighting-color': '#ffdca0',
+                    result: 'spec'
+                }, filter);
+                svgEl('feDistantLight', { azimuth: 235, elevation: 48 }, spec);
+                svgEl('feComposite', { in: 'spec', in2: 'goo', operator: 'in', result: 'specIn' }, filter);
+                svgEl('feComposite', {
+                    in: 'goo',
+                    in2: 'specIn',
+                    operator: 'arithmetic',
+                    k1: 0,
+                    k2: 1,
+                    k3: 0.55,
+                    k4: 0
+                }, filter);
+
+                const g = svgEl('g', { filter: 'url(#bgChocoGoo)', fill: 'url(#bgChocoGrad)' }, svg);
+                svgEl('rect', { x: -30, y: -60, width: VW + 60, height: 76 }, g);
+                svgEl('rect', { x: -30, y: poolY, width: VW + 60, height: 80 }, g);
+
+                const n = Math.round(VW / 30);
+                drips = Array.from({ length: n }, (_, i) => {
+                    const w = rand(7, 15);
+                    const base = Math.random() < 0.3 ? rand(14, 30) : rand(30, VH * 0.3);
+                    const d = {
+                        x: (i + 0.5) * VW / n + rand(-6, 6),
+                        w,
+                        base,
+                        amp: rand(6, 22),
+                        ph: rand(0, 6.28),
+                        sp: rand(0.35, 0.9),
+                        k: rand(0.5, 1.2),
+                        len: base * rand(0.45, 1),
+                        vel: 0,
+                        next: rand(2, 9)
+                    };
+                    d.stem = svgEl('rect', { x: d.x - w / 2, y: -10, width: w, height: d.len + 10, rx: w / 2 }, g);
+                    d.bulb = svgEl('circle', { cx: d.x, cy: d.len, r: w * 0.62 }, g);
+                    return d;
+                });
+
+                drops = Array.from({ length: 12 }, () => ({
+                    active: false,
+                    el: svgEl('circle', { cx: -50, cy: -50, r: 0 }, g)
+                }));
+            };
+
+            const spawnDrop = (d) => {
+                const drop = drops.find((x) => !x.active);
+                if (!drop) return;
+                drop.active = true;
+                drop.x = d.x;
+                drop.y = d.len + d.w * 0.5;
+                drop.vy = Math.max(0.6, d.vel * 0.5);
+                drop.r = d.w * 0.6;
+                drop.el.setAttribute('cx', drop.x.toFixed(1));
+                drop.el.setAttribute('r', drop.r.toFixed(2));
+            };
+
+            const step = (dt) => {
+                const f = dt / 16.67;
+                t += dt / 1000;
+                boost += (Math.min(scrollVel * 2.2, 150) - boost) * 0.08 * f;
+                scrollVel *= Math.pow(0.9, f);
+
+                for (const d of drips) {
+                    const target = d.base + d.amp * Math.sin(t * d.sp + d.ph) + boost * d.k;
+                    d.vel += (target - d.len) * 0.035 * f;
+                    d.vel *= Math.pow(0.88, f);
+                    d.len += d.vel * f;
+                    d.next -= dt / 1000;
+
+                    if (d.next <= 0 || d.len > d.base + d.amp + 80) {
+                        spawnDrop(d);
+                        d.len *= 0.55;
+                        d.vel = -1;
+                        d.next = rand(3, 9);
+                    }
+
+                    const swell = 1 + Math.max(0, 1 - d.next / 1.5) * 0.35;
+                    d.stem.setAttribute('height', (d.len + 10).toFixed(1));
+                    d.bulb.setAttribute('cy', d.len.toFixed(1));
+                    d.bulb.setAttribute('r', (d.w * 0.62 * swell).toFixed(2));
+                }
+
+                for (const drop of drops) {
+                    if (!drop.active) continue;
+                    drop.vy += 0.22 * f;
+                    drop.y += drop.vy * f;
+                    if (drop.y > poolY + 10) {
+                        drop.active = false;
+                        drop.el.setAttribute('r', 0);
+                        continue;
+                    }
+                    drop.el.setAttribute('cy', drop.y.toFixed(1));
+                }
+            };
+
+            build();
+
+            window.addEventListener('scroll', () => {
+                const now = performance.now();
+                const v = (window.scrollY - lastScrollY) / Math.max(now - lastScrollT, 1) * 16.67;
+                scrollVel = Math.max(Math.abs(v), scrollVel);
+                lastScrollY = window.scrollY;
+                lastScrollT = now;
+            }, { passive: true });
+
+            // Ignore small mobile URL-bar height shifts; rebuild only on real viewport resize
+            let resizeTimer;
+            let lastW = host.clientWidth;
+            let lastH = host.clientHeight;
+            window.addEventListener('resize', () => {
+                clearTimeout(resizeTimer);
+                resizeTimer = setTimeout(() => {
+                    const w = host.clientWidth;
+                    const h = host.clientHeight;
+                    if (w !== lastW || Math.abs(h - lastH) > 80) {
+                        lastW = w;
+                        lastH = h;
+                        build();
+                    }
+                }, 150);
+            }, { passive: true });
+
+            const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+            let rafId = 0;
+            let lastTime = 0;
+            let running = false;
+
+            const frame = (now) => {
+                if (!running) return;
+                rafId = requestAnimationFrame(frame);
+                const dt = now - lastTime;
+                if (dt < 14) return;
+                lastTime = now;
+                step(Math.min(dt, 50));
+            };
+
+            const syncLoop = () => {
+                const shouldRun = !document.hidden && !reducedMotion.matches;
+                if (shouldRun && !running) {
+                    running = true;
+                    lastTime = performance.now();
+                    rafId = requestAnimationFrame(frame);
+                } else if (!shouldRun && running) {
+                    running = false;
+                    cancelAnimationFrame(rafId);
+                }
+            };
+
+            document.addEventListener('visibilitychange', syncLoop);
+            if (typeof reducedMotion.addEventListener === 'function') {
+                reducedMotion.addEventListener('change', syncLoop);
+            }
+            syncLoop();
+        })();
 
         // ============================================
         // STICKY ORDER CTA — visible once hero section scrolls above the viewport
